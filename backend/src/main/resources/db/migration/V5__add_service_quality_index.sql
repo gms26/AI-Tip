@@ -1,0 +1,31 @@
+-- ==============================================================
+-- V5: Add composite index for service-quality statistics queries
+-- ==============================================================
+-- WHY this index?
+--   ServiceQualityService queries all rated tips for a user with:
+--     SELECT * FROM tips WHERE user_id = ? AND service_quality IS NOT NULL
+--   This maps to the Spring Data method:
+--     findByUserIdAndServiceQualityIsNotNull(userId)
+--   The composite index on (user_id, service_quality) allows the
+--   DB to satisfy both predicates efficiently from the index alone,
+--   without reading the full tips rows for the IS NOT NULL check.
+--
+-- WHY NOT put this in V4?
+--   Flyway migrations are immutable once applied. V4 has already
+--   been applied when V5 runs. Each migration is an atomic change.
+--
+-- WHY the partial approach with IS NOT NULL filter?
+--   In PostgreSQL, NULL values are included in a standard B-tree
+--   index. The query planner will use the index and apply the
+--   IS NOT NULL filter as a recheck. For the expected data shape
+--   (most rated, few NULL), this is effective.
+--
+-- TRADE-OFF NOTE:
+--   The existing idx_tips_user_id already covers user_id scans.
+--   Adding service_quality as a second column makes this index
+--   more selective for service-quality-specific queries. The index
+--   overhead (writes, storage) is minimal given the query benefit.
+-- ==============================================================
+
+CREATE INDEX idx_tips_user_service_quality
+    ON tips (user_id, service_quality);

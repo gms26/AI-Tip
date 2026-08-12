@@ -1,0 +1,282 @@
+{
+  "info": {
+    "name": "AI Tip Assistant - Day 3 API",
+    "description": "Complete API collection for AI Tip Assistant including authentication, tip calculation, and AI Recommendation endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "tipId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code === 201) {",
+                  "    pm.collectionVariables.set('token', pm.response.json().token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code === 200) {",
+                  "    pm.collectionVariables.set('token', pm.response.json().token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AI Recommendation",
+      "item": [
+        {
+          "name": "Get AI Suggestion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"billAmount\": 85.00,\n    \"restaurantType\": \"FINE_DINING\",\n    \"serviceQuality\": \"EXCELLENT\",\n    \"country\": \"USA\",\n    \"currency\": \"USD\",\n    \"occasion\": \"DINNER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/suggest",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "suggest"]
+            }
+          }
+        },
+        {
+          "name": "Get AI Suggestion (Invalid Bill)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"billAmount\": -5.00,\n    \"restaurantType\": \"FINE_DINING\",\n    \"serviceQuality\": \"EXCELLENT\",\n    \"country\": \"USA\",\n    \"currency\": \"USD\",\n    \"occasion\": \"DINNER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/suggest",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "suggest"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tips",
+      "item": [
+        {
+          "name": "Create Tip",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"billAmount\": 100.00,\n    \"tipPercentage\": 20.00,\n    \"restaurantName\": \"The Great Steakhouse\",\n    \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tips",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code === 201) {",
+                  "    pm.collectionVariables.set('tipId', pm.response.json().id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "List User Tips",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tips?page=0&size=10&sort=createdAt,desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sort", "value": "createdAt,desc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Tip By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tips/{{tipId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips", "{{tipId}}"]
+            }
+          }
+        },
+        {
+          "name": "Split Tip - Equal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"billAmount\": 100.00,\n    \"tipPercentage\": 20.00,\n    \"people\": [\"Alice\", \"Bob\", \"Charlie\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tips/split",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips", "split"]
+            }
+          }
+        },
+        {
+          "name": "Split Tip - Custom",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"billAmount\": 100.00,\n    \"tipPercentage\": 20.00,\n    \"customSplit\": {\n        \"Alice\": 40.00,\n        \"Bob\": 40.00,\n        \"Charlie\": 40.00\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tips/split",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips", "split"]
+            }
+          }
+        },
+        {
+          "name": "Delete Tip",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tips/{{tipId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tips", "{{tipId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Generosity Score",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/generosity/score",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "generosity", "score"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

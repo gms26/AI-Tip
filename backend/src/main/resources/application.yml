@@ -1,0 +1,84 @@
+# ==============================================================
+# AI Tip Assistant — Application Configuration
+# ==============================================================
+# WHY YAML over .properties?
+#   - Hierarchical structure is easier to read
+#   - Reduces repetitive prefixes
+#   - Industry standard for Spring Boot projects
+# ==============================================================
+
+server:
+  port: 8080
+
+# ==============================================================
+# DATABASE CONFIGURATION
+# WHY PostgreSQL?
+#   - Production-grade RDBMS with excellent JSON support
+#   - Required for future AI tip storage features
+#   - Flyway manages schema migrations automatically
+# ==============================================================
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/aitip_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  # ==============================================================
+  # JPA / HIBERNATE
+  # WHY validate?
+  #   - Flyway owns DDL. Hibernate only validates the schema
+  #     matches entities. Prevents accidental schema drift.
+  # ==============================================================
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # ==============================================================
+  # FLYWAY
+  # WHY enabled + baseline-on-migrate?
+  #   - Automatically applies migrations from db/migration/
+  #   - baseline-on-migrate handles existing databases gracefully
+  # ==============================================================
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+# ==============================================================
+# JWT CONFIGURATION
+# WHY environment variable for secret?
+#   - NEVER hardcode secrets in source control
+#   - ${JWT_SECRET} reads from environment variable
+#   - The fallback after ':' is for LOCAL DEVELOPMENT ONLY
+#   - Production MUST set JWT_SECRET environment variable
+# WHY 24 hours?
+#   - Balances user experience (less re-authentication)
+#     with security (bounded token lifetime)
+# WHY custom prefix 'app.'?
+#   - Avoids collision with Spring's own properties
+#   - Clearly namespaced as application-specific config
+# ==============================================================
+app:
+  jwt:
+    secret: ${JWT_SECRET:4a6f686e446f6553757065725365637265744b6579466f724a5754417574686e3230323421}
+    expiration-ms: 86400000  # 24 hours in milliseconds
+  gemini:
+    api-key: ${GEMINI_API_KEY:dummy_key}
+    model: ${GEMINI_MODEL:gemini-1.5-pro}
+    base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta/models}
+  currency:
+    base-url: ${CURRENCY_API_BASE_URL:https://api.frankfurter.dev}
+
+# ==============================================================
+# LOGGING
+# ==============================================================
+logging:
+  level:
+    com.aitip: DEBUG
+    org.springframework.security: INFO
