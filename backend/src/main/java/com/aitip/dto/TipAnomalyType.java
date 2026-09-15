@@ -1,0 +1,10 @@
+package com.aitip.dto;
+
+public enum TipAnomalyType {
+    UNUSUAL_TIP_PERCENTAGE,
+    UNUSUAL_BILL_AMOUNT,
+    DUPLICATE_LIKE_RECORD,
+    MISSING_RESTAURANT,
+    INVALID_CURRENCY,
+    EXTREME_TIP_AMOUNT
+}

@@ -1,0 +1,10 @@
+package com.aitip.entity;
+
+public enum TipGoalType {
+    TOTAL_TIP_AMOUNT,
+    TIP_COUNT,
+    AVERAGE_TIP_PERCENTAGE,
+    MEDIAN_TIP_PERCENTAGE,
+    RESTAURANT_EXPLORATION,
+    SERVICE_QUALITY
+}

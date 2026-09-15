@@ -100,7 +100,7 @@ public class GenerosityScoreService {
         return sum.divide(new BigDecimal(percentages.size()), 2, RoundingMode.HALF_UP);
     }
 
-    private int calculateScore(BigDecimal medianTipPercentage) {
+    public int calculateScore(BigDecimal medianTipPercentage) {
         if (medianTipPercentage.compareTo(BigDecimal.ZERO) <= 0) {
             return 0;
         }
@@ -116,7 +116,7 @@ public class GenerosityScoreService {
         return Math.max(0, Math.min(100, intScore));
     }
 
-    private String determineCategory(int score) {
+    public String determineCategory(int score) {
         if (score <= 39) {
             return "CONSERVATIVE";
         } else if (score <= 59) {

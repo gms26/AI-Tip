@@ -1,0 +1,12 @@
+package com.aitip.dto;
+
+public enum TipRecommendationType {
+    BUDGET_WARNING,
+    FORECAST_WARNING,
+    DATA_QUALITY,
+    TIP_OPTIMIZATION,
+    GOAL_PROGRESS,
+    GENEROUS_TREND,
+    CONSERVATIVE_TREND,
+    POSITIVE_PROGRESS
+}

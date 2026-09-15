@@ -1,0 +1,30 @@
+package com.aitip.enums;
+
+public enum AchievementCode {
+    FIRST_TIP,
+    TIP_COLLECTOR,
+    TIP_MASTER,
+    TIP_LEGEND,
+    
+    FIVE_VISITS,
+    TWENTY_FIVE_VISITS,
+    
+    THREE_RESTAURANTS,
+    TEN_RESTAURANTS,
+    THREE_CURRENCIES,
+    
+    SERVICE_QUALITY_USER,
+    PERSONALIZED_USER,
+    
+    BUDGET_SETTER,
+    BUDGET_TRACKER,
+    
+    TEAM_PLAYER,
+    POOL_MASTER,
+    
+    RECEIPT_SCANNER,
+    RECEIPT_RECONCILER,
+    
+    ANALYTICS_USER,
+    INSIGHTS_USER
+}

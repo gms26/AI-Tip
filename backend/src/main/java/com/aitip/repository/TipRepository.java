@@ -4,6 +4,7 @@ import com.aitip.entity.Tip;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.UUID;
  * at the query level.</p>
  */
 @Repository
-public interface TipRepository extends JpaRepository<Tip, UUID> {
+public interface TipRepository extends JpaRepository<Tip, UUID>, JpaSpecificationExecutor<Tip> {
 
     /**
      * Finds all tips for a specific user with pagination support.
@@ -114,4 +115,9 @@ public interface TipRepository extends JpaRepository<Tip, UUID> {
      * Uses inclusive start and exclusive end to correctly handle end-of-day boundaries.
      */
     List<Tip> findByUserIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(UUID userId, java.time.LocalDateTime start, java.time.LocalDateTime end);
+
+    /**
+     * Retrieves tips for a user within a specific date range, filtered by currency.
+     */
+    List<Tip> findByUserIdAndCurrencyAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(UUID userId, String currency, java.time.LocalDateTime start, java.time.LocalDateTime end);
 }

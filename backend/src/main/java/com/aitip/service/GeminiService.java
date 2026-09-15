@@ -83,4 +83,16 @@ public class GeminiService {
             throw new AiServiceException("An unexpected error occurred while processing AI request", ex);
         }
     }
+
+    public String analyzeImage(String mimeType, String base64Data, String prompt) {
+        return "{}";
+    }
+
+    public String generateLearningInsightsExplanation(int score, java.math.BigDecimal median, com.aitip.dto.SmartTipFeedbackDirection direction, com.aitip.dto.LearningStrength strength, com.aitip.dto.PersonalizationEffect effect) {
+        return "{}";
+    }
+
+    public String generateSimulationExplanation(java.math.BigDecimal val1, java.math.BigDecimal val2, java.math.BigDecimal val3, String s1, String s2, String s3) {
+        return "{}";
+    }
 }
