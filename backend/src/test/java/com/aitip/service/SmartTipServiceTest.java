@@ -75,6 +75,7 @@ public class SmartTipServiceTest {
                 smartTipAdaptationService,
                 smartTipDecisionMemoryService,
                 null, // smartTipPersonalizationService
+                null, // restaurantProvider
                 fixedClock
         );
 

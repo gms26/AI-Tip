@@ -45,6 +45,7 @@ public class SmartTipService {
     private final SmartTipAdaptationService smartTipAdaptationService;
     private final SmartTipDecisionMemoryService smartTipDecisionMemoryService;
     private final SmartTipPersonalizationService smartTipPersonalizationService;
+    private final com.aitip.service.provider.RestaurantProvider restaurantProvider;
     private final Clock clock;
 
     @Autowired
@@ -56,9 +57,10 @@ public class SmartTipService {
                            TipEvolutionService tipEvolutionService,
                            @Autowired(required = false) SmartTipAdaptationService smartTipAdaptationService,
                            @Autowired(required = false) SmartTipDecisionMemoryService smartTipDecisionMemoryService,
-                           @Autowired(required = false) SmartTipPersonalizationService smartTipPersonalizationService) {
+                           @Autowired(required = false) SmartTipPersonalizationService smartTipPersonalizationService,
+                           @Autowired(required = false) com.aitip.service.provider.RestaurantProvider restaurantProvider) {
         this(tipRepository, userService, tipOptimizationService, tipBudgetService,
-                tipGoalService, tipEvolutionService, smartTipAdaptationService, smartTipDecisionMemoryService, smartTipPersonalizationService, Clock.systemDefaultZone());
+                tipGoalService, tipEvolutionService, smartTipAdaptationService, smartTipDecisionMemoryService, smartTipPersonalizationService, restaurantProvider, Clock.systemDefaultZone());
     }
 
     public SmartTipService(TipRepository tipRepository,
@@ -68,7 +70,7 @@ public class SmartTipService {
                            TipGoalService tipGoalService,
                            TipEvolutionService tipEvolutionService) {
         this(tipRepository, userService, tipOptimizationService, tipBudgetService,
-                tipGoalService, tipEvolutionService, null, null, null, Clock.systemDefaultZone());
+                tipGoalService, tipEvolutionService, null, null, null, null, Clock.systemDefaultZone());
     }
 
     public SmartTipService(TipRepository tipRepository,
@@ -79,7 +81,7 @@ public class SmartTipService {
                            TipEvolutionService tipEvolutionService,
                            Clock clock) {
         this(tipRepository, userService, tipOptimizationService, tipBudgetService,
-                tipGoalService, tipEvolutionService, null, null, null, clock);
+                tipGoalService, tipEvolutionService, null, null, null, null, clock);
     }
 
     public SmartTipService(TipRepository tipRepository,
@@ -91,6 +93,7 @@ public class SmartTipService {
                            SmartTipAdaptationService smartTipAdaptationService,
                            SmartTipDecisionMemoryService smartTipDecisionMemoryService,
                            SmartTipPersonalizationService smartTipPersonalizationService,
+                           com.aitip.service.provider.RestaurantProvider restaurantProvider,
                            Clock clock) {
         this.tipRepository = tipRepository;
         this.userService = userService;
@@ -101,6 +104,7 @@ public class SmartTipService {
         this.smartTipAdaptationService = smartTipAdaptationService;
         this.smartTipDecisionMemoryService = smartTipDecisionMemoryService;
         this.smartTipPersonalizationService = smartTipPersonalizationService;
+        this.restaurantProvider = restaurantProvider;
         this.clock = clock;
     }
 
@@ -164,6 +168,8 @@ public class SmartTipService {
         Integer restaurantTipCount = null;
         BigDecimal restaurantMedian = null;
         BigDecimal restaurantAverage = null;
+        String enrichedRestaurantContext = null;
+        
         if (request.restaurantName() != null && !request.restaurantName().isBlank()) {
             String normReq = request.restaurantName().trim().toLowerCase();
             List<Tip> restTips = currencyTips.stream()
@@ -178,6 +184,14 @@ public class SmartTipService {
                         .toList();
                 restaurantMedian = TipCalculationUtil.calculateMedian(restPcts);
                 restaurantAverage = TipCalculationUtil.calculateMean(restPcts);
+            }
+            
+            if (restaurantProvider != null) {
+                try {
+                    enrichedRestaurantContext = restaurantProvider.fetchRestaurantContext(request.restaurantName(), null);
+                } catch (Exception e) {
+                    log.debug("Failed to fetch extended restaurant context: {}", e.getMessage());
+                }
             }
         }
 
@@ -400,6 +414,22 @@ public class SmartTipService {
 
         if (smartTipDecisionMemoryService != null) {
             SmartTipDecisionExplanation explanation = smartTipDecisionMemoryService.buildDecisionExplanation(response, adaptation, personalizationEnabled);
+            
+            // Inject enriched restaurant context into explanation if available
+            if (enrichedRestaurantContext != null && explanation != null && explanation.summary() != null) {
+                String oldSummary = explanation.summary();
+                String newSummary = oldSummary + "\n\nRestaurant Context (via Google Places): " + enrichedRestaurantContext;
+                explanation = new SmartTipDecisionExplanation(
+                        newSummary,
+                        explanation.factors(),
+                        explanation.baselinePercentage(),
+                        explanation.adaptedPercentage(),
+                        explanation.adaptationApplied(),
+                        explanation.adaptationAdjustment(),
+                        explanation.confidence()
+                );
+            }
+            
             response = response.withDecisionExplanation(explanation);
         }
 

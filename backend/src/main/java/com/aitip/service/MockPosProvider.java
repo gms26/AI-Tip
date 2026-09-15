@@ -2,12 +2,9 @@ package com.aitip.service;
 
 import com.aitip.dto.PosBillRequest;
 import com.aitip.dto.PosBillResponse;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Service
 public class MockPosProvider implements PosProvider {
 
     @Override

@@ -245,6 +245,58 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiErrorResponse> handleTypeMismatchException(
+            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException ex,
+            HttpServletRequest request) {
+        log.warn("Type mismatch at {}: {}", request.getRequestURI(), ex.getMessage());
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Invalid parameter type or value.",
+                request.getRequestURI()
+        );
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalStateException(
+            IllegalStateException ex,
+            HttpServletRequest request) {
+        log.warn("Illegal state at {}: {}", request.getRequestURI(), ex.getMessage());
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(ReceiptOcrException.class)
+    public ResponseEntity<ApiErrorResponse> handleReceiptOcrException(
+            ReceiptOcrException ex,
+            HttpServletRequest request) {
+        log.warn("Receipt OCR failed: {}", ex.getMessage());
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(ReceiptOcrUnavailableException.class)
+    public ResponseEntity<ApiErrorResponse> handleReceiptOcrUnavailableException(
+            ReceiptOcrUnavailableException ex,
+            HttpServletRequest request) {
+        log.error("Receipt OCR unavailable: {}", ex.getMessage());
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.SERVICE_UNAVAILABLE.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
+    }
+
     /**
      * Catch-all for unexpected exceptions.
      *

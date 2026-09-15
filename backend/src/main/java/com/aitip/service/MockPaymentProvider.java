@@ -1,9 +1,7 @@
 package com.aitip.service;
 
 import com.aitip.entity.PaymentSession;
-import org.springframework.stereotype.Service;
 
-@Service
 public class MockPaymentProvider implements PaymentProvider {
 
     @Override

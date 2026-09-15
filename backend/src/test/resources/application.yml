@@ -37,6 +37,21 @@ app:
     base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta/models}
   currency:
     base-url: ${CURRENCY_API_BASE_URL:https://api.frankfurter.dev}
+  payment:
+    provider: mock
+    stripe:
+      secret-key: test_key
+      base-url: http://localhost:8089
+  pos:
+    provider: mock
+    square:
+      access-token: test_token
+      base-url: http://localhost:8089
+  restaurant:
+    provider: mock
+    google:
+      api-key: test_key
+      base-url: http://localhost:8089
 
 logging:
   level:

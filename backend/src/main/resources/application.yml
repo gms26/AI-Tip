@@ -74,6 +74,21 @@ app:
     base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta/models}
   currency:
     base-url: ${CURRENCY_API_BASE_URL:https://api.frankfurter.dev}
+  payment:
+    provider: ${PAYMENT_PROVIDER:mock}
+    stripe:
+      secret-key: ${STRIPE_SECRET_KEY:}
+      base-url: ${STRIPE_BASE_URL:https://api.stripe.com}
+  pos:
+    provider: ${POS_PROVIDER:mock}
+    square:
+      access-token: ${SQUARE_ACCESS_TOKEN:}
+      base-url: ${SQUARE_BASE_URL:https://connect.squareupsandbox.com}
+  restaurant:
+    provider: ${RESTAURANT_PROVIDER:mock}
+    google:
+      api-key: ${GOOGLE_PLACES_API_KEY:}
+      base-url: ${GOOGLE_PLACES_BASE_URL:https://places.googleapis.com/v1/places:searchText}
 
 # ==============================================================
 # LOGGING
