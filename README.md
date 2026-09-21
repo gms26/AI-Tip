@@ -74,7 +74,8 @@ Create a PostgreSQL database named `tip_calculator`. Flyway will handle the crea
 **2. Backend Setup**
 ```bash
 cd backend
-# Set your Groq API key in backend/src/main/resources/application.yml or via env variable
+# Set your Groq API key through the GROQ_API_KEY environment variable.
+# Do not place API keys directly in application.yml or commit them to Git.
 mvn clean install
 mvn spring-boot:run
 ```
