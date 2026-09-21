@@ -6,7 +6,7 @@ A comprehensive, full-stack application designed to completely reimagine the tip
 ## ✨ Key Features
 - **Smart Tip AI & Decision Memory 🧠**: Generates intelligent tipping recommendations via Google Groq AI, learning from user habits over time to adapt to conservative, moderate, or generous profiles.
 - **Comprehensive Financial Tracking 📊**: Tracks spending analytics via dynamic Recharts graphs, sets monthly tipping budgets, and forecasts future expenses.
-- **Receipt OCR Integration 📸**: Uses AI Vision to parse receipts and automatically extract subtotals, restaurant names, and currencies.
+- **Receipt OCR Integration 📸**: Uses AI Vision to parse receipts and automatically extract subtotals, restaurant names, and currencies (Backend implemented).
 - **Advanced Tipping Mechanics 💡**: Supports tip pools, tax-aware calculations (pre-tax vs post-tax), and custom generosity scoring.
 - **Gamification & Profiles 🏆**: Features an achievement system rewarding consistent tipping behaviors.
 
@@ -70,30 +70,33 @@ sequenceDiagram
 
 ```mermaid
 erDiagram
-    USERS ||--o{ TIP_RECORDS : creates
-    USERS ||--o{ TIP_PROFILES : has
-    USERS ||--o{ ACHIEVEMENTS : unlocks
-    TIP_RECORDS ||--o{ TIP_POOLS : splits_into
+    users ||--o{ tips : creates
+    users ||--o{ user_achievements : unlocks
+    users ||--o{ tip_budgets : sets
+    users ||--o{ tip_goals : tracks
+    users ||--o{ tip_personalization_preferences : configures
+    tips ||--o{ tip_pools : splits_into
+    tips ||--o{ tip_recommendation_feedback : receives
     
-    USERS {
-        UUID id PK
-        String email
-        String password_hash
+    users {
+        uuid id PK
+        string email
+        string password_hash
     }
     
-    TIP_RECORDS {
-        UUID id PK
-        UUID user_id FK
-        BigDecimal bill_amount
-        BigDecimal tip_amount
-        String restaurant_name
+    tips {
+        uuid id PK
+        uuid user_id FK
+        numeric bill_amount
+        numeric tip_amount
+        string restaurant_name
+        string service_quality
     }
     
-    TIP_PROFILES {
-        UUID id PK
-        UUID user_id FK
-        String default_currency
-        String tipping_style
+    tip_budgets {
+        uuid id PK
+        uuid user_id FK
+        numeric monthly_limit
     }
 ```
 
@@ -110,27 +113,31 @@ graph LR
         Backend --> DB
     end
 ```
-The application is fully containerized. A single `docker-compose up` orchestrates the Postgres database (with Flyway migrations), the Spring Boot backend, and the Nginx-served React frontend.
-
-## 🧪 Testing
-Built with an absolute emphasis on stability:
-- **Backend Tests**: 784/784 passing tests using JUnit 5 and Mockito, ensuring bulletproof logic and AI failure fallbacks.
-- **Frontend E2E**: Playwright suite verifying the complete user journey (registration, calculation, history, AI recommendations).
+The application is fully containerized. A single `docker-compose up` orchestrates the Postgres database (with Flyway migrations), the Spring Boot backend, and the Nginx-served React frontend. *(Note: Docker setup is configured but currently blocked from local verification by the host Docker Desktop environment).*
 
 ## 🔌 External Integrations
 A flexible, interface-driven architecture allows toggling between Real APIs and Mock Providers based on environment configuration:
-- **Groq AI**: Real (Requires `GROQ_API_KEY`)
-- **Currency**: Real (Frankfurter API)
-- **Stripe Payments**: Mock by default (Switchable via `app.payment.provider`)
-- **Square POS**: Mock by default (Switchable via `app.pos.provider`)
-- **Google Places**: Mock by default (Switchable via `app.restaurant.provider`)
+
+| Integration | Status |
+| ----------- | ------ |
+| Groq AI | ✅ Real |
+| Currency / Frankfurter | ✅ Real |
+| PostgreSQL | ✅ Real |
+| JWT Authentication | ✅ Real |
+| Receipt OCR | ⚠️ Backend implemented; frontend UI missing |
+| Stripe Payments | 🧪 Mock |
+| Square POS | 🧪 Mock |
+| Google Places / Restaurant | 🧪 Mock |
 
 ## 🖥️ Screenshots
-*(Screenshots can be added to the `docs/` folder. Placeholders provided below)*
 
 | Tip Dashboard | Smart Calculator |
 | :---: | :---: |
-| ![Dashboard Placeholder](docs/dashboard.png) | ![Calculator Placeholder](docs/calculator.png) |
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Tip Calculator](docs/screenshots/tip-calculator.png) |
+
+| AI Insights | Tip History |
+| :---: | :---: |
+| ![AI Insights](docs/screenshots/ai-insights.png) | ![Tip History](docs/screenshots/tip-history.png) |
 
 ## ⚙️ Local Setup
 
@@ -162,12 +169,12 @@ Never commit real secrets. For local development, set these in your shell or CI/
 - `DB_USER` / `DB_PASSWORD`: PostgreSQL credentials.
 
 ## 📊 Acceptance Results
-| Area | Status | Evidence |
-| ---- | ------ | -------- |
-| Unit Tests | COMPLETE | 784/784 Maven tests passing |
-| E2E Testing | COMPLETE | 10/11 Playwright tests passing (1 skipped) |
-| Security | COMPLETE | 0 Hardcoded secrets in repository |
-| Builds | COMPLETE | Vite build succeeds, Spring Boot JAR succeeds |
+The system's final verified state (Commit `fb3d5a4`) achieved the following metrics:
+- **Backend**: 784/784 passing
+- **Playwright E2E**: 10 passed, 1 skipped, 0 failed
+- **Frontend production build**: Successful
+- **E2E skipped**: OCR because the frontend OCR interface is not implemented
+- **Docker**: Not verified because of host Docker Desktop environment
 
 ## 🛣️ Future Improvements
 - Implement the Frontend UI for Receipt OCR (Backend endpoint is verified).
