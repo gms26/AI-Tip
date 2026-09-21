@@ -84,7 +84,7 @@ class PersonalizationServiceTest {
     }
 
     // =============================================
-    // 3. Multiple tips — verifies mean, median, min, max, count
+    // 3. Multiple tips Ã¢â‚¬â€ verifies mean, median, min, max, count
     // =============================================
     @Test
     void testMultipleTips_calculatesCorrectStatistics() {
@@ -100,7 +100,7 @@ class PersonalizationServiceTest {
         PersonalizationResponse response = personalizationService.getSummary("alice@example.com");
 
         assertEquals(5, response.tipCount());
-        // Sorted: 15, 17, 18, 20, 22 → median = 18
+        // Sorted: 15, 17, 18, 20, 22 Ã¢â€ â€™ median = 18
         assertEquals(new BigDecimal("18.00"), response.medianTipPercentage());
         // Mean: (15+17+18+20+22)/5 = 18.4
         assertEquals(new BigDecimal("18.40"), response.averageTipPercentage());
@@ -180,7 +180,7 @@ class PersonalizationServiceTest {
     }
 
     // =============================================
-    // 9. Outlier handling — median is robust
+    // 9. Outlier handling Ã¢â‚¬â€ median is robust
     // =============================================
     @Test
     void testOutlierDoesNotDistortMedian() {

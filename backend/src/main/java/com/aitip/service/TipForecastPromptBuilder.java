@@ -6,9 +6,9 @@ import com.aitip.dto.TipForecastResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * Constructs prompts for Gemini to explain tip forecast facts conversationally.
+ * Constructs prompts for Groq to explain tip forecast facts conversationally.
  *
- * <p><b>Core principle:</b> Gemini receives only BACKEND-CALCULATED FACTS.
+ * <p><b>Core principle:</b> Groq receives only BACKEND-CALCULATED FACTS.
  * It may explain those facts but must not:</p>
  * <ul>
  *   <li>Recalculate statistics</li>
@@ -23,10 +23,10 @@ import org.springframework.stereotype.Component;
 public class TipForecastPromptBuilder {
 
     /**
-     * Builds a prompt for Gemini to explain forecast insights.
+     * Builds a prompt for Groq to explain forecast insights.
      *
      * @param response the backend-calculated forecast response
-     * @return prompt string for Gemini
+     * @return prompt string for Groq
      */
     public String buildPrompt(TipForecastResponse response) {
         StringBuilder sb = new StringBuilder();

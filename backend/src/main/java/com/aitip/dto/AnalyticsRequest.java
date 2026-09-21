@@ -13,7 +13,7 @@ import java.time.LocalDate;
  *   <li>{@code restaurantName} and {@code serviceQuality} are optional in-memory filters.</li>
  * </ul>
  *
- * <p><b>Date semantics:</b> [startDate, endDate) — inclusive start, exclusive end.</p>
+ * <p><b>Date semantics:</b> [startDate, endDate) â€” inclusive start, exclusive end.</p>
  */
 public record AnalyticsRequest(
         AnalyticsPeriod period,

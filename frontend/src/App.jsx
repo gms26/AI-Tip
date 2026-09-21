@@ -1,39 +1,32 @@
-/**
- * App Component — Root Router Configuration
- *
- * PURPOSE:
- * Defines all application routes and wraps protected routes
- * with the ProtectedRoute component.
- *
- * ROUTING STRATEGY:
- * - / → redirects to /dashboard (authenticated) or /login (not)
- * - /login → public, redirects to dashboard if already authenticated
- * - /register → public, redirects to dashboard if already authenticated
- * - /dashboard → protected, requires valid JWT
- * - * → 404 catch-all
- *
- * WHY redirect / to /dashboard?
- * The dashboard is the main authenticated view. Users shouldn't
- * see a blank root page.
- *
- * WHY redirect authenticated users away from login/register?
- * No reason to show login to someone already logged in.
- * Prevents confusion.
- */
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AppShell from './components/AppShell';
+
+// Public Pages
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import LandingPage from './pages/LandingPage';
+import NotFoundPage from './pages/NotFoundPage';
+
+// Protected Pages
 import DashboardPage from './pages/DashboardPage';
 import TipCalculatorPage from './pages/TipCalculatorPage';
-import NotFoundPage from './pages/NotFoundPage';
+import TipHistoryPage from './pages/TipHistoryPage';
+import TipCoachPage from './pages/TipCoachPage';
+import RecommendationsPage from './pages/RecommendationsPage';
+import TipScenarioPage from './pages/TipScenarioPage';
+import TipEvolutionPage from './pages/TipEvolutionPage';
+import TipAnalyticsPage from './pages/TipAnalyticsPage';
+import TipForecastPage from './pages/TipForecastPage';
+import TipGoalsPage from './pages/TipGoalsPage';
+import TipInsightsPage from './pages/TipInsightsPage';
+import AchievementsPage from './pages/AchievementsPage';
+import TipPoolPage from './pages/TipPoolPage';
+import TipProfilePage from './pages/TipProfilePage';
+import TipDataQualityPage from './pages/TipDataQualityPage';
 import { Box, CircularProgress } from '@mui/material';
 
-/**
- * Wrapper for public-only routes (login, register).
- * Redirects to dashboard if user is already authenticated.
- */
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
@@ -48,7 +41,7 @@ const PublicRoute = ({ children }) => {
           background: 'linear-gradient(135deg, #0A0E1A 0%, #121829 100%)',
         }}
       >
-        <CircularProgress size={48} sx={{ color: '#6C63FF' }} />
+        <CircularProgress size={48} sx={{ color: '#fd5b38' }} />
       </Box>
     );
   }
@@ -60,50 +53,39 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
+// Wrapper that combines ProtectedRoute and AppShell
+const ProtectedShell = ({ children }) => {
+  return (
+    <ProtectedRoute>
+      <AppShell>{children}</AppShell>
+    </ProtectedRoute>
+  );
+};
+
 const App = () => {
   return (
     <Routes>
-      {/* Root redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<LandingPage />} />
 
-      {/* Public routes — redirect if already authenticated */}
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <LoginPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicRoute>
-            <RegisterPage />
-          </PublicRoute>
-        }
-      />
+      <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
 
-      {/* Protected routes — require authentication */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
-      
-      <Route
-        path="/tips"
-        element={
-          <ProtectedRoute>
-            <TipCalculatorPage />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/dashboard" element={<ProtectedShell><DashboardPage /></ProtectedShell>} />
+      <Route path="/tips" element={<ProtectedShell><TipCalculatorPage /></ProtectedShell>} />
+      <Route path="/tip-history" element={<ProtectedShell><TipHistoryPage /></ProtectedShell>} />
+      <Route path="/coach" element={<ProtectedShell><TipCoachPage /></ProtectedShell>} />
+      <Route path="/recommendations" element={<ProtectedShell><RecommendationsPage /></ProtectedShell>} />
+      <Route path="/tip-scenarios" element={<ProtectedShell><TipScenarioPage /></ProtectedShell>} />
+      <Route path="/tip-evolution" element={<ProtectedShell><TipEvolutionPage /></ProtectedShell>} />
+      <Route path="/analytics" element={<ProtectedShell><TipAnalyticsPage /></ProtectedShell>} />
+      <Route path="/tip-forecast" element={<ProtectedShell><TipForecastPage /></ProtectedShell>} />
+      <Route path="/tip-goals" element={<ProtectedShell><TipGoalsPage /></ProtectedShell>} />
+      <Route path="/tip-insights" element={<ProtectedShell><TipInsightsPage /></ProtectedShell>} />
+      <Route path="/achievements" element={<ProtectedShell><AchievementsPage /></ProtectedShell>} />
+      <Route path="/tip-pools" element={<ProtectedShell><TipPoolPage /></ProtectedShell>} />
+      <Route path="/tip-profile" element={<ProtectedShell><TipProfilePage /></ProtectedShell>} />
+      <Route path="/data-quality" element={<ProtectedShell><TipDataQualityPage /></ProtectedShell>} />
 
-      {/* 404 catch-all */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

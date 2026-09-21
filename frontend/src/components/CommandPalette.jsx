@@ -198,7 +198,7 @@ const CommandPalette = ({ open, onClose }) => {
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth
       PaperProps={{
         sx: {
@@ -217,13 +217,13 @@ const CommandPalette = ({ open, onClose }) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 1.8,
-          px: 2.8,
-          py: 2.2,
+          gap: 2.2,
+          px: 3.5,
+          py: 3,
           borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
         }}
       >
-        <SearchIcon sx={{ color: '#fd5b38', fontSize: 22 }} />
+        <SearchIcon sx={{ color: '#fd5b38', fontSize: 32 }} />
         <InputBase
           inputRef={inputRef}
           value={query}
@@ -233,9 +233,11 @@ const CommandPalette = ({ open, onClose }) => {
           sx={{
             flexGrow: 1,
             color: '#F8FAFC',
-            fontSize: '1rem',
+            fontSize: '2rem',
             fontWeight: 600,
             '& input::placeholder': {
+              color: '#8A94A6',
+              fontSize: '1.8rem',
               color: '#64748B',
               opacity: 1,
             },
@@ -280,8 +282,8 @@ const CommandPalette = ({ open, onClose }) => {
                 onMouseEnter={() => setSelectedIndex(idx)}
                 sx={{
                   borderRadius: 2.5,
-                  py: 1.4,
-                  px: 1.8,
+                  py: 2.5,
+                  px: 4,
                   mb: 0.5,
                   backgroundColor: isSelected ? 'rgba(253, 91, 56, 0.12)' : 'transparent',
                   border: isSelected ? '1px solid rgba(253, 91, 56, 0.3)' : '1px solid transparent',
@@ -310,8 +312,8 @@ const CommandPalette = ({ open, onClose }) => {
                   primary={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Typography
-                        variant="body2"
                         sx={{
+                          fontSize: '1.4rem',
                           fontWeight: isSelected ? 700 : 600,
                           color: isSelected ? '#F8FAFC' : '#CBD5E1',
                         }}
@@ -323,8 +325,8 @@ const CommandPalette = ({ open, onClose }) => {
                           label={item.badge}
                           size="small"
                           sx={{
-                            height: 18,
-                            fontSize: '0.62rem',
+                            height: 20,
+                            fontSize: '0.65rem',
                             fontWeight: 800,
                             backgroundColor:
                               item.badge === 'Primary'
@@ -347,7 +349,7 @@ const CommandPalette = ({ open, onClose }) => {
                         sx={{
                           ml: 'auto',
                           color: '#64748B',
-                          fontSize: '0.725rem',
+                          fontSize: '0.85rem',
                           fontWeight: 600,
                         }}
                       >
@@ -357,12 +359,11 @@ const CommandPalette = ({ open, onClose }) => {
                   }
                   secondary={
                     <Typography
-                      variant="caption"
                       sx={{
-                        color: '#94A3B8',
-                        fontSize: '0.75rem',
-                        display: 'block',
-                        mt: 0.25,
+                        color: '#64748B',
+                        mt: 0.4,
+                        fontSize: '1rem',
+                        fontWeight: 500,
                       }}
                     >
                       {item.description}

@@ -22,7 +22,7 @@ import java.util.Map;
  * <p><b>mostCommon tie-breaking rule:</b>
  * When two qualities share the highest count, the higher quality wins.
  * Fixed enum order: POOR &lt; AVERAGE &lt; GOOD &lt; EXCELLENT.
- * Example: GOOD=2, EXCELLENT=2 → mostCommon = EXCELLENT.</p>
+ * Example: GOOD=2, EXCELLENT=2 â†’ mostCommon = EXCELLENT.</p>
  *
  * <p><b>averageTipPercentageByQuality decision:</b>
  * Only qualities with at least one rated tip are included in the map.
@@ -36,7 +36,7 @@ import java.util.Map;
  * @param goodCount                   Count of GOOD-rated tips
  * @param excellentCount              Count of EXCELLENT-rated tips
  * @param mostCommon                  The most common quality (null if no rated tips)
- * @param averageTipPercentageByQuality Map of quality → average tip %, scale=2, HALF_UP
+ * @param averageTipPercentageByQuality Map of quality â†’ average tip %, scale=2, HALF_UP
  */
 public record ServiceQualityStatsResponse(
         int totalRatedTips,

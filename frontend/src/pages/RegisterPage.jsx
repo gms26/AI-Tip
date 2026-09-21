@@ -1,29 +1,8 @@
-/**
- * Register Page
- *
- * PURPOSE:
- * Creates new user accounts. Matches the premium design language
- * of the login page with additional fields and confirm password.
- *
- * FEATURES:
- * - Name, email, password, confirm password fields
- * - Real-time client-side validation
- * - Password strength indicator
- * - Loading state with spinner
- * - Snackbar notifications
- * - Redirects to dashboard on success
- *
- * WHY confirm password on frontend only?
- * The backend doesn't need a confirmPassword field.
- * It's purely a UX safeguard against typos.
- */
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   Box,
-  Card,
-  CardContent,
   TextField,
   Button,
   Typography,
@@ -33,44 +12,20 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
-  LinearProgress,
+  Grid,
 } from '@mui/material';
 import {
-  Person as PersonIcon,
   Email as EmailIcon,
   Lock as LockIcon,
+  Person as PersonIcon,
   Visibility,
   VisibilityOff,
   AutoAwesome as SparkleIcon,
+  ArrowBack as ArrowBackIcon,
+  Lightbulb as LightbulbIcon,
 } from '@mui/icons-material';
-
-/**
- * Calculates password strength score (0–100).
- * WHY? Visual feedback encourages stronger passwords.
- */
-const getPasswordStrength = (password) => {
-  let score = 0;
-  if (password.length >= 8) score += 25;
-  if (password.length >= 12) score += 15;
-  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 20;
-  if (/\d/.test(password)) score += 20;
-  if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 20;
-  return Math.min(score, 100);
-};
-
-const getStrengthColor = (score) => {
-  if (score < 30) return '#FF5252';
-  if (score < 60) return '#FFD740';
-  if (score < 80) return '#00D9FF';
-  return '#00E676';
-};
-
-const getStrengthLabel = (score) => {
-  if (score < 30) return 'Weak';
-  if (score < 60) return 'Fair';
-  if (score < 80) return 'Good';
-  return 'Strong';
-};
+import { motion } from 'framer-motion';
+import PtLogo from '../components/PtLogo';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -84,7 +39,6 @@ const RegisterPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -92,32 +46,20 @@ const RegisterPage = () => {
     severity: 'success',
   });
 
-  const passwordStrength = getPasswordStrength(formData.password);
-
   const validate = () => {
     const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
-    }
-
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 8) {
       newErrors.password = 'Password must be at least 8 characters';
     }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
@@ -139,7 +81,6 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      // Only send name, email, password — not confirmPassword
       await register({
         name: formData.name,
         email: formData.email,
@@ -147,23 +88,20 @@ const RegisterPage = () => {
       });
       setSnackbar({
         open: true,
-        message: 'Account created successfully! Redirecting...',
+        message: 'Registration successful! Redirecting...',
         severity: 'success',
       });
       setTimeout(() => navigate('/dashboard'), 800);
     } catch (error) {
-      const data = error.response?.data;
-      let message = 'Registration failed. Please try again.';
-
-      if (data?.errors) {
-        // Field-level validation errors from backend
-        setErrors(data.errors);
-        message = data.message || message;
-      } else if (data?.message) {
-        message = data.message;
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+        setSnackbar({ open: true, message: 'Please fix the errors below.', severity: 'error' });
+      } else {
+        const message =
+          error.response?.data?.message ||
+          'Registration failed. Please try again.';
+        setSnackbar({ open: true, message, severity: 'error' });
       }
-
-      setSnackbar({ open: true, message, severity: 'error' });
     } finally {
       setLoading(false);
     }
@@ -176,84 +114,87 @@ const RegisterPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0A0E1A 0%, #1a1040 50%, #0A0E1A 100%)',
         position: 'relative',
-        overflow: 'hidden',
-        px: 2,
-        py: 4,
+        py: 8,
       }}
     >
-      {/* Animated background orbs */}
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 350,
-          height: 350,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0, 217, 255, 0.12) 0%, transparent 70%)',
-          top: -80,
-          left: -80,
-          animation: 'float 12s ease-in-out infinite',
-          '@keyframes float': {
-            '0%, 100%': { transform: 'translateY(0) scale(1)' },
-            '50%': { transform: 'translateY(-30px) scale(1.1)' },
-          },
+      {/* Animated Dark Gradient Background */}
+      <motion.div
+        animate={{
+          background: [
+            'linear-gradient(135deg, #0A0E1A 0%, #15161d 100%)',
+            'linear-gradient(135deg, #15161d 0%, #1a1c23 100%)',
+            'linear-gradient(135deg, #0A0E1A 0%, #11131a 100%)',
+            'linear-gradient(135deg, #0A0E1A 0%, #15161d 100%)',
+          ],
         }}
-      />
-      <Box
-        sx={{
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+        style={{
           position: 'absolute',
-          width: 400,
-          height: 400,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, transparent 70%)',
-          bottom: -100,
-          right: -100,
-          animation: 'float 15s ease-in-out infinite reverse',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 0,
         }}
       />
 
-      <Card
+      <Button
+        component={RouterLink}
+        to="/"
+        startIcon={<ArrowBackIcon />}
         sx={{
-          maxWidth: 440,
-          width: '100%',
-          background: 'rgba(18, 24, 41, 0.75)',
-          backdropFilter: 'blur(24px)',
-          border: '1px solid rgba(108, 99, 255, 0.15)',
-          borderRadius: 3,
-          boxShadow: '0 24px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(108, 99, 255, 0.08)',
-          position: 'relative',
-          zIndex: 1,
+          position: 'absolute',
+          top: 32,
+          left: 32,
+          color: '#9AA0A6',
+          zIndex: 10,
+          fontWeight: 600,
+          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)', color: '#fff' },
         }}
       >
-        <CardContent sx={{ p: { xs: 3, sm: 4.5 } }}>
-          {/* Header */}
-          <Box sx={{ textAlign: 'center', mb: 3.5 }}>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 56,
-                height: 56,
-                borderRadius: 2.5,
-                background: 'linear-gradient(135deg, #00D9FF 0%, #0088AA 100%)',
-                mb: 2,
-                boxShadow: '0 8px 24px rgba(0, 217, 255, 0.25)',
-              }}
-            >
-              <SparkleIcon sx={{ fontSize: 28, color: '#fff' }} />
-            </Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#E8EAED', mb: 0.5 }}>
-              Create Account
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#9AA0A6' }}>
-              Join AI Tip Assistant today
-            </Typography>
-          </Box>
+        Back to Home
+      </Button>
 
-          {/* Form */}
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+      {/* Glassmorphic Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, type: 'spring' }}
+        style={{ zIndex: 1, width: '100%', maxWidth: '450px', margin: '0 24px' }}
+      >
+        <Box
+          sx={{
+            background: 'rgba(10, 14, 26, 0.4)',
+            backdropFilter: 'blur(20px)',
+            borderRadius: '32px',
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            p: { xs: 4, sm: 6 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <PtLogo size={64} showText={false} sx={{ mb: 2 }} />
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 900,
+              mb: 1,
+              fontFamily: "'Outfit', 'Inter', sans-serif",
+              color: '#fff',
+            }}
+          >
+            Create Account
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#9AA0A6', mb: 4, fontWeight: 400, textAlign: 'center' }}>
+            Join Possible Tip today
+          </Typography>
+
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <TextField
               fullWidth
               id="register-name"
@@ -265,13 +206,26 @@ const RegisterPage = () => {
               helperText={errors.name}
               autoComplete="name"
               autoFocus
-              sx={{ mb: 2 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonIcon sx={{ color: '#00D9FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 2.5,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
 
@@ -286,13 +240,26 @@ const RegisterPage = () => {
               error={!!errors.email}
               helperText={errors.email}
               autoComplete="email"
-              sx={{ mb: 2 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmailIcon sx={{ color: '#00D9FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 2.5,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
 
@@ -305,91 +272,74 @@ const RegisterPage = () => {
               value={formData.password}
               onChange={handleChange}
               error={!!errors.password}
-              helperText={errors.password || 'Minimum 8 characters'}
+              helperText={errors.password}
               autoComplete="new-password"
-              sx={{ mb: 0.5 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockIcon sx={{ color: '#00D9FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      size="small"
-                      sx={{ color: '#9AA0A6' }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 2.5,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                        size="small"
+                        sx={{ color: '#666' }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
-
-            {/* Password Strength Indicator */}
-            {formData.password && (
-              <Box sx={{ mb: 2, px: 0.5 }}>
-                <LinearProgress
-                  variant="determinate"
-                  value={passwordStrength}
-                  sx={{
-                    height: 4,
-                    borderRadius: 2,
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: getStrengthColor(passwordStrength),
-                      borderRadius: 2,
-                      transition: 'all 0.4s ease',
-                    },
-                  }}
-                />
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: getStrengthColor(passwordStrength),
-                    mt: 0.5,
-                    display: 'block',
-                    fontWeight: 500,
-                  }}
-                >
-                  Password strength: {getStrengthLabel(passwordStrength)}
-                </Typography>
-              </Box>
-            )}
 
             <TextField
               fullWidth
               id="register-confirm-password"
               name="confirmPassword"
               label="Confirm Password"
-              type={showConfirmPassword ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               value={formData.confirmPassword}
               onChange={handleChange}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword}
               autoComplete="new-password"
-              sx={{ mb: 3 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockIcon sx={{ color: '#00D9FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                      size="small"
-                      sx={{ color: '#9AA0A6' }}
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 4,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
 
@@ -398,53 +348,45 @@ const RegisterPage = () => {
               type="submit"
               fullWidth
               variant="contained"
-              size="large"
               disabled={loading}
               sx={{
-                py: 1.5,
-                fontSize: '1rem',
-                fontWeight: 600,
+                py: 1.8,
+                borderRadius: 3,
+                textTransform: 'none',
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                fontFamily: "'Outfit', 'Inter', sans-serif",
+                background: 'linear-gradient(135deg, #fd5b38 0%, #ff8a65 100%)',
+                boxShadow: '0 8px 20px rgba(253, 91, 56, 0.3)',
                 mb: 3,
-                background: 'linear-gradient(135deg, #00D9FF 0%, #0088AA 100%)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #33E1FF 0%, #00D9FF 100%)',
-                  boxShadow: '0 4px 20px rgba(0, 217, 255, 0.3)',
+                  background: 'linear-gradient(135deg, #e04826 0%, #fd5b38 100%)',
+                  boxShadow: '0 12px 24px rgba(253, 91, 56, 0.4)',
                 },
               }}
             >
-              {loading ? (
-                <CircularProgress size={24} sx={{ color: '#fff' }} />
-              ) : (
-                'Create Account'
-              )}
+              {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Create Account'}
             </Button>
 
-            <Typography
-              variant="body2"
-              sx={{ textAlign: 'center', color: '#9AA0A6' }}
-            >
+            <Typography variant="body2" sx={{ textAlign: 'center', color: '#9AA0A6', fontWeight: 500 }}>
               Already have an account?{' '}
               <Link
                 component={RouterLink}
                 to="/login"
                 sx={{
-                  color: '#00D9FF',
-                  fontWeight: 600,
+                  color: '#fd5b38',
+                  fontWeight: 700,
                   textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                    color: '#33E1FF',
-                  },
+                  '&:hover': { textDecoration: 'underline' },
                 }}
               >
                 Sign in
               </Link>
             </Typography>
           </Box>
-        </CardContent>
-      </Card>
+        </Box>
+      </motion.div>
 
-      {/* Snackbar */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={5000}

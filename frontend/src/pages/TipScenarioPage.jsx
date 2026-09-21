@@ -138,14 +138,32 @@ const TipScenarioPage = () => {
   })) : [];
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 6 }, width: '100%' }}>
-      {/* Header */}
+    <Box sx={{ px: { xs: 2.5, sm: 3.5, md: 5 }, pt: { xs: 3, md: 4 }, pb: { xs: 4, md: 6 }, width: '100%', maxWidth: 1300, mx: 'auto' }}>
+      {/* ═══ Header ═══ */}
       <Box component={motion.div} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} sx={{ mb: 4 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-          <CompareIcon sx={{ color: '#38bdf8', fontSize: 32 }} />
-          <Typography variant="h4" sx={{ color: '#FFFFFF', fontWeight: 700 }}>
-            What-If Tip Scenarios
-          </Typography>
+          <Box
+            sx={{
+              width: 44,
+              height: 44,
+              borderRadius: 2.8,
+              background: 'linear-gradient(135deg, #fd5b38 0%, #ff8b70 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 18px rgba(253, 91, 56, 0.3)',
+            }}
+          >
+            <CompareIcon sx={{ fontSize: 24, color: '#FFFFFF' }} />
+          </Box>
+          <Box>
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#fd5b38', textTransform: 'uppercase' }}>
+              SIMULATION ENGINE
+            </Typography>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#F8FAFC', letterSpacing: '-0.025em', mt: 0.2 }}>
+              What-If Scenarios
+            </Typography>
+          </Box>
         </Box>
         <Typography variant="body1" sx={{ color: '#94A3B8' }}>
           Compare hypothetical tip percentages against your historical behaviour. All results are estimates — not actual transactions.

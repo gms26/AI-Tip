@@ -259,7 +259,7 @@ class TipForecastControllerIntegrationTest {
         createTip(userA, "100", "20", "USD", LocalDateTime.now().minusDays(5));
         createTip(userA, "100", "20", "USD", LocalDateTime.now().minusDays(1));
 
-        // Budget = 200, projected = 300 → OVER_BUDGET
+        // Budget = 200, projected = 300 â†’ OVER_BUDGET
         mockMvc.perform(get("/api/tip-forecast")
                         .header("Authorization", "Bearer " + tokenA)
                         .param("currency", "USD")

@@ -83,7 +83,7 @@ const TipCalculatorPage = () => {
   const [calculatedTotal, setCalculatedTotal] = useState(0);
 
   // Split state
-  const [isSplitting, setIsSplitting] = useState(false);
+  const [isSplitting, setIsSplitting] = useState(true);
   const [splitMode, setSplitMode] = useState('equal'); // 'equal' or 'custom'
   const [people, setPeople] = useState([{ name: 'Person 1', amount: '' }, { name: 'Person 2', amount: '' }]);
   const [splitResult, setSplitResult] = useState(null);
@@ -462,32 +462,32 @@ const TipCalculatorPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0A0E1A 0%, #121829 100%)',
-        pt: 4,
-        pb: 8,
-        px: { xs: 2, sm: 4 },
-      }}
-    >
-      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-        <Typography
-          variant="h3"
+    <Box sx={{ px: { xs: 2.5, sm: 3.5, md: 5 }, pt: { xs: 3, md: 4 }, pb: { xs: 4, md: 6 }, width: '100%', maxWidth: 1300, mx: 'auto' }}>
+      {/* ═══ Header ═══ */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>
+        <Box
           sx={{
-            fontWeight: 800,
-            mb: 4,
-            background: 'linear-gradient(135deg, #6C63FF, #00D9FF)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            width: 44,
+            height: 44,
+            borderRadius: 2.8,
+            background: 'linear-gradient(135deg, #fd5b38 0%, #ff8b70 100%)',
             display: 'flex',
             alignItems: 'center',
-            gap: 2
+            justifyContent: 'center',
+            boxShadow: '0 4px 18px rgba(253, 91, 56, 0.3)',
           }}
         >
-          <CalculateIcon sx={{ fontSize: 40, color: '#6C63FF' }} />
-          Tip Calculator
-        </Typography>
+          <CalculateIcon sx={{ fontSize: 24, color: '#FFFFFF' }} />
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#fd5b38', textTransform: 'uppercase' }}>
+            CORE PLATFORM
+          </Typography>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#F8FAFC', letterSpacing: '-0.025em', mt: 0.2 }}>
+            Tip Calculator
+          </Typography>
+        </Box>
+      </Box>
 
         <Grid container spacing={4}>
           {/* LEFT COLUMN: Inputs & Controls */}
@@ -522,7 +522,7 @@ const TipCalculatorPage = () => {
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                <ReceiptIcon sx={{ color: '#6C63FF' }} />
+                                <ReceiptIcon sx={{ color: '#fd5b38' }} />
                               </InputAdornment>
                             ),
                             sx: { fontSize: '1.2rem', fontWeight: 600 }
@@ -596,12 +596,12 @@ const TipCalculatorPage = () => {
                             sx={{ 
                                 py: 1.5, 
                                 fontSize: '1.1rem',
-                                borderColor: 'rgba(108, 99, 255, 0.3)',
+                                borderColor: 'rgba(253, 91, 56, 0.3)',
                                 ...(tipPercentage === preset && customTip === '' ? {
-                                    background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
+                                    background: 'linear-gradient(135deg, #fd5b38 0%, #e04826 100%)',
                                 } : {
                                     color: '#E8EAED',
-                                    '&:hover': { borderColor: '#6C63FF', background: 'rgba(108, 99, 255, 0.08)' }
+                                    '&:hover': { borderColor: '#fd5b38', background: 'rgba(253, 91, 56, 0.08)' }
                                 })
                             }}
                           >
@@ -628,7 +628,7 @@ const TipCalculatorPage = () => {
                   {/* AI Suggestion Form */}
                   <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                       <SparkleIcon sx={{ color: '#00D9FF' }} />
+                       <SparkleIcon sx={{ color: '#ff8a65' }} />
                        <Typography variant="h6" sx={{ color: '#E8EAED', fontWeight: 600 }}>
                           Ask AI for Recommendation
                        </Typography>
@@ -638,7 +638,7 @@ const TipCalculatorPage = () => {
                         <TextField
                           select
                           fullWidth
-                          label="Restaurant / Service Type"
+                          label="Venue Type"
                           value={restaurantType}
                           onChange={(e) => setRestaurantType(e.target.value)}
                         >
@@ -656,7 +656,7 @@ const TipCalculatorPage = () => {
                         <TextField
                           select
                           fullWidth
-                          label="Service Quality"
+                          label="Service"
                           value={serviceQuality}
                           onChange={(e) => { setServiceQuality(e.target.value); setTipSaved(false); }}
                         >
@@ -692,9 +692,9 @@ const TipCalculatorPage = () => {
                           startIcon={aiLoading ? <CircularProgress size={20} color="inherit" /> : <SparkleIcon />}
                           sx={{ 
                               py: 1.5,
-                              color: '#00D9FF',
-                              borderColor: 'rgba(0, 217, 255, 0.5)',
-                              '&:hover': { borderColor: '#00D9FF', background: 'rgba(0, 217, 255, 0.1)' }
+                              color: '#ff8a65',
+                              borderColor: 'rgba(255, 138, 101, 0.5)',
+                              '&:hover': { borderColor: '#ff8a65', background: 'rgba(255, 138, 101, 0.1)' }
                           }}
                         >
                           {aiLoading ? 'Analyzing your service details...' : 'Get AI Suggestion'}
@@ -711,14 +711,6 @@ const TipCalculatorPage = () => {
                        <Typography variant="h6" sx={{ color: '#E8EAED', fontWeight: 600 }}>
                           Split Bill
                        </Typography>
-                       <Button 
-                         variant={isSplitting ? "outlined" : "text"} 
-                         onClick={() => setIsSplitting(!isSplitting)}
-                         color={isSplitting ? "primary" : "inherit"}
-                         sx={{ color: isSplitting ? '#6C63FF' : '#9AA0A6' }}
-                       >
-                         {isSplitting ? 'Disable Split' : 'Enable Split'}
-                       </Button>
                     </Box>
 
                     {isSplitting && (
@@ -728,7 +720,7 @@ const TipCalculatorPage = () => {
                              variant={splitMode === 'equal' ? 'contained' : 'outlined'} 
                              onClick={() => setSplitMode('equal')}
                              size="small"
-                             sx={splitMode === 'equal' ? { background: '#6C63FF' } : {}}
+                             sx={splitMode === 'equal' ? { background: '#fd5b38' } : {}}
                            >
                              Equal Split
                            </Button>
@@ -736,7 +728,7 @@ const TipCalculatorPage = () => {
                              variant={splitMode === 'custom' ? 'contained' : 'outlined'} 
                              onClick={() => setSplitMode('custom')}
                              size="small"
-                             sx={splitMode === 'custom' ? { background: '#6C63FF' } : {}}
+                             sx={splitMode === 'custom' ? { background: '#fd5b38' } : {}}
                            >
                              Custom Amounts
                            </Button>
@@ -772,7 +764,7 @@ const TipCalculatorPage = () => {
                            ))}
                            
                            <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 1 }}>
-                               <Button startIcon={<PersonAddIcon />} onClick={addPerson} sx={{ color: '#00D9FF' }}>
+                               <Button startIcon={<PersonAddIcon />} onClick={addPerson} sx={{ color: '#ff8a65' }}>
                                  Add Person
                                </Button>
                                
@@ -781,7 +773,7 @@ const TipCalculatorPage = () => {
                                      variant="contained" 
                                      size="small" 
                                      onClick={() => calculateSplitOnBackend()}
-                                     sx={{ background: 'linear-gradient(135deg, #00D9FF, #0088FF)' }}
+                                     sx={{ background: 'linear-gradient(135deg, #fd5b38, #e04826)', color: '#fff', fontWeight: 700 }}
                                    >
                                      Calculate Custom Split
                                    </Button>
@@ -819,9 +811,9 @@ const TipCalculatorPage = () => {
             {/* Live Results Card */}
             <Card
               sx={{
-                background: 'linear-gradient(135deg, rgba(108, 99, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%)',
+                background: 'linear-gradient(135deg, rgba(253, 91, 56, 0.15) 0%, rgba(255, 138, 101, 0.05) 100%)',
                 backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(108, 99, 255, 0.3)',
+                border: '1px solid rgba(253, 91, 56, 0.3)',
                 borderRadius: 3,
                 mb: 4
               }}
@@ -836,7 +828,7 @@ const TipCalculatorPage = () => {
                     fontWeight: 800, 
                     color: '#fff',
                     mb: 3,
-                    textShadow: '0 4px 20px rgba(108, 99, 255, 0.5)'
+                    textShadow: '0 4px 20px rgba(253, 91, 56, 0.5)'
                   }}
                 >
                   {formatCurrency(calculatedTotal)}
@@ -852,7 +844,7 @@ const TipCalculatorPage = () => {
                   <Grid item xs={6}>
                     <Box sx={{ p: 2, background: 'rgba(0,0,0,0.2)', borderRadius: 2 }}>
                         <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block' }}>Tip ({tipPercentage}%)</Typography>
-                        <Typography variant="h6" sx={{ color: '#00D9FF' }}>+{formatCurrency(calculatedTip, currency)}</Typography>
+                        <Typography variant="h6" sx={{ color: '#ff8a65' }}>+{formatCurrency(calculatedTip, currency)}</Typography>
                     </Box>
                   </Grid>
                 </Grid>
@@ -864,7 +856,7 @@ const TipCalculatorPage = () => {
                       Converted to {displayCurrency} (Rate: {exchangeRate})
                     </Typography>
                     {isConverting ? (
-                      <CircularProgress size={24} sx={{ color: '#6C63FF' }} />
+                      <CircularProgress size={24} sx={{ color: '#fd5b38' }} />
                     ) : (
                       <>
                         <Typography variant="h4" sx={{ fontWeight: 700, color: '#fff', mb: 2 }}>
@@ -879,7 +871,7 @@ const TipCalculatorPage = () => {
                           </Grid>
                           <Grid item xs={6}>
                             <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block' }}>Tip</Typography>
-                            <Typography variant="subtitle1" sx={{ color: '#00D9FF' }}>
+                            <Typography variant="subtitle1" sx={{ color: '#ff8a65' }}>
                               +{formatCurrency(calculatedTip * exchangeRate, displayCurrency)}
                             </Typography>
                           </Grid>
@@ -893,9 +885,9 @@ const TipCalculatorPage = () => {
                 <Box
                   sx={{
                     p: 2,
-                    background: 'rgba(108, 99, 255, 0.06)',
+                    background: 'rgba(253, 91, 56, 0.06)',
                     borderRadius: 2,
-                    border: '1px solid rgba(108, 99, 255, 0.18)',
+                    border: '1px solid rgba(253, 91, 56, 0.18)',
                     mb: 1
                   }}
                 >
@@ -907,7 +899,7 @@ const TipCalculatorPage = () => {
                       { value: 'POOR',      label: 'Poor',      color: '#FF5252', stars: '★' },
                       { value: 'AVERAGE',   label: 'Average',   color: '#FFA726', stars: '★★' },
                       { value: 'GOOD',      label: 'Good',      color: '#66BB6A', stars: '★★★' },
-                      { value: 'EXCELLENT', label: 'Excellent', color: '#00D9FF', stars: '★★★★' },
+                      { value: 'EXCELLENT', label: 'Excellent', color: '#ff8a65', stars: '★★★★' },
                     ].map(({ value, label, color, stars }) => (
                       <Grid item xs={6} sm={3} key={value}>
                         <Button
@@ -953,7 +945,7 @@ const TipCalculatorPage = () => {
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <TimeIcon sx={{ color: timingResult.state === 'RECOMMENDED' ? '#6C63FF' : '#00D9FF', fontSize: 20 }} />
+                      <TimeIcon sx={{ color: timingResult.state === 'RECOMMENDED' ? '#fd5b38' : '#ff8a65', fontSize: 20 }} />
                       <Typography variant="subtitle2" sx={{ color: '#E8EAED', fontWeight: 600 }}>
                         BEST TIME TO RECORD
                       </Typography>
@@ -963,7 +955,7 @@ const TipCalculatorPage = () => {
                     </Typography>
                     {timingResult.state === 'RECOMMENDED' && timingResult.hasRestaurantHistory && (
                       <Box sx={{ mt: 1, p: 1.5, background: 'rgba(0,0,0,0.2)', borderRadius: 1 }}>
-                        <Typography variant="caption" sx={{ color: '#00D9FF', display: 'block' }}>
+                        <Typography variant="caption" sx={{ color: '#ff8a65', display: 'block' }}>
                           Last tip at {timingResult.restaurantName}: {timingResult.lastTipPercentage}%
                         </Typography>
                         <Typography variant="caption" sx={{ color: '#9AA0A6' }}>
@@ -984,8 +976,8 @@ const TipCalculatorPage = () => {
                   sx={{ 
                     py: 1.5,
                     fontSize: '1.1rem',
-                    background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
-                    boxShadow: '0 8px 24px rgba(108, 99, 255, 0.4)'
+                    background: 'linear-gradient(135deg, #fd5b38 0%, #e04826 100%)',
+                    boxShadow: '0 8px 24px rgba(253, 91, 56, 0.4)'
                   }}
                 >
                   Save Tip
@@ -999,15 +991,15 @@ const TipCalculatorPage = () => {
                 sx={{
                   background: 'rgba(18, 24, 41, 0.7)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(108, 99, 255, 0.2)',
+                  border: '1px solid rgba(253, 91, 56, 0.2)',
                   borderRadius: 3,
                   mb: 4
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                     <TrendingUpIcon sx={{ color: '#6C63FF' }} />
-                     <Typography variant="subtitle1" sx={{ color: '#6C63FF', fontWeight: 700 }}>
+                     <TrendingUpIcon sx={{ color: '#fd5b38' }} />
+                     <Typography variant="subtitle1" sx={{ color: '#fd5b38', fontWeight: 700 }}>
                         YOUR TIPPING PATTERN
                      </Typography>
                   </Box>
@@ -1046,7 +1038,7 @@ const TipCalculatorPage = () => {
                       <Typography variant="body2" sx={{ color: '#E8EAED' }}>
                         {restaurantInsight.visitCount} visit{restaurantInsight.visitCount !== 1 ? 's' : ''} • Avg {restaurantInsight.averageTipPercentage}%
                       </Typography>
-                      <Typography variant="caption" sx={{ color: '#00D9FF' }}>
+                      <Typography variant="caption" sx={{ color: '#ff8a65' }}>
                         Last tip: {restaurantInsight.lastTipPercentage}% ({formatCurrency(restaurantInsight.lastTipAmount)})
                       </Typography>
                     </Box>
@@ -1061,16 +1053,16 @@ const TipCalculatorPage = () => {
                 sx={{
                   background: 'rgba(18, 24, 41, 0.7)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid #00D9FF',
+                  border: '1px solid #ff8a65',
                   borderRadius: 3,
                   mb: 4,
-                  boxShadow: '0 4px 20px rgba(0, 217, 255, 0.2)'
+                  boxShadow: '0 4px 20px rgba(255, 138, 101, 0.2)'
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                     <SparkleIcon sx={{ color: '#00D9FF' }} />
-                     <Typography variant="subtitle1" sx={{ color: '#00D9FF', fontWeight: 700 }}>
+                     <SparkleIcon sx={{ color: '#ff8a65' }} />
+                     <Typography variant="subtitle1" sx={{ color: '#ff8a65', fontWeight: 700 }}>
                         AI TIP RECOMMENDATION
                      </Typography>
                   </Box>
@@ -1084,7 +1076,7 @@ const TipCalculatorPage = () => {
 
                   {/* Show user's usual tip alongside AI recommendation */}
                   {personalization && personalization.tipCount >= 2 && (
-                    <Typography variant="body2" sx={{ color: '#6C63FF', mb: 1 }}>
+                    <Typography variant="body2" sx={{ color: '#fd5b38', mb: 1 }}>
                       Your usual tip: {personalization.personalizedPercentage}%
                     </Typography>
                   )}
@@ -1129,10 +1121,10 @@ const TipCalculatorPage = () => {
                     variant="contained"
                     onClick={applyAiRecommendation}
                     sx={{ 
-                      background: 'rgba(0, 217, 255, 0.1)',
-                      color: '#00D9FF',
-                      border: '1px solid rgba(0, 217, 255, 0.5)',
-                      '&:hover': { background: 'rgba(0, 217, 255, 0.2)' }
+                      background: 'rgba(255, 138, 101, 0.1)',
+                      color: '#ff8a65',
+                      border: '1px solid rgba(255, 138, 101, 0.5)',
+                      '&:hover': { background: 'rgba(255, 138, 101, 0.2)' }
                     }}
                   >
                     Apply {aiResult.recommendedPercentage}% Tip
@@ -1147,7 +1139,7 @@ const TipCalculatorPage = () => {
                 sx={{
                   background: 'rgba(18, 24, 41, 0.7)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(0, 217, 255, 0.15)',
+                  border: '1px solid rgba(255, 138, 101, 0.15)',
                   borderRadius: 3,
                   mb: 4
                 }}
@@ -1155,7 +1147,7 @@ const TipCalculatorPage = () => {
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                     <Typography sx={{ fontSize: '1.1rem' }}>⭐</Typography>
-                    <Typography variant="subtitle1" sx={{ color: '#00D9FF', fontWeight: 700 }}>
+                    <Typography variant="subtitle1" sx={{ color: '#ff8a65', fontWeight: 700 }}>
                       SERVICE QUALITY SUMMARY
                     </Typography>
                   </Box>
@@ -1165,7 +1157,7 @@ const TipCalculatorPage = () => {
                       { key: 'poorCount',      label: 'Poor',      color: '#FF5252' },
                       { key: 'averageCount',   label: 'Average',   color: '#FFA726' },
                       { key: 'goodCount',      label: 'Good',      color: '#66BB6A' },
-                      { key: 'excellentCount', label: 'Excellent', color: '#00D9FF' },
+                      { key: 'excellentCount', label: 'Excellent', color: '#ff8a65' },
                     ].map(({ key, label, color }) => (
                       <Grid item xs={3} key={key}>
                         <Box sx={{ p: 1, background: 'rgba(0,0,0,0.2)', borderRadius: 2, textAlign: 'center' }}>
@@ -1178,7 +1170,7 @@ const TipCalculatorPage = () => {
 
                   {serviceQualityStats.mostCommon && (
                     <Typography variant="body2" sx={{ color: '#E8EAED', mb: 1 }}>
-                      Most common: <span style={{ color: '#00D9FF', fontWeight: 600 }}>
+                      Most common: <span style={{ color: '#ff8a65', fontWeight: 600 }}>
                         {serviceQualityStats.mostCommon.charAt(0) + serviceQualityStats.mostCommon.slice(1).toLowerCase()}
                       </span>
                     </Typography>
@@ -1189,7 +1181,7 @@ const TipCalculatorPage = () => {
                       <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block', mb: 0.5 }}>Avg tip by quality:</Typography>
                       {Object.entries(serviceQualityStats.averageTipPercentageByQuality).map(([q, avg]) => (
                         <Typography key={q} variant="caption" sx={{ display: 'block', color: '#E8EAED' }}>
-                          {q.charAt(0) + q.slice(1).toLowerCase()}: <span style={{ color: '#00D9FF' }}>{avg}%</span>
+                          {q.charAt(0) + q.slice(1).toLowerCase()}: <span style={{ color: '#ff8a65' }}>{avg}%</span>
                         </Typography>
                       ))}
                     </Box>
@@ -1223,7 +1215,7 @@ const TipCalculatorPage = () => {
                 
                 {loadingHistory && history.length === 0 ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-                        <CircularProgress sx={{ color: '#6C63FF' }} />
+                        <CircularProgress sx={{ color: '#fd5b38' }} />
                     </Box>
                 ) : history.length === 0 ? (
                     <Typography variant="body2" sx={{ color: '#9AA0A6', fontStyle: 'italic', p: 2, textAlign: 'center' }}>
@@ -1246,7 +1238,7 @@ const TipCalculatorPage = () => {
                                             <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#fff' }}>
                                                 {formatCurrency(tip.totalAmount, tip.currency)}
                                             </Typography>
-                                            <Typography variant="body2" sx={{ color: '#00D9FF' }}>
+                                            <Typography variant="body2" sx={{ color: '#ff8a65' }}>
                                                 {tip.tipPercentage}% Tip
                                             </Typography>
                                         </Box>
@@ -1264,7 +1256,7 @@ const TipCalculatorPage = () => {
                                                 POOR:      { label: 'Poor',      color: '#FF5252', stars: '★' },
                                                 AVERAGE:   { label: 'Average',   color: '#FFA726', stars: '★★' },
                                                 GOOD:      { label: 'Good',      color: '#66BB6A', stars: '★★★' },
-                                                EXCELLENT: { label: 'Excellent', color: '#00D9FF', stars: '★★★★' },
+                                                EXCELLENT: { label: 'Excellent', color: '#ff8a65', stars: '★★★★' },
                                               }[tip.serviceQuality];
                                               return sqMeta ? (
                                                 <Typography variant="caption" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, color: sqMeta.color, mt: 0.25 }}>
@@ -1299,7 +1291,7 @@ const TipCalculatorPage = () => {
                       variant="text" 
                       onClick={() => loadHistory(page + 1, true)}
                       disabled={loadingHistory}
-                      sx={{ mt: 2, color: '#6C63FF' }}
+                      sx={{ mt: 2, color: '#fd5b38' }}
                     >
                         Load More
                     </Button>
@@ -1307,8 +1299,6 @@ const TipCalculatorPage = () => {
             </Box>
           </Grid>
         </Grid>
-      </Box>
-
       {/* Snackbar for feedback */}
       <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar({ ...snackbar, open: false })}>
         <Alert severity={snackbar.severity} variant="filled" onClose={() => setSnackbar({ ...snackbar, open: false })}>

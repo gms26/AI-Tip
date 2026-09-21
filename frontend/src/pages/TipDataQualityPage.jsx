@@ -136,7 +136,7 @@ const TipDataQualityPage = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 6 }, width: '100%' }}>
+    <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}>
       {/* ═══ Page Header ═══ */}
       <Box
         component={motion.div}
@@ -297,67 +297,87 @@ const TipDataQualityPage = () => {
                 Filters
               </Typography>
             </Box>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={6} md={3}>
-                <TextField
-                  select
-                  fullWidth
-                  name="currency"
-                  value={filters.currency}
-                  onChange={handleFilterChange}
-                  size="small"
-                  label="Currency"
-                >
-                  <MenuItem value="">All Currencies</MenuItem>
-                  {data?.currencies?.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <TextField
-                  select
-                  fullWidth
-                  name="severity"
-                  value={filters.severity}
-                  onChange={handleFilterChange}
-                  size="small"
-                  label="Severity"
-                >
-                  <MenuItem value="">All Severities</MenuItem>
-                  <MenuItem value="HIGH">High</MenuItem>
-                  <MenuItem value="WARNING">Warning</MenuItem>
-                  <MenuItem value="INFO">Info</MenuItem>
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <TextField
-                  select
-                  fullWidth
-                  name="anomalyType"
-                  value={filters.anomalyType}
-                  onChange={handleFilterChange}
-                  size="small"
-                  label="Anomaly Type"
-                >
-                  <MenuItem value="">All Types</MenuItem>
-                  <MenuItem value="UNUSUAL_TIP_PERCENTAGE">Unusual Percentage</MenuItem>
-                  <MenuItem value="EXTREME_TIP_AMOUNT">Extreme Amount</MenuItem>
-                  <MenuItem value="UNUSUAL_BILL_AMOUNT">Missing/Unusual Bill</MenuItem>
-                  <MenuItem value="DUPLICATE_LIKE_RECORD">Duplicate-like</MenuItem>
-                  <MenuItem value="MISSING_RESTAURANT">Missing Restaurant</MenuItem>
-                  <MenuItem value="INVALID_CURRENCY">Invalid Currency</MenuItem>
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  startIcon={<ResetIcon />}
-                  onClick={resetFilters}
-                  size="small"
-                  sx={{ color: '#64748B', '&:hover': { color: '#FFFFFF' } }}
-                >
-                  Reset
-                </Button>
-              </Grid>
-            </Grid>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2.5, alignItems: 'center' }}>
+              <TextField
+                select
+                name="currency"
+                value={filters.currency}
+                onChange={handleFilterChange}
+                size="small"
+                label="Currency"
+                sx={{
+                  minWidth: 200,
+                  flex: { xs: '1 1 100%', sm: '1 1 200px', md: '0 0 220px' },
+                  '& .MuiInputBase-root': { height: 44, borderRadius: 2 },
+                  '& .MuiInputLabel-root': { fontSize: '0.95rem' }
+                }}
+              >
+                <MenuItem value="">All Currencies</MenuItem>
+                {data?.currencies?.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+              </TextField>
+
+              <TextField
+                select
+                name="severity"
+                value={filters.severity}
+                onChange={handleFilterChange}
+                size="small"
+                label="Severity"
+                sx={{
+                  minWidth: 200,
+                  flex: { xs: '1 1 100%', sm: '1 1 200px', md: '0 0 220px' },
+                  '& .MuiInputBase-root': { height: 44, borderRadius: 2 },
+                  '& .MuiInputLabel-root': { fontSize: '0.95rem' }
+                }}
+              >
+                <MenuItem value="">All Severities</MenuItem>
+                <MenuItem value="HIGH">High Severity</MenuItem>
+                <MenuItem value="WARNING">Warning</MenuItem>
+                <MenuItem value="INFO">Informational</MenuItem>
+              </TextField>
+
+              <TextField
+                select
+                name="anomalyType"
+                value={filters.anomalyType}
+                onChange={handleFilterChange}
+                size="small"
+                label="Anomaly Type"
+                sx={{
+                  minWidth: 240,
+                  flex: { xs: '1 1 100%', sm: '1 1 240px', md: '0 0 260px' },
+                  '& .MuiInputBase-root': { height: 44, borderRadius: 2 },
+                  '& .MuiInputLabel-root': { fontSize: '0.95rem' }
+                }}
+              >
+                <MenuItem value="">All Anomaly Types</MenuItem>
+                <MenuItem value="UNUSUAL_TIP_PERCENTAGE">Unusual Percentage</MenuItem>
+                <MenuItem value="EXTREME_TIP_AMOUNT">Extreme Amount</MenuItem>
+                <MenuItem value="UNUSUAL_BILL_AMOUNT">Missing/Unusual Bill</MenuItem>
+                <MenuItem value="DUPLICATE_LIKE_RECORD">Duplicate-like Record</MenuItem>
+                <MenuItem value="MISSING_RESTAURANT">Missing Restaurant</MenuItem>
+                <MenuItem value="INVALID_CURRENCY">Invalid Currency</MenuItem>
+              </TextField>
+
+              <Button
+                startIcon={<ResetIcon />}
+                onClick={resetFilters}
+                variant="outlined"
+                sx={{
+                  height: 44,
+                  px: 3,
+                  borderRadius: 2,
+                  borderColor: 'rgba(255, 255, 255, 0.15)',
+                  color: '#94A3B8',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  fontSize: '0.92rem',
+                  '&:hover': { borderColor: '#fd5b38', color: '#fd5b38', backgroundColor: 'rgba(253, 91, 56, 0.08)' }
+                }}
+              >
+                Reset Filters
+              </Button>
+            </Box>
           </CardContent>
         </Card>
 

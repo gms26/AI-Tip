@@ -5,7 +5,7 @@ import com.aitip.entity.User;
 import com.aitip.repository.TipRepository;
 import com.aitip.repository.UserRepository;
 import com.aitip.security.JwtTokenProvider;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +37,9 @@ class PersonalizationControllerIntegrationTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    // Mock GeminiService so tests don't need a real API key
+    // Mock AiProvider so tests don't need a real API key
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private String tokenA;
     private String tokenB;

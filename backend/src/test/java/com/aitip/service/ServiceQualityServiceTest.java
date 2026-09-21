@@ -103,7 +103,7 @@ class ServiceQualityServiceTest {
     }
 
     // =============================================
-    // 3. Multiple ratings — correct counts
+    // 3. Multiple ratings Ã¢â‚¬â€ correct counts
     // =============================================
     @Test
     void testMultipleRatings_correctCounts() {
@@ -125,7 +125,7 @@ class ServiceQualityServiceTest {
     }
 
     // =============================================
-    // 4. Most common rating — clear winner
+    // 4. Most common rating Ã¢â‚¬â€ clear winner
     // =============================================
     @Test
     void testMostCommon_clearWinner() {
@@ -148,7 +148,7 @@ class ServiceQualityServiceTest {
     // =============================================
     @Test
     void testMostCommon_tieBreakingHigherQualityWins() {
-        // GOOD=2, EXCELLENT=2 — EXCELLENT should win (higher in enum order)
+        // GOOD=2, EXCELLENT=2 Ã¢â‚¬â€ EXCELLENT should win (higher in enum order)
         List<Tip> tips = List.of(
                 buildTip("15.00", ServiceQuality.GOOD),
                 buildTip("16.00", ServiceQuality.GOOD),
@@ -280,7 +280,7 @@ class ServiceQualityServiceTest {
 
         ServiceQualityStatsResponse response = serviceQualityService.getStats("alice@example.com");
 
-        // Only 1 rated tip counted — historical nulls are invisible
+        // Only 1 rated tip counted Ã¢â‚¬â€ historical nulls are invisible
         assertEquals(1, response.totalRatedTips());
         assertEquals(1, response.excellentCount());
         assertEquals(ServiceQuality.EXCELLENT, response.mostCommon());

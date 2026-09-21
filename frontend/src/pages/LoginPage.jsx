@@ -1,28 +1,8 @@
-/**
- * Login Page
- *
- * PURPOSE:
- * Authenticates existing users. Premium dark-mode design with
- * glassmorphism card, animated gradients, and smooth transitions.
- *
- * FEATURES:
- * - Email + password form with validation
- * - Loading state on submit button
- * - Snackbar notifications for success/error
- * - Link to registration page
- * - Redirects to dashboard on success
- *
- * WHY client-side validation too?
- * Provides instant feedback without a network round-trip.
- * Backend validation is the authoritative layer.
- */
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   Box,
-  Card,
-  CardContent,
   TextField,
   Button,
   Typography,
@@ -32,6 +12,7 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
+  Grid,
 } from '@mui/material';
 import {
   Email as EmailIcon,
@@ -39,13 +20,16 @@ import {
   Visibility,
   VisibilityOff,
   AutoAwesome as SparkleIcon,
+  ArrowBack as ArrowBackIcon,
+  Lightbulb as LightbulbIcon,
 } from '@mui/icons-material';
+import { motion } from 'framer-motion';
+import PtLogo from '../components/PtLogo';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // Form state
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -53,34 +37,22 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // Snackbar state
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
     severity: 'success',
   });
 
-  /**
-   * Client-side validation.
-   * WHY validate here AND on backend?
-   * - Instant UX feedback (no network wait)
-   * - Backend is the authoritative validation layer
-   * - Defense-in-depth
-   */
   const validate = () => {
     const newErrors = {};
-
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-
     if (!formData.password) {
       newErrors.password = 'Password is required';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -88,8 +60,6 @@ const LoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear field error on change
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -97,7 +67,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
     setLoading(true);
@@ -126,83 +95,87 @@ const LoginPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0A0E1A 0%, #1a1040 50%, #0A0E1A 100%)',
         position: 'relative',
-        overflow: 'hidden',
-        px: 2,
+        py: 8,
       }}
     >
-      {/* Animated background orbs */}
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 400,
-          height: 400,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%)',
-          top: -100,
-          right: -100,
-          animation: 'pulse 8s ease-in-out infinite',
-          '@keyframes pulse': {
-            '0%, 100%': { transform: 'scale(1)', opacity: 0.5 },
-            '50%': { transform: 'scale(1.2)', opacity: 0.8 },
-          },
+      {/* Animated Dark Gradient Background */}
+      <motion.div
+        animate={{
+          background: [
+            'linear-gradient(135deg, #0A0E1A 0%, #15161d 100%)',
+            'linear-gradient(135deg, #15161d 0%, #1a1c23 100%)',
+            'linear-gradient(135deg, #0A0E1A 0%, #11131a 100%)',
+            'linear-gradient(135deg, #0A0E1A 0%, #15161d 100%)',
+          ],
         }}
-      />
-      <Box
-        sx={{
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+        style={{
           position: 'absolute',
-          width: 300,
-          height: 300,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%)',
-          bottom: -80,
-          left: -80,
-          animation: 'pulse 10s ease-in-out infinite reverse',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 0,
         }}
       />
 
-      <Card
+      <Button
+        component={RouterLink}
+        to="/"
+        startIcon={<ArrowBackIcon />}
         sx={{
-          maxWidth: 440,
-          width: '100%',
-          background: 'rgba(18, 24, 41, 0.75)',
-          backdropFilter: 'blur(24px)',
-          border: '1px solid rgba(108, 99, 255, 0.15)',
-          borderRadius: 3,
-          boxShadow: '0 24px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(108, 99, 255, 0.08)',
-          position: 'relative',
-          zIndex: 1,
+          position: 'absolute',
+          top: 32,
+          left: 32,
+          color: '#9AA0A6',
+          zIndex: 10,
+          fontWeight: 600,
+          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)', color: '#fff' },
         }}
       >
-        <CardContent sx={{ p: { xs: 3, sm: 4.5 } }}>
-          {/* Header */}
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 56,
-                height: 56,
-                borderRadius: 2.5,
-                background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
-                mb: 2,
-                boxShadow: '0 8px 24px rgba(108, 99, 255, 0.3)',
-              }}
-            >
-              <SparkleIcon sx={{ fontSize: 28, color: '#fff' }} />
-            </Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#E8EAED', mb: 0.5 }}>
-              Welcome Back
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#9AA0A6' }}>
-              Sign in to your AI Tip Assistant account
-            </Typography>
-          </Box>
+        Back to Home
+      </Button>
 
-          {/* Form */}
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+      {/* Glassmorphic Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, type: 'spring' }}
+        style={{ zIndex: 1, width: '100%', maxWidth: '450px', margin: '0 24px' }}
+      >
+        <Box
+          sx={{
+            background: 'rgba(10, 14, 26, 0.4)',
+            backdropFilter: 'blur(20px)',
+            borderRadius: '32px',
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            p: { xs: 4, sm: 6 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <PtLogo size={64} showText={false} sx={{ mb: 2 }} />
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 900,
+              mb: 1,
+              fontFamily: "'Outfit', 'Inter', sans-serif",
+              color: '#fff',
+            }}
+          >
+            Welcome Back
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#9AA0A6', mb: 4, fontWeight: 400, textAlign: 'center' }}>
+            Sign in to Possible Tip
+          </Typography>
+
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }} noValidate>
             <TextField
               fullWidth
               id="login-email"
@@ -215,13 +188,26 @@ const LoginPage = () => {
               helperText={errors.email}
               autoComplete="email"
               autoFocus
-              sx={{ mb: 2.5 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmailIcon sx={{ color: '#6C63FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 3,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
 
@@ -236,25 +222,38 @@ const LoginPage = () => {
               error={!!errors.password}
               helperText={errors.password}
               autoComplete="current-password"
-              sx={{ mb: 3.5 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockIcon sx={{ color: '#6C63FF', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      size="small"
-                      sx={{ color: '#9AA0A6' }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              sx={{
+                mb: 4,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#fd5b38' },
+                },
+                '& .MuiInputLabel-root': { color: '#9AA0A6' },
+                '& .MuiInputBase-input': { color: '#E8EAED', fontWeight: 500 },
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon sx={{ color: '#9AA0A6', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                        size="small"
+                        sx={{ color: '#666' }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
 
@@ -266,46 +265,43 @@ const LoginPage = () => {
               size="large"
               disabled={loading}
               sx={{
-                py: 1.5,
-                fontSize: '1rem',
-                fontWeight: 600,
+                py: 1.8,
+                borderRadius: 3,
+                textTransform: 'none',
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                fontFamily: "'Outfit', 'Inter', sans-serif",
+                background: 'linear-gradient(135deg, #fd5b38 0%, #ff8a65 100%)',
+                boxShadow: '0 8px 20px rgba(253, 91, 56, 0.3)',
                 mb: 3,
-                position: 'relative',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #e04826 0%, #fd5b38 100%)',
+                  boxShadow: '0 12px 24px rgba(253, 91, 56, 0.4)',
+                },
               }}
             >
-              {loading ? (
-                <CircularProgress size={24} sx={{ color: '#fff' }} />
-              ) : (
-                'Sign In'
-              )}
+              {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Sign In'}
             </Button>
 
-            <Typography
-              variant="body2"
-              sx={{ textAlign: 'center', color: '#9AA0A6' }}
-            >
+            <Typography variant="body2" sx={{ textAlign: 'center', color: '#9AA0A6', fontWeight: 500 }}>
               Don&apos;t have an account?{' '}
               <Link
                 component={RouterLink}
                 to="/register"
                 sx={{
-                  color: '#6C63FF',
-                  fontWeight: 600,
+                  color: '#fd5b38',
+                  fontWeight: 700,
                   textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                    color: '#8B83FF',
-                  },
+                  '&:hover': { textDecoration: 'underline' },
                 }}
               >
                 Create one
               </Link>
             </Typography>
           </Box>
-        </CardContent>
-      </Card>
+        </Box>
+      </motion.div>
 
-      {/* Snackbar */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={5000}

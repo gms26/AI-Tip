@@ -1,23 +1,19 @@
-import axios from 'axios';
+import axios from './axios';
 
 const API_URL = '/api/achievements';
 
-const getHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`,
-});
-
 export const getAchievements = async () => {
-  const response = await axios.get(API_URL, { headers: getHeaders() });
+  const response = await axios.get(API_URL);
   return response.data;
 };
 
 export const getAchievementSummary = async () => {
-  const response = await axios.get(`${API_URL}/summary`, { headers: getHeaders() });
+  const response = await axios.get(`${API_URL}/summary`);
   return response.data;
 };
 
 export const evaluateAchievements = async () => {
-  const response = await axios.post(`${API_URL}/evaluate`, {}, { headers: getHeaders() });
+  const response = await axios.post(`${API_URL}/evaluate`);
   return response.data; // Returns list of newly unlocked achievements
 };
 

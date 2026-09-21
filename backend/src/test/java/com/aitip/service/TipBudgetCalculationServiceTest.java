@@ -200,7 +200,7 @@ class TipBudgetCalculationServiceTest {
 
     @Test
     void currencyIsolation_usdTipsDoNotAffectInrBudget() {
-        // INR budget, but only USD tips exist — DB query returns empty
+        // INR budget, but only USD tips exist Ã¢â‚¬â€ DB query returns empty
         TipBudget inrBudget = createBudget("INR", new BigDecimal("5000.00"), new BigDecimal("80"));
         when(tipRepository.findByUserIdAndCurrencyAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(
                 eq(userId), eq("INR"), any(), any()))

@@ -19,16 +19,16 @@ public class SmartTipSimulationService {
     private final SmartTipService smartTipService;
     private final TipBudgetService tipBudgetService;
     private final TipGoalService tipGoalService;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
 
     public SmartTipSimulationService(SmartTipService smartTipService,
                                      TipBudgetService tipBudgetService,
                                      TipGoalService tipGoalService,
-                                     GeminiService geminiService) {
+                                     AiProvider AiProvider) {
         this.smartTipService = smartTipService;
         this.tipBudgetService = tipBudgetService;
         this.tipGoalService = tipGoalService;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
     }
 
     public SmartTipSimulationResponse simulate(String email, SmartTipSimulationRequest request) {
@@ -94,11 +94,11 @@ public class SmartTipSimulationService {
         // 7. Deterministic explanation
         String explanation = buildExplanation(currentTipPct, request.tipPercentage(), tipAmountDiff, request.currency());
 
-        // 8. Optional Gemini explanation
+        // 8. Optional Groq explanation
         String aiExplanation = null;
         try {
             java.util.concurrent.CompletableFuture<String> future = java.util.concurrent.CompletableFuture.supplyAsync(
-                    () -> geminiService.generateSimulationExplanation(
+                    () -> AiProvider.generateSimulationExplanation(
                             currentTipPct,
                             request.tipPercentage(),
                             tipAmountDiff,

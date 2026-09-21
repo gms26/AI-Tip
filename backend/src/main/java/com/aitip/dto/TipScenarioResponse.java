@@ -8,7 +8,7 @@ import java.util.List;
  *
  * <p><b>Core principle:</b> All values are deterministically calculated by
  * {@code TipScenarioCalculationService}. The optional {@code aiExplanation}
- * is produced by Gemini explaining these facts; it may never override them.</p>
+ * is produced by Groq explaining these facts; it may never override them.</p>
  *
  * <p><b>Important distinction:</b></p>
  * <ul>
@@ -29,7 +29,7 @@ import java.util.List;
  * @param monthlyBudget                  user-supplied budget (nullable)
  * @param historicalMonthlyTipAmount     estimated monthly spending from history (nullable)
  * @param message                        human-readable summary
- * @param aiExplanation                  optional Gemini-generated explanation (nullable)
+ * @param aiExplanation                  optional Groq-generated explanation (nullable)
  */
 public record TipScenarioResponse(
         String currency,

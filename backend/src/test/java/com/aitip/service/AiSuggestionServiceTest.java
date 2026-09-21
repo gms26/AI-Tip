@@ -18,22 +18,22 @@ import static org.mockito.Mockito.when;
 class AiSuggestionServiceTest {
 
     private AiSuggestionService aiSuggestionService;
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
     
     @BeforeEach
     void setUp() {
-        geminiService = Mockito.mock(GeminiService.class);
+        AiProvider = Mockito.mock(AiProvider.class);
         PromptBuilder promptBuilder = new PromptBuilder();
         TipCalculationService tipCalculationService = new TipCalculationService();
         ObjectMapper objectMapper = new ObjectMapper();
         
         aiSuggestionService = new AiSuggestionService(
-                promptBuilder, geminiService, tipCalculationService, objectMapper);
+                promptBuilder, AiProvider, tipCalculationService, objectMapper);
     }
 
     @Test
     void testSuccessfulRecommendation() {
-        // Mock a valid Gemini JSON response (Day 7: confidence removed from AI)
+        // Mock a valid Groq JSON response (Day 7: confidence removed from AI)
         String validJson = """
                 {
                   "recommendedPercentage": 20,
@@ -42,7 +42,7 @@ class AiSuggestionServiceTest {
                   "reason": "Great service justifies a higher tip."
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(validJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(validJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "FINE_DINING", ServiceQuality.EXCELLENT, "USA", "USD", null, null);
@@ -72,7 +72,7 @@ class AiSuggestionServiceTest {
                   "reason": "Based on your history."
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(validJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(validJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "FINE_DINING", ServiceQuality.EXCELLENT, "USA", "USD", null, null);
@@ -97,7 +97,7 @@ class AiSuggestionServiceTest {
                   "reason": "Missing comma before this"
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(invalidJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(invalidJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "CAFE", ServiceQuality.GOOD, "USA", "USD", null, null);
@@ -113,7 +113,7 @@ class AiSuggestionServiceTest {
                   "recommendedPercentage": 20
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(incompleteJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(incompleteJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "CAFE", ServiceQuality.GOOD, "USA", "USD", null, null);
@@ -132,7 +132,7 @@ class AiSuggestionServiceTest {
                   "reason": "You should tip a lot."
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(hallucinatedJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(hallucinatedJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "CAFE", ServiceQuality.GOOD, "USA", "USD", null, null);
@@ -152,7 +152,7 @@ class AiSuggestionServiceTest {
                   "reason": "Math is hard."
                 }
                 """;
-        when(geminiService.getRecommendation(anyString())).thenReturn(illogicalJson);
+        when(AiProvider.getRecommendation(anyString())).thenReturn(illogicalJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("100.00"), "CAFE", ServiceQuality.GOOD, "USA", "USD", null, null);

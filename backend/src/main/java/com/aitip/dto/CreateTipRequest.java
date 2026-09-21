@@ -16,7 +16,7 @@ import java.math.BigDecimal;
  * Fail fast at the controller boundary. A bill cannot be negative or zero.
  * Tip percentage must be between 0 and 100.</p>
  *
- * <p><b>Day 6 — serviceQuality:</b>
+ * <p><b>Day 6 â€” serviceQuality:</b>
  * Required for all new tips. Historical tips stored in the DB before Day 6
  * have a nullable column; new tips must always record what service was like.
  * The value must be one of the {@link ServiceQuality} enum values.</p>

@@ -6,7 +6,7 @@ import com.aitip.entity.Tip;
 import com.aitip.entity.User;
 import com.aitip.repository.TipRepository;
 import com.aitip.repository.UserRepository;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +53,7 @@ public class SmartTipControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private User testUser;
     private User otherUser;
@@ -260,15 +260,15 @@ public class SmartTipControllerIntegrationTest {
     }
 
     // =========================================================================
-    // 6. GEMINI INTEGRATION & FALLBACK
+    // 6. GROQ INTEGRATION & FALLBACK
     // =========================================================================
 
     @Test
     @WithMockUser(username = "smartuser@example.com")
-    @DisplayName("Gemini Success: Populates aiExplanation when Gemini succeeds")
-    void testGeminiExplanationPopulated() throws Exception {
+    @DisplayName("Groq Success: Populates aiExplanation when Groq succeeds")
+    void testGroqExplanationPopulated() throws Exception {
         saveTip(testUser, "USD", 18.00, 18.00, "Cafe Uno", ServiceQuality.GOOD);
-        when(geminiService.getRecommendation(anyString())).thenReturn("This recommendation fits your typical dining habits.");
+        when(AiProvider.getRecommendation(anyString())).thenReturn("This recommendation fits your typical dining habits.");
 
         SmartTipRequest request = new SmartTipRequest("USD", new BigDecimal("50.00"), null, null, null);
 
@@ -281,10 +281,10 @@ public class SmartTipControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "smartuser@example.com")
-    @DisplayName("Gemini Failure: Endpoint still succeeds 200 OK when Gemini times out or fails")
-    void testGeminiFailureFallback() throws Exception {
+    @DisplayName("Groq Failure: Endpoint still succeeds 200 OK when Groq times out or fails")
+    void testGroqFailureFallback() throws Exception {
         saveTip(testUser, "USD", 18.00, 18.00, "Cafe Uno", ServiceQuality.GOOD);
-        when(geminiService.getRecommendation(anyString())).thenThrow(new RuntimeException("Gemini quota exceeded"));
+        when(AiProvider.getRecommendation(anyString())).thenThrow(new RuntimeException("Groq quota exceeded"));
 
         SmartTipRequest request = new SmartTipRequest("USD", new BigDecimal("50.00"), null, null, null);
 

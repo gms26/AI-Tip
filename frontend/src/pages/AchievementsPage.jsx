@@ -139,7 +139,7 @@ const AchievementsPage = () => {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      sx={{ maxWidth: 1240, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 3, md: 5 }, width: '100%' }}
+      sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}
     >
       {/* Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>

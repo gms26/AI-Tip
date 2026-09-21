@@ -225,7 +225,7 @@ class TipScenarioControllerIntegrationTest {
     }
 
     // =============================================
-    // Happy path — response structure
+    // Happy path â€” response structure
     // =============================================
 
     @Test
@@ -263,7 +263,7 @@ class TipScenarioControllerIntegrationTest {
     }
 
     // =============================================
-    // No history — scenarios still work
+    // No history â€” scenarios still work
     // =============================================
 
     @Test

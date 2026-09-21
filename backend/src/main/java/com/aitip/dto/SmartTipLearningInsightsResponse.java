@@ -7,7 +7,7 @@ import java.util.List;
  * Response DTO for the Smart Tip Learning Insights endpoint (Day 35).
  *
  * <p>Aggregates deterministic insight data from the user's feedback history for a given currency.
- * All numerical values are backend-calculated; Gemini only provides optional natural-language wording.</p>
+ * All numerical values are backend-calculated; Groq only provides optional natural-language wording.</p>
  */
 public record SmartTipLearningInsightsResponse(
         // --- Feedback Summary ---

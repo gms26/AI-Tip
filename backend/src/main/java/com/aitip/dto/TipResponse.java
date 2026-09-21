@@ -11,7 +11,7 @@ import java.util.UUID;
  * Excludes the user object (caller already knows who they are) to
  * avoid circular references and unnecessary payload size.</p>
  *
- * <p><b>Day 6 — serviceQuality:</b>
+ * <p><b>Day 6 â€” serviceQuality:</b>
  * May be {@code null} for tips created before Day 6. Clients should
  * treat a null value as "not rated" and display nothing or a placeholder.</p>
  */

@@ -104,7 +104,7 @@ const TipProfilePage = () => {
     const hasData = profile && profile.totalTipCount > 0;
 
     return (
-        <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
+        <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
                 <PersonIcon sx={{ fontSize: 32, color: '#fd5b38' }} />
                 <Box>

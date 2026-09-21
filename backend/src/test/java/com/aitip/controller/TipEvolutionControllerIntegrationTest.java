@@ -6,7 +6,7 @@ import com.aitip.entity.Tip;
 import com.aitip.entity.User;
 import com.aitip.repository.TipRepository;
 import com.aitip.repository.UserRepository;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +48,7 @@ public class TipEvolutionControllerIntegrationTest {
     private PasswordEncoder passwordEncoder;
 
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private User testUser;
     private User otherUser;
@@ -209,10 +209,10 @@ public class TipEvolutionControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "evolution@example.com")
-    @DisplayName("Gemini failure leaves deterministic response intact with null aiExplanation")
-    void testGeminiFailureHandledGracefully() throws Exception {
+    @DisplayName("Groq failure leaves deterministic response intact with null aiExplanation")
+    void testGroqFailureHandledGracefully() throws Exception {
         createTip(testUser, "USD", "Cafe", 10.0, 15.0, LocalDateTime.now());
-        when(geminiService.getRecommendation(anyString())).thenThrow(new RuntimeException("Gemini timeout"));
+        when(AiProvider.getRecommendation(anyString())).thenThrow(new RuntimeException("Groq timeout"));
 
         mockMvc.perform(get("/api/tip-evolution")
                 .contentType(MediaType.APPLICATION_JSON))

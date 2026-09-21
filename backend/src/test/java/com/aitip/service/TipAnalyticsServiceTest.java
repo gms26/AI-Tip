@@ -412,7 +412,7 @@ class TipAnalyticsServiceTest {
         when(tipRepository.findByUserIdAndCreatedAtGreaterThanEqualAndCreatedAtLessThan(eq(testUser.getId()), any(), any()))
                 .thenReturn(List.of(tip1, tip2));
 
-        // Filter by Italian Place — monthly trend should only include tip1
+        // Filter by Italian Place Ã¢â‚¬â€ monthly trend should only include tip1
         AnalyticsRequest request = new AnalyticsRequest(AnalyticsPeriod.CURRENT_YEAR, null, null, "Italian Place", null);
         TipAnalyticsResponse response = tipAnalyticsService.getAnalytics(EMAIL, request);
 

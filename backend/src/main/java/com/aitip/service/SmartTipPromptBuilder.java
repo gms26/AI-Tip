@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 /**
- * Builds prompts for the optional Gemini explanation in the Smart Tip Assistant.
+ * Builds prompts for the optional Groq explanation in the Smart Tip Assistant.
  *
- * <p>Strict rule: Gemini must only explain the backend-provided factual suggestions.
- * Gemini must never calculate tip percentages or amounts, alter suggestions, or give financial advice.</p>
+ * <p>Strict rule: Groq must only explain the backend-provided factual suggestions.
+ * Groq must never calculate tip percentages or amounts, alter suggestions, or give financial advice.</p>
  */
 @Component
 public class SmartTipPromptBuilder {

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from './axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tips/data-quality' : 'http://localhost:8080/api/tips/data-quality',
+  baseURL: import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tips/data-quality' : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/tips/data-quality',
 });
 
 // Request interceptor to attach JWT token

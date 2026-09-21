@@ -31,7 +31,7 @@ class TipInsightServiceTest {
     @Mock
     private TipInsightPromptBuilder promptBuilder;
     @Mock
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
     @Mock
     private UserRepository userRepository;
 
@@ -41,7 +41,7 @@ class TipInsightServiceTest {
 
     @BeforeEach
     void setUp() {
-        tipInsightService = new TipInsightService(tipRepository, promptBuilder, geminiService, new ObjectMapper(), userRepository);
+        tipInsightService = new TipInsightService(tipRepository, promptBuilder, AiProvider, new ObjectMapper(), userRepository);
         testUser = new User();
         testUser.setId(UUID.randomUUID());
         testUser.setEmail(email);

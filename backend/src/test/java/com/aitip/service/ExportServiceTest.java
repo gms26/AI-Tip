@@ -30,7 +30,7 @@ class ExportServiceTest {
         Tip tip = Tip.builder()
                 .id(id)
                 .createdAt(now)
-                .restaurantName("Café 123")
+                .restaurantName("CafÃ© 123")
                 .billAmount(new BigDecimal("100.00"))
                 .tipPercentage(new BigDecimal("20.00"))
                 .tipAmount(new BigDecimal("20.00"))
@@ -45,7 +45,7 @@ class ExportServiceTest {
         TipExportRecord record = records.get(0);
         assertThat(record.id()).isEqualTo(id);
         assertThat(record.createdAt()).isEqualTo(now);
-        assertThat(record.restaurantName()).isEqualTo("Café 123");
+        assertThat(record.restaurantName()).isEqualTo("CafÃ© 123");
         assertThat(record.billAmount()).isEqualTo(new BigDecimal("100.00"));
         assertThat(record.tipPercentage()).isEqualTo(new BigDecimal("20.00"));
         assertThat(record.tipAmount()).isEqualTo(new BigDecimal("20.00"));

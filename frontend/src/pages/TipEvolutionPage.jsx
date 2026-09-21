@@ -126,11 +126,11 @@ const TipEvolutionPage = () => {
             case 'STABLE':
                 return {
                     label: 'Stable Tipping Pattern',
-                    color: '#3b82f6',
+                    color: '#fd5b38',
                     bgColor: 'rgba(59, 130, 246, 0.15)',
                     borderColor: 'rgba(59, 130, 246, 0.3)',
-                    icon: <TrendingFlatIcon sx={{ color: '#3b82f6', fontSize: 24 }} />,
-                    desc: 'Your median tip percentage has remained steady within ±3.0% across time.'
+                    icon: <TrendingFlatIcon sx={{ color: '#fd5b38', fontSize: 24 }} />,
+                    desc: 'Your median tip percentage has remained steady within Â±3.0% across time.'
                 };
             case 'INSUFFICIENT_DATA':
             default:
@@ -149,8 +149,8 @@ const TipEvolutionPage = () => {
         switch (style) {
             case 'VERY_GENEROUS': return { label: 'Very Generous', color: '#10b981' };
             case 'GENEROUS': return { label: 'Generous', color: '#06b6d4' };
-            case 'MODERATE': return { label: 'Moderate', color: '#3b82f6' };
-            case 'CONSERVATIVE': return { label: 'Conservative', color: '#8b5cf6' };
+            case 'MODERATE': return { label: 'Moderate', color: '#fd5b38' };
+            case 'CONSERVATIVE': return { label: 'Conservative', color: '#ff8a65' };
             default: return { label: style || 'N/A', color: '#94a3b8' };
         }
     };
@@ -201,7 +201,7 @@ const TipEvolutionPage = () => {
     const dirInfo = getDirectionDetails(activeCurrencyTimeline?.overallDirection || evolution?.overallDirection);
 
     return (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Container maxWidth={false} sx={{ py: 4, px: { xs: 2, sm: 4, md: 6, lg: 8 } }}>
             {/* Header */}
             <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', md: 'center' }, gap: 2 }}>
                 <Box>
@@ -210,11 +210,11 @@ const TipEvolutionPage = () => {
                             width: 42,
                             height: 42,
                             borderRadius: '12px',
-                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                            background: 'linear-gradient(135deg, #fd5b38 0%, #ff8a65 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)'
+                            boxShadow: '0 4px 14px rgba(253, 91, 56, 0.35)'
                         }}>
                             <TimelineIcon sx={{ color: '#ffffff', fontSize: 24 }} />
                         </Box>
@@ -249,10 +249,10 @@ const TipEvolutionPage = () => {
                                 fontWeight: 500,
                                 fontSize: '0.825rem',
                                 '&.Mui-selected': {
-                                    backgroundColor: '#3b82f6',
+                                    backgroundColor: '#fd5b38',
                                     color: '#ffffff',
                                     '&:hover': {
-                                        backgroundColor: '#2563eb'
+                                        backgroundColor: '#e04826'
                                     }
                                 }
                             }
@@ -280,9 +280,9 @@ const TipEvolutionPage = () => {
                         >
                             <MenuItem value="">All Currencies</MenuItem>
                             <MenuItem value="USD">USD ($)</MenuItem>
-                            <MenuItem value="INR">INR (₹)</MenuItem>
-                            <MenuItem value="EUR">EUR (€)</MenuItem>
-                            <MenuItem value="GBP">GBP (£)</MenuItem>
+                            <MenuItem value="INR">INR (â‚¹)</MenuItem>
+                            <MenuItem value="EUR">EUR (â‚¬)</MenuItem>
+                            <MenuItem value="GBP">GBP (Â£)</MenuItem>
                             <MenuItem value="CAD">CAD ($)</MenuItem>
                         </Select>
                     </FormControl>
@@ -313,7 +313,7 @@ const TipEvolutionPage = () => {
 
             {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
-                    <CircularProgress size={48} sx={{ color: '#3b82f6' }} />
+                    <CircularProgress size={48} sx={{ color: '#fd5b38' }} />
                 </Box>
             ) : error ? (
                 <Alert severity="error" sx={{ mb: 4, borderRadius: 2 }}>{error}</Alert>
@@ -338,7 +338,7 @@ const TipEvolutionPage = () => {
                         mx: 'auto',
                         mb: 2
                     }}>
-                        <CalendarIcon sx={{ fontSize: 32, color: '#3b82f6' }} />
+                        <CalendarIcon sx={{ fontSize: 32, color: '#fd5b38' }} />
                     </Box>
                     <Typography variant="h5" sx={{ fontWeight: 600, color: '#f8fafc', mb: 1 }}>
                         No Tip Evolution Data Yet
@@ -353,17 +353,22 @@ const TipEvolutionPage = () => {
                             borderRadius: 2,
                             px: 3,
                             py: 1,
-                            backgroundColor: '#3b82f6',
+                            backgroundColor: '#fd5b38',
                             textTransform: 'none',
                             fontWeight: 600,
-                            '&:hover': { backgroundColor: '#2563eb' }
+                            '&:hover': { backgroundColor: '#e04826' }
                         }}
                     >
                         Log Your First Tip
                     </Button>
                 </Card>
             ) : (
-                <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+            <Box 
+      component={motion.div}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}
+    >
                     {/* Multi-Currency Tabs if > 1 currency */}
                     {evolution.currencyTimelines && evolution.currencyTimelines.length > 1 && (
                         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -379,12 +384,12 @@ const TipEvolutionPage = () => {
                                     sx={{
                                         fontWeight: 600,
                                         borderRadius: '8px',
-                                        backgroundColor: activeCurrencyTab === ct.currency ? '#3b82f6' : 'rgba(255, 255, 255, 0.05)',
+                                        backgroundColor: activeCurrencyTab === ct.currency ? '#fd5b38' : 'rgba(255, 255, 255, 0.05)',
                                         color: activeCurrencyTab === ct.currency ? '#ffffff' : '#94a3b8',
                                         border: '1px solid',
-                                        borderColor: activeCurrencyTab === ct.currency ? '#3b82f6' : 'rgba(255, 255, 255, 0.1)',
+                                        borderColor: activeCurrencyTab === ct.currency ? '#fd5b38' : 'rgba(255, 255, 255, 0.1)',
                                         '&:hover': {
-                                            backgroundColor: activeCurrencyTab === ct.currency ? '#2563eb' : 'rgba(255, 255, 255, 0.1)'
+                                            backgroundColor: activeCurrencyTab === ct.currency ? '#e04826' : 'rgba(255, 255, 255, 0.1)'
                                         }
                                     }}
                                 />
@@ -446,7 +451,7 @@ const TipEvolutionPage = () => {
                                                 ? `${activeCurrencyTimeline.currentMedianTipPercentage}%`
                                                 : evolution.currentMedianTipPercentage != null
                                                     ? `${evolution.currentMedianTipPercentage}%`
-                                                    : '—'}
+                                                    : 'â€”'}
                                         </Typography>
                                         {activeCurrencyTimeline?.historicalMedianTipPercentage != null && (
                                             <Typography variant="body2" sx={{ color: '#64748b' }}>
@@ -455,7 +460,7 @@ const TipEvolutionPage = () => {
                                         )}
                                     </Box>
                                     <Typography variant="body2" sx={{ color: '#94a3b8' }}>
-                                        Average Tip %: {activeCurrencyTimeline?.currentAverageTipPercentage != null ? `${activeCurrencyTimeline.currentAverageTipPercentage}%` : '—'}
+                                        Average Tip %: {activeCurrencyTimeline?.currentAverageTipPercentage != null ? `${activeCurrencyTimeline.currentAverageTipPercentage}%` : 'â€”'}
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -476,7 +481,7 @@ const TipEvolutionPage = () => {
                                         <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                             Active Timeline
                                         </Typography>
-                                        <CalendarIcon sx={{ color: '#a855f7', fontSize: 24 }} />
+                                        <CalendarIcon sx={{ color: '#ff8a65', fontSize: 24 }} />
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 1 }}>
                                         <Typography variant="h4" sx={{ fontWeight: 700, color: '#f8fafc' }}>
@@ -494,13 +499,13 @@ const TipEvolutionPage = () => {
                         </Grid>
                     </Grid>
 
-                    {/* AI Behavioral Explanation Card (Gemini) */}
+                    {/* AI Behavioral Explanation Card (Groq) */}
                     {evolution.aiExplanation && (
                         <Card sx={{
                             mb: 4,
                             borderRadius: 3,
-                            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%)',
-                            border: '1px solid rgba(139, 92, 246, 0.25)',
+                            background: 'linear-gradient(135deg, rgba(253, 91, 56, 0.1) 0%, rgba(20, 24, 41, 0.9) 100%)',
+                            border: '1px solid rgba(253, 91, 56, 0.3)',
                             backdropFilter: 'blur(12px)',
                             overflow: 'hidden'
                         }}>
@@ -510,7 +515,7 @@ const TipEvolutionPage = () => {
                                         width: 32,
                                         height: 32,
                                         borderRadius: '8px',
-                                        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                        background: 'linear-gradient(135deg, #fd5b38 0%, #ff8a65 100%)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center'
@@ -555,8 +560,8 @@ const TipEvolutionPage = () => {
                                         <AreaChart data={chartData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                                             <defs>
                                                 <linearGradient id="medianGradient" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.0}/>
+                                                    <stop offset="5%" stopColor="#fd5b38" stopOpacity={0.4}/>
+                                                    <stop offset="95%" stopColor="#fd5b38" stopOpacity={0.0}/>
                                                 </linearGradient>
                                                 <linearGradient id="avgGradient" x1="0" y1="0" x2="0" y2="1">
                                                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
@@ -571,7 +576,7 @@ const TipEvolutionPage = () => {
                                                 formatter={(value, name) => [`${value}%`, name === 'medianPct' ? 'Median Tip %' : 'Average Tip %']}
                                             />
                                             <Legend wrapperStyle={{ color: '#94a3b8', fontSize: '0.85rem' }} />
-                                            <Area type="monotone" dataKey="medianPct" name="Median Tip %" stroke="#3b82f6" strokeWidth={2.5} fillOpacity={1} fill="url(#medianGradient)" />
+                                            <Area type="monotone" dataKey="medianPct" name="Median Tip %" stroke="#fd5b38" strokeWidth={2.5} fillOpacity={1} fill="url(#medianGradient)" />
                                             <Area type="monotone" dataKey="averagePct" name="Average Tip %" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#avgGradient)" />
                                         </AreaChart>
                                     </ResponsiveContainer>
@@ -607,7 +612,7 @@ const TipEvolutionPage = () => {
                                                 contentStyle={{ backgroundColor: '#1e293b', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', color: '#f8fafc' }}
                                             />
                                             <Legend wrapperStyle={{ color: '#94a3b8', fontSize: '0.85rem' }} />
-                                            <Bar dataKey="tipCount" name="Tips Logged" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                                            <Bar dataKey="tipCount" name="Tips Logged" fill="#ff8a65" radius={[4, 4, 0, 0]} />
                                             <Bar dataKey="uniqueRestaurants" name="Unique Restaurants" fill="#38bdf8" radius={[4, 4, 0, 0]} />
                                         </BarChart>
                                     </ResponsiveContainer>
@@ -646,7 +651,7 @@ const TipEvolutionPage = () => {
                                         />
                                         <Legend wrapperStyle={{ color: '#94a3b8', fontSize: '0.85rem' }} />
                                         <Line type="monotone" dataKey="EXCELLENT" name="Excellent" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
-                                        <Line type="monotone" dataKey="GOOD" name="Good" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} />
+                                        <Line type="monotone" dataKey="GOOD" name="Good" stroke="#fd5b38" strokeWidth={2} dot={{ r: 3 }} />
                                         <Line type="monotone" dataKey="AVERAGE" name="Average" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
                                         <Line type="monotone" dataKey="POOR" name="Poor" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
                                     </LineChart>
@@ -694,10 +699,10 @@ const TipEvolutionPage = () => {
                                                 <TableCell sx={{ color: '#f8fafc', fontWeight: 600 }}>{row.month}</TableCell>
                                                 <TableCell sx={{ color: '#cbd5e1' }}>{row.tipCount}</TableCell>
                                                 <TableCell sx={{ color: '#38bdf8', fontWeight: 600 }}>
-                                                    {row.medianTipPercentage != null ? `${row.medianTipPercentage}%` : '—'}
+                                                    {row.medianTipPercentage != null ? `${row.medianTipPercentage}%` : 'â€”'}
                                                 </TableCell>
                                                 <TableCell sx={{ color: '#cbd5e1' }}>
-                                                    {row.averageTipPercentage != null ? `${row.averageTipPercentage}%` : '—'}
+                                                    {row.averageTipPercentage != null ? `${row.averageTipPercentage}%` : 'â€”'}
                                                 </TableCell>
                                                 <TableCell>
                                                     <Chip
@@ -736,7 +741,7 @@ const TipEvolutionPage = () => {
                                                     )}
                                                 </TableCell>
                                                 <TableCell sx={{ color: '#cbd5e1' }}>
-                                                    {row.medianTipAmount != null ? `${activeCurrencyTimeline?.currency || ''} ${row.medianTipAmount}` : '—'}
+                                                    {row.medianTipAmount != null ? `${activeCurrencyTimeline?.currency || ''} ${row.medianTipAmount}` : 'â€”'}
                                                 </TableCell>
                                                 <TableCell sx={{ color: '#cbd5e1' }}>{row.uniqueRestaurantCount}</TableCell>
                                             </TableRow>
@@ -746,7 +751,7 @@ const TipEvolutionPage = () => {
                             </Table>
                         </TableContainer>
                     </Card>
-                </motion.div>
+                </Box>
             )}
         </Container>
     );

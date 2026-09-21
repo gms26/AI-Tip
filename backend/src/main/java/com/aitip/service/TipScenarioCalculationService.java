@@ -20,13 +20,13 @@ import java.util.List;
  * Stateless, deterministic what-if tip scenario engine.
  *
  * <p><b>Core principle:</b> This service is the sole mathematical authority
- * for all scenario values. Gemini must never calculate, override, or invent
+ * for all scenario values. Groq must never calculate, override, or invent
  * any of these values.</p>
  *
  * <p><b>This is a hypothetical scaling model, not a direct forecast.</b>
  * Monthly projections answer: "If I had historically tipped at this scenario
  * percentage instead of my actual median, what would my monthly spending
- * look like?" — clearly hypothetical, not predictive.</p>
+ * look like?" â€” clearly hypothetical, not predictive.</p>
  *
  * <p><b>Currency isolation:</b> Only tips matching the requested currency
  * contribute to that currency's historical baseline. Currencies are never mixed.</p>
@@ -105,11 +105,11 @@ public class TipScenarioCalculationService {
             historicalMean = calculateMean(sortedPercentages);
             historicalAvgTipAmount = calculateMean(tipAmounts);
 
-            // Daily rate at high precision (scale 6) — rounding applied only at final output
+            // Daily rate at high precision (scale 6) â€” rounding applied only at final output
             dailyRate = new BigDecimal(historicalTipCount)
                     .divide(new BigDecimal(DEFAULT_LOOKBACK_DAYS), 6, RoundingMode.HALF_UP);
 
-            // Historical monthly spending estimate (daily rate × 30 × avg tip amount)
+            // Historical monthly spending estimate (daily rate Ã— 30 Ã— avg tip amount)
             // Only round at the final monetary output
             if (historicalAvgTipAmount.compareTo(BigDecimal.ZERO) > 0) {
                 historicalMonthlyTipAmount = dailyRate
@@ -135,12 +135,12 @@ public class TipScenarioCalculationService {
         List<TipScenarioResult> scenarioResults = new ArrayList<>();
 
         for (BigDecimal scenarioPercentage : request.scenarioPercentages()) {
-            // Direct arithmetic — always available
+            // Direct arithmetic â€” always available
             BigDecimal tipAmount = billAmount.multiply(scenarioPercentage)
                     .divide(HUNDRED, 2, RoundingMode.HALF_UP);
             BigDecimal totalAmount = billAmount.add(tipAmount);
 
-            // Historical comparison — null when no history
+            // Historical comparison â€” null when no history
             BigDecimal differenceFromHistorical = null;
             BigDecimal monetaryDifference = null;
 
@@ -151,7 +151,7 @@ public class TipScenarioCalculationService {
                         historicalTipForBill.setScale(2, RoundingMode.HALF_UP));
             }
 
-            // Monthly what-if projection — requires history + budget + non-zero avg tip
+            // Monthly what-if projection â€” requires history + budget + non-zero avg tip
             BigDecimal monthlyProjectedTipAmount = null;
             BigDecimal monthlyBudgetUsage = null;
             TipBudgetStatus budgetStatus = null;
@@ -161,7 +161,7 @@ public class TipScenarioCalculationService {
                     && historicalAvgTipAmount.compareTo(BigDecimal.ZERO) > 0) {
 
                 // Hypothetical scaling model:
-                // monthlyProjectedTipAmount = dailyRate × 30 × (scenarioTipAmount / historicalAvgTipAmount)
+                // monthlyProjectedTipAmount = dailyRate Ã— 30 Ã— (scenarioTipAmount / historicalAvgTipAmount)
                 //
                 // This answers: "If I maintained my historical tipping frequency but
                 // tipped at this scenario percentage, what would my monthly spending be?"
@@ -174,7 +174,7 @@ public class TipScenarioCalculationService {
                 monthlyProjectedTipAmount = dailyRate
                         .multiply(THIRTY)
                         .multiply(scalingRatio)
-                        // At this point we have: dailyRate(6dp) × 30 × ratio(6dp) = tip count
+                        // At this point we have: dailyRate(6dp) Ã— 30 Ã— ratio(6dp) = tip count
                         // Multiply by avg tip to get monetary: but we already have the ratio
                         // applied to tip amounts, so multiply back by historicalAvgTipAmount
                         .multiply(historicalAvgTipAmount)
@@ -221,7 +221,7 @@ public class TipScenarioCalculationService {
                 request.monthlyBudget(),
                 historicalMonthlyTipAmount,
                 message,
-                null  // aiExplanation populated by controller if Gemini is available
+                null  // aiExplanation populated by controller if Groq is available
         );
     }
 
@@ -259,7 +259,7 @@ public class TipScenarioCalculationService {
 
     /**
      * Determines budget status using the same thresholds as Day 17.
-     * Reuses {@link TipBudgetStatus} — no duplicate system.
+     * Reuses {@link TipBudgetStatus} â€” no duplicate system.
      */
     TipBudgetStatus determineBudgetStatus(BigDecimal usagePercentage) {
         if (usagePercentage.compareTo(HUNDRED) > 0) {

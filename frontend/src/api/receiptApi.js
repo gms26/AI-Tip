@@ -4,7 +4,7 @@ import axiosInstance from './axios';
  * Receipt OCR API module
  *
  * PURPOSE:
- * Handles file uploads to extract receipt information via Gemini Vision.
+ * Handles file uploads to extract receipt information via Groq Vision.
  */
 const receiptApi = {
   /**

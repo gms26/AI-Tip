@@ -2,7 +2,7 @@ package com.aitip.controller;
 
 import com.aitip.dto.TipEvolutionPeriod;
 import com.aitip.dto.TipEvolutionResponse;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.aitip.service.TipEvolutionPromptBuilder;
 import com.aitip.service.TipEvolutionService;
 import org.slf4j.Logger;
@@ -23,14 +23,14 @@ public class TipEvolutionController {
 
     private final TipEvolutionService tipEvolutionService;
     private final TipEvolutionPromptBuilder promptBuilder;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
 
     public TipEvolutionController(TipEvolutionService tipEvolutionService,
                                   TipEvolutionPromptBuilder promptBuilder,
-                                  @Autowired(required = false) GeminiService geminiService) {
+                                  @Autowired(required = false) AiProvider AiProvider) {
         this.tipEvolutionService = tipEvolutionService;
         this.promptBuilder = promptBuilder;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
     }
 
     @GetMapping
@@ -44,11 +44,11 @@ public class TipEvolutionController {
 
         TipEvolutionResponse evolution = tipEvolutionService.getEvolution(email, currency, period);
 
-        if (evolution.totalTipCount() > 0 && geminiService != null) {
+        if (evolution.totalTipCount() > 0 && AiProvider != null) {
             try {
                 String prompt = promptBuilder.buildPrompt(evolution);
                 java.util.concurrent.CompletableFuture<String> future = java.util.concurrent.CompletableFuture.supplyAsync(
-                        () -> geminiService.getRecommendation(prompt));
+                        () -> AiProvider.getRecommendation(prompt));
                 String aiExplanation = future.get(3, java.util.concurrent.TimeUnit.SECONDS);
                 if (aiExplanation != null && !aiExplanation.isBlank()) {
                     evolution = new TipEvolutionResponse(
@@ -69,7 +69,7 @@ public class TipEvolutionController {
                     );
                 }
             } catch (Exception e) {
-                log.warn("Gemini explanation failed or timed out for tip evolution, returning deterministic timeline: {}", e.getMessage());
+                log.warn("Groq explanation failed or timed out for tip evolution, returning deterministic timeline: {}", e.getMessage());
             }
         }
 

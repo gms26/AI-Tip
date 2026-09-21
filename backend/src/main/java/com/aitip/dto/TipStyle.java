@@ -5,10 +5,10 @@ package com.aitip.dto;
  *
  * <p><b>Category boundaries (from Day 8 GenerosityScoreService):</b></p>
  * <ul>
- *   <li>0–39   → CONSERVATIVE</li>
- *   <li>40–59  → MODERATE</li>
- *   <li>60–79  → GENEROUS</li>
- *   <li>80–100 → VERY_GENEROUS</li>
+ *   <li>0â€“39   â†’ CONSERVATIVE</li>
+ *   <li>40â€“59  â†’ MODERATE</li>
+ *   <li>60â€“79  â†’ GENEROUS</li>
+ *   <li>80â€“100 â†’ VERY_GENEROUS</li>
  * </ul>
  *
  * <p>These must remain consistent with the existing generosity score logic.

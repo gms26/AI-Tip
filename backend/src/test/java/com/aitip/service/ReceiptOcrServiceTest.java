@@ -20,22 +20,22 @@ import static org.mockito.Mockito.when;
 
 class ReceiptOcrServiceTest {
 
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
     private ObjectMapper objectMapper;
     private ReceiptOcrService service;
 
     @BeforeEach
     void setUp() {
-        geminiService = Mockito.mock(GeminiService.class);
+        AiProvider = Mockito.mock(AiProvider.class);
         objectMapper = new ObjectMapper();
-        service = new ReceiptOcrService(geminiService, objectMapper);
+        service = new ReceiptOcrService(AiProvider, objectMapper);
     }
 
     @Test
     void analyzeReceipt_ValidJpeg_ExtractsSuccessfully() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpeg", "image/jpeg", "dummy_bytes".getBytes());
-        String fakeGeminiResponse = "{\"billAmount\": 45.67, \"restaurantName\": \"The Eatery\", \"currency\": \"USD\"}";
-        when(geminiService.analyzeImage(anyString(), eq("image/jpeg"), anyString())).thenReturn(fakeGeminiResponse);
+        String fakeAiResponse = "{\"billAmount\": 45.67, \"restaurantName\": \"The Eatery\", \"currency\": \"USD\"}";
+        when(AiProvider.analyzeImage(anyString(), eq("image/jpeg"), anyString())).thenReturn(fakeAiResponse);
 
         ReceiptAnalysisResponse response = service.analyzeReceipt(file);
 
@@ -47,8 +47,8 @@ class ReceiptOcrServiceTest {
     @Test
     void analyzeReceipt_ValidPng_ExtractsSuccessfully() {
         MockMultipartFile file = new MockMultipartFile("file", "test.png", "image/png", "dummy_bytes".getBytes());
-        String fakeGeminiResponse = "{\"billAmount\": 10.0, \"restaurantName\": \"Cafe\", \"currency\": \"EUR\"}";
-        when(geminiService.analyzeImage(anyString(), eq("image/png"), anyString())).thenReturn(fakeGeminiResponse);
+        String fakeAiResponse = "{\"billAmount\": 10.0, \"restaurantName\": \"Cafe\", \"currency\": \"EUR\"}";
+        when(AiProvider.analyzeImage(anyString(), eq("image/png"), anyString())).thenReturn(fakeAiResponse);
 
         ReceiptAnalysisResponse response = service.analyzeReceipt(file);
 
@@ -60,8 +60,8 @@ class ReceiptOcrServiceTest {
     @Test
     void analyzeReceipt_ValidWebP_ExtractsSuccessfully() {
         MockMultipartFile file = new MockMultipartFile("file", "test.webp", "image/webp", "dummy_bytes".getBytes());
-        String fakeGeminiResponse = "{\"billAmount\": 25.5, \"restaurantName\": \"Diner\", \"currency\": \"GBP\"}";
-        when(geminiService.analyzeImage(anyString(), eq("image/webp"), anyString())).thenReturn(fakeGeminiResponse);
+        String fakeAiResponse = "{\"billAmount\": 25.5, \"restaurantName\": \"Diner\", \"currency\": \"GBP\"}";
+        when(AiProvider.analyzeImage(anyString(), eq("image/webp"), anyString())).thenReturn(fakeAiResponse);
 
         ReceiptAnalysisResponse response = service.analyzeReceipt(file);
 
@@ -99,7 +99,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_MarkdownWrappedJson_ExtractsSuccessfully() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "```json\n{\"billAmount\": 15.0, \"restaurantName\": \"Pizza Hut\", \"currency\": \"USD\"}\n```";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptAnalysisResponse response = service.analyzeReceipt(file);
 
@@ -110,7 +110,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_MalformedJson_Throws503() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{ billAmount: 15.0, broken: yes";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrUnavailableException ex = assertThrows(ReceiptOcrUnavailableException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("temporarily unavailable");
@@ -120,7 +120,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_MissingBillAmount_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"restaurantName\": \"Pizza Hut\", \"currency\": \"USD\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("valid positive bill amount");
@@ -130,7 +130,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_MissingRestaurantName_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"billAmount\": 15.0, \"currency\": \"USD\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("restaurant name");
@@ -140,7 +140,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_MissingCurrency_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"billAmount\": 15.0, \"restaurantName\": \"Pizza Hut\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("valid currency");
@@ -150,7 +150,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_InvalidCurrency_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"billAmount\": 15.0, \"restaurantName\": \"Pizza Hut\", \"currency\": \"XYZ\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("valid currency");
@@ -160,7 +160,7 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_NegativeBillAmount_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"billAmount\": -5.0, \"restaurantName\": \"Pizza Hut\", \"currency\": \"USD\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("positive bill amount");
@@ -170,16 +170,16 @@ class ReceiptOcrServiceTest {
     void analyzeReceipt_ZeroBillAmount_Throws400() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
         String fakeResponse = "{\"billAmount\": 0.0, \"restaurantName\": \"Pizza Hut\", \"currency\": \"USD\"}";
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenReturn(fakeResponse);
 
         ReceiptOcrException ex = assertThrows(ReceiptOcrException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("positive bill amount");
     }
 
     @Test
-    void analyzeReceipt_GeminiTimeout_Throws503() {
+    void analyzeReceipt_GroqTimeout_Throws503() {
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "dummy".getBytes());
-        when(geminiService.analyzeImage(anyString(), anyString(), anyString())).thenThrow(new AiServiceException("Timeout"));
+        when(AiProvider.analyzeImage(anyString(), anyString(), anyString())).thenThrow(new AiServiceException("Timeout"));
 
         ReceiptOcrUnavailableException ex = assertThrows(ReceiptOcrUnavailableException.class, () -> service.analyzeReceipt(file));
         assertThat(ex.getMessage()).contains("temporarily unavailable");

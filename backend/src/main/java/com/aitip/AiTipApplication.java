@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * AI Tip Assistant — Application Entry Point.
+ * AI Tip Assistant â€” Application Entry Point.
  *
  * <p><b>Purpose:</b> Bootstraps the Spring Boot application context.</p>
  *

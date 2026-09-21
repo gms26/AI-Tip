@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>No AI:</b>
  * This controller returns backend-calculated statistics only.
- * Gemini is not involved.</p>
+ * Groq is not involved.</p>
  */
 @RestController
 @RequestMapping("/api/service-quality")

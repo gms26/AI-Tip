@@ -49,17 +49,17 @@ const TipCoachPage = () => {
 
     if (loading) {
         return (
-            <Container maxWidth="md" sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress />
-            </Container>
+            <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress sx={{ color: '#fd5b38' }} />
+            </Box>
         );
     }
 
     if (error) {
         return (
-            <Container maxWidth="md" sx={{ mt: 4 }}>
+            <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 } }}>
                 <Alert severity="error">{error}</Alert>
-            </Container>
+            </Box>
         );
     }
 
@@ -105,7 +105,7 @@ const TipCoachPage = () => {
     };
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, py: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}>
             <Box mb={4}>
                 <Typography variant="h4" component="h1" gutterBottom fontWeight="bold" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <AutoAwesomeIcon color="primary" /> Smart Tipping Coach
@@ -117,18 +117,18 @@ const TipCoachPage = () => {
 
             {/* Hero Section */}
             <Card className="webfolio-card" sx={{ mb: 4, background: 'linear-gradient(145deg, rgba(20, 24, 41, 0.95), rgba(10, 13, 23, 0.98))', border: '1px solid rgba(253, 91, 56, 0.3)' }}>
-                <CardContent sx={{ textAlign: 'center', py: 5 }}>
-                    <Box sx={{ mb: 2 }}>
+                <CardContent sx={{ textAlign: 'left', py: 4, px: { xs: 3, md: 4 } }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                         {getFocusIcon(coaching.focus)}
+                        <Chip label={`Focus: ${coaching.focus.replace('_', ' ')}`} color="primary" variant="outlined" sx={{ fontWeight: 800, borderColor: 'rgba(253, 91, 56, 0.4)', color: '#fd5b38' }} />
                     </Box>
-                    <Chip label={`Focus: ${coaching.focus.replace('_', ' ')}`} color="primary" variant="outlined" sx={{ mb: 2, fontWeight: 800, borderColor: 'rgba(253, 91, 56, 0.4)', color: '#fd5b38' }} />
                     <Typography variant="h5" component="h2" gutterBottom fontWeight="bold" sx={{ color: '#F8FAFC' }}>
                         {coaching.headline}
                     </Typography>
-                    <Typography variant="body1" sx={{ color: '#94A3B8', maxWidth: 700, mx: 'auto' }} paragraph>
+                    <Typography variant="body1" sx={{ color: '#94A3B8', maxWidth: 900, mb: 3 }}>
                         {coaching.summary}
                     </Typography>
-                    <Button variant="contained" className="butn butn-bg" size="large" onClick={handleActionClick} sx={{ mt: 2, borderRadius: 2.5, px: 4, background: 'linear-gradient(135deg, #fd5b38 0%, #d63d19 100%)', color: '#fff', fontWeight: 700 }}>
+                    <Button variant="contained" className="butn butn-bg" size="large" onClick={handleActionClick} sx={{ borderRadius: 2.5, px: 4, background: 'linear-gradient(135deg, #fd5b38 0%, #d63d19 100%)', color: '#fff', fontWeight: 700 }}>
                         {coaching.nextAction}
                     </Button>
                 </CardContent>
@@ -296,7 +296,7 @@ const TipCoachPage = () => {
                 </Box>
             )}
 
-        </Container>
+        </Box>
     );
 };
 

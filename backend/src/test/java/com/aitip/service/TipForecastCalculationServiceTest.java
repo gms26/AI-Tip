@@ -125,7 +125,7 @@ class TipForecastCalculationServiceTest {
     }
 
     // =============================================
-    // 3. 2–4 tips (MEDIUM confidence)
+    // 3. 2Ã¢â‚¬â€œ4 tips (MEDIUM confidence)
     // =============================================
 
     @Test
@@ -183,7 +183,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testMedian_oddCount() {
-        // Values: 10, 15, 20 → median = 15
+        // Values: 10, 15, 20 Ã¢â€ â€™ median = 15
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(3)),
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD", LocalDateTime.now().minusDays(2)),
@@ -198,7 +198,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testMedian_evenCount() {
-        // Values: 10, 15, 20, 25 → median = (15 + 20) / 2 = 17.50
+        // Values: 10, 15, 20, 25 Ã¢â€ â€™ median = (15 + 20) / 2 = 17.50
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(4)),
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD", LocalDateTime.now().minusDays(3)),
@@ -218,7 +218,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testMeanPercentage() {
-        // Values: 10, 20, 30 → mean = 20
+        // Values: 10, 20, 30 Ã¢â€ â€™ mean = 20
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(3)),
                 createTip(new BigDecimal("20.00"), new BigDecimal("20.00"), "USD", LocalDateTime.now().minusDays(2)),
@@ -234,7 +234,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testMeanAmount_fractional() {
-        // Amounts: 10, 20, 33 → mean = 63/3 = 21.00
+        // Amounts: 10, 20, 33 Ã¢â€ â€™ mean = 63/3 = 21.00
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(3)),
                 createTip(new BigDecimal("20.00"), new BigDecimal("20.00"), "USD", LocalDateTime.now().minusDays(2)),
@@ -253,8 +253,8 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testDailyRate_next30Days() {
-        // 10 tips in 90 days → dailyRate = 10/90 = 0.1111
-        // Estimated count = 0.1111 * 30 = 3.333 → 3
+        // 10 tips in 90 days Ã¢â€ â€™ dailyRate = 10/90 = 0.1111
+        // Estimated count = 0.1111 * 30 = 3.333 Ã¢â€ â€™ 3
         List<Tip> tips = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             tips.add(createTip(new BigDecimal("20.00"), new BigDecimal("20.00"), "USD",
@@ -265,13 +265,13 @@ class TipForecastCalculationServiceTest {
         TipForecastResponse res = service.forecast(TEST_EMAIL, "USD", TipForecastPeriod.NEXT_30_DAYS, null, 90);
 
         assertEquals(30, res.forecastDays());
-        // dailyRate = 10/90 = 0.1111, estimatedCount = 0.1111 * 30 = 3.333 → 3
+        // dailyRate = 10/90 = 0.1111, estimatedCount = 0.1111 * 30 = 3.333 Ã¢â€ â€™ 3
         assertEquals(3, res.estimatedTipCount());
     }
 
     @Test
     void testProjection_next3Months() {
-        // 9 tips in 90 days → dailyRate = 0.1000
+        // 9 tips in 90 days Ã¢â€ â€™ dailyRate = 0.1000
         // Estimated count = 0.1000 * 90 = 9
         List<Tip> tips = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
@@ -310,8 +310,8 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testEstimatedSpending() {
-        // 3 tips in 30 days → dailyRate = 0.1000
-        // forecastDays = 30 → estimatedCount = 3
+        // 3 tips in 30 days Ã¢â€ â€™ dailyRate = 0.1000
+        // forecastDays = 30 Ã¢â€ â€™ estimatedCount = 3
         // avgTipAmount = (10+20+30)/3 = 20
         // estimatedAmount = 3 * 20 = 60.00
         List<Tip> tips = List.of(
@@ -323,7 +323,7 @@ class TipForecastCalculationServiceTest {
 
         TipForecastResponse res = service.forecast(TEST_EMAIL, "USD", TipForecastPeriod.NEXT_30_DAYS, null, 30);
 
-        // 3 tips in 30 days → rate = 0.1 → count in 30d = 3
+        // 3 tips in 30 days Ã¢â€ â€™ rate = 0.1 Ã¢â€ â€™ count in 30d = 3
         assertEquals(3, res.estimatedTipCount());
         assertEquals(new BigDecimal("60.00"), res.estimatedMonthlyTipAmount());
     }
@@ -504,7 +504,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testProjectedPercentage_usesMedian() {
-        // Values: 10, 20, 30 → median = 20
+        // Values: 10, 20, 30 Ã¢â€ â€™ median = 20
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(3)),
                 createTip(new BigDecimal("20.00"), new BigDecimal("20.00"), "USD", LocalDateTime.now().minusDays(2)),
@@ -599,7 +599,7 @@ class TipForecastCalculationServiceTest {
 
     @Test
     void testBigDecimalRounding_halfUp() {
-        // 3 tips with amounts 10, 10, 11 → mean = 31/3 = 10.33 (HALF_UP)
+        // 3 tips with amounts 10, 10, 11 Ã¢â€ â€™ mean = 31/3 = 10.33 (HALF_UP)
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(3)),
                 createTip(new BigDecimal("10.00"), new BigDecimal("10.00"), "USD", LocalDateTime.now().minusDays(2)),

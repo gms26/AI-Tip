@@ -27,7 +27,7 @@ public class ReceiptOcrService {
             "image/webp"
     );
 
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
     private final ObjectMapper objectMapper;
     private final Set<String> validCurrencyCodes;
 
@@ -38,8 +38,8 @@ public class ReceiptOcrService {
             "{ \"billAmount\": number, \"restaurantName\": \"string\", \"currency\": \"string\" }. " +
             "If currency is unknown, set it to null. If bill amount or restaurant name is missing, set them to null.";
 
-    public ReceiptOcrService(GeminiService geminiService, ObjectMapper objectMapper) {
-        this.geminiService = geminiService;
+    public ReceiptOcrService(AiProvider AiProvider, ObjectMapper objectMapper) {
+        this.AiProvider = AiProvider;
         this.objectMapper = objectMapper;
         this.validCurrencyCodes = Currency.getAvailableCurrencies().stream()
                 .map(Currency::getCurrencyCode)
@@ -67,19 +67,19 @@ public class ReceiptOcrService {
             throw new ReceiptOcrException("Failed to read the uploaded file.");
         }
 
-        String geminiResponseRaw;
+        String AiResponseRaw;
         try {
-            geminiResponseRaw = geminiService.analyzeImage(PROMPT, mimeType, base64Image);
+            AiResponseRaw = AiProvider.analyzeImage(PROMPT, mimeType, base64Image);
         } catch (AiServiceException e) {
-            // Map AI exception (timeout, rate limit, parse error inside gemini client) to 503
+            // Map AI exception (timeout, rate limit, parse error inside groq client) to 503
             throw new ReceiptOcrUnavailableException("Receipt analysis is temporarily unavailable.");
         }
 
-        return parseAndValidate(geminiResponseRaw);
+        return parseAndValidate(AiResponseRaw);
     }
 
     private ReceiptAnalysisResponse parseAndValidate(String rawResponse) {
-        // Clean up potential markdown formatting from Gemini
+        // Clean up potential markdown formatting from Groq
         if (rawResponse != null) {
             rawResponse = rawResponse.replaceAll("```json", "").replaceAll("```", "").trim();
         }

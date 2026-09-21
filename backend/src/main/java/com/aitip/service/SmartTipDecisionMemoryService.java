@@ -124,7 +124,7 @@ public class SmartTipDecisionMemoryService {
                     SmartTipDecisionFactorType.OPTIMIZATION_RANGE,
                     "Optimized Range",
                     "Recommended range for your normal behavior.",
-                    response.optimizedMinimumPercentage().toPlainString() + "% – " + response.optimizedMaximumPercentage().toPlainString() + "%",
+                    response.optimizedMinimumPercentage().toPlainString() + "% â€“ " + response.optimizedMaximumPercentage().toPlainString() + "%",
                     response.optimizedMinimumPercentage() // Using min as standard numeric value for this factor
             ));
         }

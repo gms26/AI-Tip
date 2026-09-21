@@ -15,7 +15,7 @@ import java.util.UUID;
  *
  * <p><b>Why JpaRepository over CrudRepository?</b>
  * JpaRepository extends CrudRepository + PagingAndSortingRepository.
- * Provides flush(), saveAndFlush(), and pagination — useful
+ * Provides flush(), saveAndFlush(), and pagination â€” useful
  * for future user listing features.</p>
  *
  * <p><b>Why Optional for findByEmail?</b>

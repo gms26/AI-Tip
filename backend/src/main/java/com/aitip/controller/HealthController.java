@@ -17,7 +17,7 @@ import java.util.Map;
  * <ul>
  *   <li>Health checks are infrastructure concerns, not business logic</li>
  *   <li>Keeps the path simple (/health) without the /api prefix</li>
- *   <li>Public endpoint — no authentication required</li>
+ *   <li>Public endpoint â€” no authentication required</li>
  * </ul></p>
  *
  * <p><b>Why not Spring Boot Actuator?</b>

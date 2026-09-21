@@ -252,7 +252,7 @@ public class TipAnalyticsService {
             BigDecimal avgPct = calculateAveragePercentage(restaurantTips);
             BigDecimal medianPct = calculateMedianPercentage(restaurantTips);
 
-            // Average tip amount — only safe for single currency
+            // Average tip amount â€” only safe for single currency
             BigDecimal avgAmount = restaurantTips.stream()
                     .map(Tip::getTipAmount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add)

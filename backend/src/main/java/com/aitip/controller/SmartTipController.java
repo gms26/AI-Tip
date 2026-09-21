@@ -1,7 +1,7 @@
 package com.aitip.controller;
 
 import com.aitip.dto.*;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.aitip.service.SmartTipFeedbackService;
 import com.aitip.service.SmartTipPromptBuilder;
 import com.aitip.service.SmartTipService;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  *   <li>Never auto-saves tips or modifies calculations silently.</li>
  *   <li>User identity strictly derived from {@link Authentication#getName()}.</li>
  *   <li>Currency isolation strictly enforced.</li>
- *   <li>Gemini AI is strictly optional, explanatory only, with a 3-second non-blocking deadline.</li>
+ *   <li>Groq AI is strictly optional, explanatory only, with a 3-second non-blocking deadline.</li>
  * </ul>
  * </p>
  */
@@ -47,18 +47,18 @@ public class SmartTipController {
     private final SmartTipFeedbackService smartTipFeedbackService;
     private final SmartTipDecisionMemoryService smartTipDecisionMemoryService;
     private final SmartTipPromptBuilder promptBuilder;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
 
     public SmartTipController(SmartTipService smartTipService,
                                SmartTipFeedbackService smartTipFeedbackService,
                                SmartTipDecisionMemoryService smartTipDecisionMemoryService,
                                SmartTipPromptBuilder promptBuilder,
-                               @Autowired(required = false) GeminiService geminiService) {
+                               @Autowired(required = false) AiProvider AiProvider) {
         this.smartTipService = smartTipService;
         this.smartTipFeedbackService = smartTipFeedbackService;
         this.smartTipDecisionMemoryService = smartTipDecisionMemoryService;
         this.promptBuilder = promptBuilder;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
     }
 
     @PostMapping
@@ -72,17 +72,17 @@ public class SmartTipController {
 
         SmartTipResponse response = smartTipService.getSmartTip(email, request);
 
-        if (geminiService != null) {
+        if (AiProvider != null) {
             try {
                 String prompt = promptBuilder.buildPrompt(response);
                 CompletableFuture<String> future = CompletableFuture.supplyAsync(
-                        () -> geminiService.getRecommendation(prompt));
+                        () -> AiProvider.getRecommendation(prompt));
                 String aiExplanation = future.get(3, TimeUnit.SECONDS);
                 if (aiExplanation != null && !aiExplanation.isBlank()) {
                     response = response.withAiExplanation(aiExplanation.trim());
                 }
             } catch (Exception e) {
-                log.debug("Gemini explanation generation skipped or timed out: {}", e.getMessage());
+                log.debug("Groq explanation generation skipped or timed out: {}", e.getMessage());
             }
         }
 

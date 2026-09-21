@@ -131,9 +131,9 @@ public class ReceiptReconciliationService {
     private String getCurrencySymbol(String currency) {
         return switch (currency) {
             case "USD" -> "$";
-            case "EUR" -> "€";
-            case "GBP" -> "£";
-            case "INR" -> "₹";
+            case "EUR" -> "â‚¬";
+            case "GBP" -> "Â£";
+            case "INR" -> "â‚¹";
             default -> currency + " ";
         };
     }

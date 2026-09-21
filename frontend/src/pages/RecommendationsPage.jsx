@@ -126,39 +126,56 @@ const RecommendationsPage = () => {
     }
 
     return (
-        <Box p={3} sx={{ maxWidth: 1200, margin: '0 auto' }}>
-            <Box mb={4}>
-                <Typography variant="h4" fontWeight="bold" gutterBottom color="primary.main">
-                    Smart Recommendations
-                </Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                    Personalised insights based on your tipping behaviour.
-                </Typography>
+        <Box sx={{ px: { xs: 2.5, sm: 3.5, md: 5 }, pt: { xs: 3, md: 4 }, pb: { xs: 4, md: 6 }, width: '100%', maxWidth: '100%' }}>
+            {/* ═══ Header ═══ */}
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>
+                <Box
+                    sx={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 2.8,
+                        background: 'linear-gradient(135deg, #fd5b38 0%, #ff8b70 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 4px 18px rgba(253, 91, 56, 0.3)',
+                    }}
+                >
+                    <AutoAwesomeIcon sx={{ fontSize: 24, color: '#FFFFFF' }} />
+                </Box>
+                <Box>
+                    <Typography sx={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#fd5b38', textTransform: 'uppercase' }}>
+                        INTELLIGENT ADVISORY
+                    </Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#F8FAFC', letterSpacing: '-0.025em' }}>
+                        Smart Recommendations
+                    </Typography>
+                </Box>
             </Box>
 
             {/* Summary Section */}
             {recommendationsData?.summary && (
-                <Paper elevation={0} sx={{ p: 3, mb: 4, backgroundColor: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+                <Card sx={{ p: 3, mb: 4, background: 'linear-gradient(145deg, rgba(20, 24, 41, 0.95), rgba(10, 13, 23, 0.98))', border: '1px solid rgba(253, 91, 56, 0.25)', borderRadius: 3 }}>
                     <Grid container spacing={2} alignItems="center">
                         <Grid item xs={12} md={8}>
-                            <Typography variant="h6" fontWeight="bold">Overview</Typography>
-                            <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }} color="text.secondary">
+                            <Typography variant="h6" fontWeight="bold" sx={{ color: '#FFFFFF', mb: 1 }}>Overview</Typography>
+                            <Typography variant="body1" sx={{ whiteSpace: 'pre-line', color: '#94A3B8' }}>
                                 {recommendationsData.summary}
                             </Typography>
                         </Grid>
                     </Grid>
-                </Paper>
+                </Card>
             )}
 
             {/* AI Explanation Section */}
             {recommendationsData?.aiExplanation && (
-                <Card sx={{ mb: 4, background: 'linear-gradient(135deg, rgba(25,118,210,0.1) 0%, rgba(156,39,176,0.1) 100%)', border: '1px solid', borderColor: 'primary.light' }}>
+                <Card sx={{ mb: 4, background: 'linear-gradient(135deg, rgba(253, 91, 56, 0.12) 0%, rgba(20, 24, 41, 0.9) 100%)', border: '1px solid rgba(253, 91, 56, 0.3)', borderRadius: 3 }}>
                     <CardContent>
-                        <Box display="flex" alignItems="center" gap={1} mb={2}>
-                            <AutoAwesomeIcon color="primary" />
-                            <Typography variant="h6" fontWeight="bold" color="primary">AI Explanation</Typography>
+                        <Box display="flex" alignItems="center" gap={1.5} mb={2}>
+                            <AutoAwesomeIcon sx={{ color: '#fd5b38' }} />
+                            <Typography variant="h6" fontWeight="bold" sx={{ color: '#fd5b38' }}>AI Explanation</Typography>
                         </Box>
-                        <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                        <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', color: '#E8EAED', lineHeight: 1.7 }}>
                             {recommendationsData.aiExplanation}
                         </Typography>
                     </CardContent>

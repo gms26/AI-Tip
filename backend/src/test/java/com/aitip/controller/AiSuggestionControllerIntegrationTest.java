@@ -6,7 +6,7 @@ import com.aitip.entity.User;
 import com.aitip.repository.TipRepository;
 import com.aitip.repository.UserRepository;
 import com.aitip.security.JwtTokenProvider;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,9 +46,9 @@ class AiSuggestionControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
     
-    // We mock GeminiService to avoid actual API calls during CI/tests
+    // We mock AiProvider to avoid actual API calls during CI/tests
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private String token;
 
@@ -83,7 +83,7 @@ class AiSuggestionControllerIntegrationTest {
                   "reason": "Standard tip."
                 }
                 """;
-        Mockito.when(geminiService.getRecommendation(anyString())).thenReturn(validJson);
+        Mockito.when(AiProvider.getRecommendation(anyString())).thenReturn(validJson);
 
         AiSuggestionRequest request = new AiSuggestionRequest(
                 new BigDecimal("50.00"), "DINER", ServiceQuality.AVERAGE, "USA", "USD", null, null);

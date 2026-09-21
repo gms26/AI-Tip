@@ -5,9 +5,9 @@ import com.aitip.dto.TipScenarioResult;
 import org.springframework.stereotype.Component;
 
 /**
- * Constructs prompts for Gemini to explain what-if scenario facts.
+ * Constructs prompts for Groq to explain what-if scenario facts.
  *
- * <p><b>Core principle:</b> Gemini receives only BACKEND-CALCULATED FACTS.
+ * <p><b>Core principle:</b> Groq receives only BACKEND-CALCULATED FACTS.
  * It may explain those facts but must not:</p>
  * <ul>
  *   <li>Recalculate any values</li>
@@ -22,10 +22,10 @@ import org.springframework.stereotype.Component;
 public class TipScenarioPromptBuilder {
 
     /**
-     * Builds a prompt for Gemini to explain scenario comparison insights.
+     * Builds a prompt for Groq to explain scenario comparison insights.
      *
      * @param response the backend-calculated scenario response
-     * @return prompt string for Gemini
+     * @return prompt string for Groq
      */
     public String buildPrompt(TipScenarioResponse response) {
         StringBuilder sb = new StringBuilder();
@@ -69,7 +69,7 @@ public class TipScenarioPromptBuilder {
         sb.append("\n== SCENARIOS ==\n");
         for (int i = 0; i < response.scenarioResults().size(); i++) {
             TipScenarioResult r = response.scenarioResults().get(i);
-            sb.append(String.format("Scenario %d: %s%% tip → %s %s tip, %s %s total",
+            sb.append(String.format("Scenario %d: %s%% tip â†’ %s %s tip, %s %s total",
                     i + 1, r.tipPercentage(), response.currency(), r.tipAmount(),
                     response.currency(), r.totalAmount()));
             if (r.differenceFromHistorical() != null) {

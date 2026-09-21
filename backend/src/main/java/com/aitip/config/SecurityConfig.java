@@ -50,22 +50,22 @@ public class SecurityConfig {
      *
      * <p><b>Authorization Rules:</b>
      * <ul>
-     *   <li>{@code /api/auth/**} — PUBLIC (register, login)</li>
-     *   <li>{@code /health} — PUBLIC (health check)</li>
-     *   <li>Everything else — AUTHENTICATED</li>
+     *   <li>{@code /api/auth/**} â€” PUBLIC (register, login)</li>
+     *   <li>{@code /health} â€” PUBLIC (health check)</li>
+     *   <li>Everything else â€” AUTHENTICATED</li>
      * </ul></p>
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF — stateless API, no cookies
+                // Disable CSRF â€” stateless API, no cookies
                 .csrf(AbstractHttpConfigurer::disable)
                 // Return 401 Unauthorized for unauthenticated requests instead of 403 Forbidden
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new org.springframework.security.web.authentication.HttpStatusEntryPoint(org.springframework.http.HttpStatus.UNAUTHORIZED))
                 )
 
-                // Stateless session — no server-side session
+                // Stateless session â€” no server-side session
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

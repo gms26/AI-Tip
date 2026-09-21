@@ -16,7 +16,7 @@ import java.util.UUID;
  *
  * <p><b>Why include createdAt?</b>
  * Useful for "Member since" display on the frontend.
- * updatedAt is an internal audit field — not exposed.</p>
+ * updatedAt is an internal audit field â€” not exposed.</p>
  *
  * @param id        User's unique identifier
  * @param name      User's display name

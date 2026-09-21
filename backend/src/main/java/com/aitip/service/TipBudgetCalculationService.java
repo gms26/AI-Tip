@@ -22,7 +22,7 @@ import java.util.UUID;
  * Pure deterministic budget calculations using BigDecimal.
  *
  * <p><b>Core principle:</b> This service is the sole authority for
- * budget status. Gemini must never calculate, override, or invent
+ * budget status. Groq must never calculate, override, or invent
  * any of these values.</p>
  *
  * <p><b>Currency isolation:</b> Only tips matching the budget's

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 /**
- * Constructs prompts for Gemini to explain tip optimization facts conversationally.
+ * Constructs prompts for Groq to explain tip optimization facts conversationally.
  *
- * <p><b>Core principle:</b> Gemini receives only BACKEND-CALCULATED FACTS.
+ * <p><b>Core principle:</b> Groq receives only BACKEND-CALCULATED FACTS.
  * It may explain those facts but must not:</p>
  * <ul>
  *   <li>Calculate statistics</li>
@@ -24,10 +24,10 @@ import java.math.BigDecimal;
 public class TipOptimizationPromptBuilder {
 
     /**
-     * Builds a prompt for Gemini to explain optimization insights.
+     * Builds a prompt for Groq to explain optimization insights.
      *
      * @param response the backend-calculated optimization response
-     * @return prompt string for Gemini
+     * @return prompt string for Groq
      */
     public String buildPrompt(TipOptimizationResponse response) {
         StringBuilder sb = new StringBuilder();
@@ -60,7 +60,7 @@ public class TipOptimizationPromptBuilder {
         }
         if (response.recommendedMinimumPercentage() != null) {
             sb.append("Personal Historical Range: ")
-                    .append(response.recommendedMinimumPercentage()).append("% – ")
+                    .append(response.recommendedMinimumPercentage()).append("% â€“ ")
                     .append(response.recommendedMaximumPercentage()).append("%\n");
         }
         if (response.monthlyTipEstimate() != null) {

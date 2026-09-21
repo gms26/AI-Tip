@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
  *
  * Covers all 12 deterministic test cases specified in the Day 35 master prompt:
  * learning strength thresholds, preference direction, personalization effect,
- * currency isolation, JWT isolation, and Gemini unavailability.
+ * currency isolation, JWT isolation, and Groq unavailability.
  */
 @ExtendWith(MockitoExtension.class)
 class SmartTipLearningInsightsServiceTest {
@@ -37,7 +37,7 @@ class SmartTipLearningInsightsServiceTest {
     @Mock private TipRecommendationFeedbackRepository feedbackRepository;
     @Mock private SmartTipAdaptationService adaptationService;
     @Mock private UserRepository userRepository;
-    @Mock private GeminiService geminiService;
+    @Mock private AiProvider AiProvider;
 
     @InjectMocks
     private SmartTipLearningInsightsService insightsService;
@@ -124,7 +124,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList);
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -146,7 +146,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(5, 10));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -168,7 +168,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(15, 20));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -191,7 +191,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(1, 6));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -215,7 +215,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(1, 6));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -239,7 +239,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(1, 6));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -273,7 +273,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(3, 8));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -305,7 +305,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(3, 8));
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -316,7 +316,7 @@ class SmartTipLearningInsightsServiceTest {
     // ==================== Case 10: Currency isolation ====================
 
     @Test
-    @DisplayName("Case 10: Currency isolation — USD query only returns USD data")
+    @DisplayName("Case 10: Currency isolation Ã¢â‚¬â€ USD query only returns USD data")
     void currencyIsolation_shouldOnlyReturnRequestedCurrency() {
         mockUserAndAdaptation();
         // Even though INR records exist, the USD query should not include them
@@ -328,7 +328,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(usdFeedback);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(usdFeedback);
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
@@ -343,7 +343,7 @@ class SmartTipLearningInsightsServiceTest {
     // ==================== Case 11: JWT isolation ====================
 
     @Test
-    @DisplayName("Case 11: JWT isolation — different email triggers different user lookup")
+    @DisplayName("Case 11: JWT isolation Ã¢â‚¬â€ different email triggers different user lookup")
     void jwtIsolation_shouldUseDifferentUsers() {
         User otherUser = new User();
         otherUser.setEmail("other@example.com");
@@ -363,11 +363,11 @@ class SmartTipLearningInsightsServiceTest {
         verify(feedbackRepository, never()).findAllByUserAndCurrencyOrderByCreatedAtAsc(testUser, "USD");
     }
 
-    // ==================== Case 12: Gemini unavailable ====================
+    // ==================== Case 12: Groq unavailable ====================
 
     @Test
-    @DisplayName("Case 12: Gemini unavailable — endpoint still succeeds with null aiExplanation")
-    void geminiUnavailable_shouldStillSucceed() {
+    @DisplayName("Case 12: Groq unavailable Ã¢â‚¬â€ endpoint still succeeds with null aiExplanation")
+    void groqUnavailable_shouldStillSucceed() {
         mockUserAndAdaptation();
         List<TipRecommendationFeedback> feedbackList = buildFeedbackList(6,
                 new BigDecimal("15.00"), new BigDecimal("18.00"), SmartTipFeedbackType.MODIFIED);
@@ -376,13 +376,13 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList.subList(1, 6));
-        when(geminiService.generateLearningInsightsExplanation(
+        when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any()))
-                .thenThrow(new RuntimeException("Gemini API unavailable"));
+                .thenThrow(new RuntimeException("Groq API unavailable"));
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");
 
-        // Core insights still work despite Gemini failure
+        // Core insights still work despite Groq failure
         assertEquals(6, response.totalFeedback());
         assertEquals(SmartTipFeedbackDirection.PREFERS_HIGHER, response.preferenceDirection());
         assertNull(response.aiExplanation());
@@ -419,7 +419,7 @@ class SmartTipLearningInsightsServiceTest {
                 .thenReturn(feedbackList);
         when(feedbackRepository.findTop5ByUserAndCurrencyOrderByCreatedAtDesc(testUser, "USD"))
                 .thenReturn(feedbackList);
-        lenient().when(geminiService.generateLearningInsightsExplanation(
+        lenient().when(AiProvider.generateLearningInsightsExplanation(
                 anyInt(), any(), any(), any(), any())).thenReturn("AI summary");
 
         SmartTipLearningInsightsResponse response = insightsService.getInsights("test@example.com", "USD");

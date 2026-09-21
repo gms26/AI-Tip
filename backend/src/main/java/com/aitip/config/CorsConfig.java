@@ -18,7 +18,7 @@ import java.util.List;
  * <ul>
  *   <li>Single Responsibility: CORS config is separate from security rules</li>
  *   <li>Easy to modify allowed origins for staging/production</li>
- *   <li>Registered as a CorsFilter bean — works with Spring Security</li>
+ *   <li>Registered as a CorsFilter bean â€” works with Spring Security</li>
  * </ul></p>
  *
  * <p><b>Why allow credentials?</b>
@@ -32,7 +32,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allowed origins — Vite dev server
+        // Allowed origins â€” Vite dev server
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000"

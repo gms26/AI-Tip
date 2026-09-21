@@ -138,9 +138,9 @@ const navButtonSx = (isActive) => ({
   fontFamily: '"Plus Jakarta Sans", sans-serif',
   color: isActive ? '#fd5b38' : '#ffffff',
   backgroundColor: 'transparent',
-  px: 1.6,
-  py: 0.6,
-  fontSize: '0.8rem',
+  px: 1.8,
+  py: 0.8,
+  fontSize: '0.95rem',
   fontWeight: 700,
   textTransform: 'uppercase',
   letterSpacing: '1px',
@@ -318,21 +318,19 @@ const AppShell = ({ children }) => {
         sx={{
           fontFamily: '"Plus Jakarta Sans", sans-serif',
           position: 'sticky',
-          top: { xs: 0, md: 16 },
+          top: 0,
           zIndex: 1100,
-          width: { xs: '100%', md: 'calc(100% - 48px)' },
-          maxWidth: '1540px',
-          mx: 'auto',
-          borderRadius: { xs: 0, md: '40px' },
+          width: '100%',
+          borderRadius: 0,
           backgroundColor: scrolled ? 'rgba(12, 13, 16, 0.95)' : 'rgba(21, 22, 29, 0.8)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           boxShadow: scrolled
-            ? '0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(253, 91, 56, 0.08)'
-            : '0 10px 30px -5px rgba(0, 0, 0, 0.5)',
-          px: { xs: 2, sm: 3, md: 4 },
-          py: 1.2,
+            ? '0 10px 40px -10px rgba(0, 0, 0, 0.85)'
+            : 'none',
+          px: { xs: 2, sm: 4, md: 6, lg: 8 },
+          py: 2.5,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -340,7 +338,7 @@ const AppShell = ({ children }) => {
         }}
       >
         {/* Left: Brand + Navigation Links */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, lg: 3.5 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, lg: 4 } }}>
           {/* Mobile Drawer Trigger */}
           <IconButton
             onClick={() => setMobileDrawerOpen(true)}
@@ -355,18 +353,10 @@ const AppShell = ({ children }) => {
           </IconButton>
 
           {/* PT Brand Identity: PtLogo with Monogram & Subtitle */}
-          <PtLogo onClick={() => navigate('/dashboard')} />
+          <PtLogo size={80} onClick={() => navigate('/dashboard')} />
 
           {/* Desktop Navigation Links */}
-          <Box sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', gap: 0.8, ml: 1.5 }}>
-            <Button
-              onClick={() => navigate('/dashboard')}
-              disableRipple
-              sx={navButtonSx(location.pathname === '/dashboard')}
-            >
-              Dashboard
-            </Button>
-
+          <Box sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', gap: 2, ml: 3 }}>
             <Button
               onClick={() => navigate('/tips')}
               disableRipple
@@ -421,20 +411,20 @@ const AppShell = ({ children }) => {
           <Tooltip title="Command Center (Ctrl+K)" arrow>
             <Button
               onClick={() => setCommandPaletteOpen(true)}
-              startIcon={<SearchIcon sx={{ fontSize: 16, color: '#c6c8c9' }} />}
+              startIcon={<SearchIcon sx={{ fontSize: 24, color: '#c6c8c9' }} />}
               sx={{
                 display: { xs: 'none', sm: 'flex' },
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '30px',
-                px: 2,
-                py: 0.6,
+                px: 4,
+                py: 1.5,
                 color: '#c6c8c9',
-                fontSize: '0.82rem',
+                fontSize: '1.3rem',
                 textTransform: 'none',
                 fontWeight: 600,
-                gap: 1.5,
-                minWidth: 160,
+                gap: 2,
+                minWidth: 320,
                 justifyContent: 'flex-start',
                 transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 '&:hover': {
@@ -449,8 +439,8 @@ const AppShell = ({ children }) => {
                 label="⌘K"
                 size="small"
                 sx={{
-                  height: 18,
-                  fontSize: '0.62rem',
+                  height: 22,
+                  fontSize: '0.75rem',
                   fontWeight: 800,
                   backgroundColor: 'rgba(253, 91, 56, 0.15)',
                   color: '#fd5b38',
@@ -470,9 +460,9 @@ const AppShell = ({ children }) => {
             whileTap={{ scale: 0.96 }}
             sx={{
               display: { xs: 'none', sm: 'inline-flex' },
-              px: 2.8,
-              py: 0.85,
-              fontSize: '0.82rem',
+              px: 3.2,
+              py: 1,
+              fontSize: '0.95rem',
               fontWeight: 800,
               textTransform: 'uppercase',
               letterSpacing: '0.5px',
@@ -546,6 +536,16 @@ const AppShell = ({ children }) => {
                 {user?.email || 'user@possibletip.ai'}
               </Typography>
             </Box>
+            <MenuItem
+              onClick={() => {
+                setUserMenuAnchor(null);
+                navigate('/dashboard');
+              }}
+              sx={{ gap: 1.5, borderRadius: '10px', mb: 0.5 }}
+            >
+              <DashboardIcon sx={{ fontSize: 18, color: '#fd5b38' }} />
+              Dashboard
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 setUserMenuAnchor(null);

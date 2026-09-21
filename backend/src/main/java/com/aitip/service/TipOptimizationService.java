@@ -20,7 +20,7 @@ import java.util.List;
  * Deterministic tip optimization calculations.
  *
  * <p><b>Core principle:</b> This service is the sole mathematical authority
- * for all optimization statistics. Gemini must never calculate, override,
+ * for all optimization statistics. Groq must never calculate, override,
  * or invent any of these values.</p>
  *
  * <p><b>Currency isolation:</b> Only tips matching the requested currency
@@ -66,7 +66,7 @@ public class TipOptimizationService {
 
         int sampleSize = currencyTips.size();
 
-        // No history for this currency — return empty state
+        // No history for this currency â€” return empty state
         if (sampleSize == 0) {
             return buildEmptyResponse(currency, request.currentTipPercentage());
         }
@@ -80,7 +80,7 @@ public class TipOptimizationService {
         BigDecimal median = calculateMedian(sortedPercentages);
         BigDecimal mean = calculateMean(sortedPercentages);
 
-        // Target range: median ± 2, clamped to [0, 100]
+        // Target range: median Â± 2, clamped to [0, 100]
         BigDecimal recommendedMin = median.subtract(TWO).max(BigDecimal.ZERO);
         BigDecimal recommendedMax = median.add(TWO).min(HUNDRED);
 
@@ -181,7 +181,7 @@ public class TipOptimizationService {
     /**
      * Determines confidence based on sample size.
      * Uses the existing project convention from BudgetConfidence:
-     * 0–1 → LOW, 2–4 → MEDIUM, 5+ → HIGH
+     * 0â€“1 â†’ LOW, 2â€“4 â†’ MEDIUM, 5+ â†’ HIGH
      */
     BudgetConfidence determineConfidence(int sampleSize) {
         if (sampleSize >= 5) return BudgetConfidence.HIGH;
@@ -232,7 +232,7 @@ public class TipOptimizationService {
         }
 
         if (confidence == BudgetConfidence.LOW) {
-            sb.append(" Note: limited history — these statistics may change as you record more tips.");
+            sb.append(" Note: limited history â€” these statistics may change as you record more tips.");
         }
 
         return sb.toString();

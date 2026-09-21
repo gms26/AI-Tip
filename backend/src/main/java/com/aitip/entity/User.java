@@ -14,14 +14,14 @@ import java.util.UUID;
  * JPA Entity mapped to the {@code users} table.
  *
  * <p><b>Purpose:</b> Represents a registered user in the database.
- * This class is the persistence boundary — it is NEVER returned
+ * This class is the persistence boundary â€” it is NEVER returned
  * directly to API consumers. Always map to a DTO first.</p>
  *
  * <p><b>Why Lombok here but Records for DTOs?</b>
  * <ul>
  *   <li>Entities need mutable state (JPA proxies, setters for updates)</li>
  *   <li>Entities require a no-arg constructor for Hibernate</li>
- *   <li>DTOs are immutable data carriers — perfect for Records</li>
+ *   <li>DTOs are immutable data carriers â€” perfect for Records</li>
  * </ul></p>
  *
  * <p><b>Why @Builder?</b>

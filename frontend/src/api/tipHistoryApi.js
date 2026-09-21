@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from './axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tips/history' : 'http://localhost:8080/api/tips/history';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tips/history' : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/tips/history';
 
 export const searchTipHistory = async (filters) => {
   const token = localStorage.getItem('token');

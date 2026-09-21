@@ -24,7 +24,7 @@ import java.util.Objects;
  *
  * <p>Provides a read-only insight layer over the user's existing Day 32 feedback data.
  * All numerical values are computed deterministically with {@link BigDecimal}.
- * Gemini is used only for optional natural-language summaries.</p>
+ * Groq is used only for optional natural-language summaries.</p>
  *
  * <p>Key design constraints:
  * <ul>
@@ -54,19 +54,19 @@ public class SmartTipLearningInsightsService {
     private final TipRecommendationFeedbackRepository feedbackRepository;
     private final SmartTipAdaptationService adaptationService;
     private final UserRepository userRepository;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
     private final SmartTipPersonalizationService personalizationService;
 
     public SmartTipLearningInsightsService(
             TipRecommendationFeedbackRepository feedbackRepository,
             SmartTipAdaptationService adaptationService,
             UserRepository userRepository,
-            GeminiService geminiService,
+            AiProvider AiProvider,
             @org.springframework.beans.factory.annotation.Autowired(required = false) SmartTipPersonalizationService personalizationService) {
         this.feedbackRepository = feedbackRepository;
         this.adaptationService = adaptationService;
         this.userRepository = userRepository;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
         this.personalizationService = personalizationService;
     }
 
@@ -160,7 +160,7 @@ public class SmartTipLearningInsightsService {
     }
 
     /**
-     * Determines the preference direction using Day 32's established ±2.00 pp threshold.
+     * Determines the preference direction using Day 32's established Â±2.00 pp threshold.
      */
     SmartTipFeedbackDirection determineDirection(int usableCount, BigDecimal averageDifference) {
         if (usableCount < SmartTipAdaptationService.MINIMUM_EVIDENCE_THRESHOLD || averageDifference == null) {
@@ -220,7 +220,7 @@ public class SmartTipLearningInsightsService {
 
     /**
      * Generates a deterministic preference summary string.
-     * No Gemini involvement.
+     * No Groq involvement.
      */
     String generatePreferenceSummary(int usableCount, SmartTipFeedbackDirection direction,
                                      long acceptedCount, long totalFeedback) {
@@ -266,7 +266,7 @@ public class SmartTipLearningInsightsService {
 
     /**
      * Optionally generates a friendly AI explanation from pre-calculated facts.
-     * Returns null if Gemini is unavailable rather than failing the entire response.
+     * Returns null if Groq is unavailable rather than failing the entire response.
      */
     private String generateAiExplanation(
             int usableDecisionCount,
@@ -279,11 +279,11 @@ public class SmartTipLearningInsightsService {
         }
         try {
             java.util.concurrent.CompletableFuture<String> future = java.util.concurrent.CompletableFuture.supplyAsync(
-                    () -> geminiService.generateLearningInsightsExplanation(
+                    () -> AiProvider.generateLearningInsightsExplanation(
                             usableDecisionCount, averageDifference, direction, strength, effect));
             return future.get(3, java.util.concurrent.TimeUnit.SECONDS);
         } catch (Exception e) {
-            log.warn("Gemini explanation unavailable or timed out for learning insights: {}", e.getMessage());
+            log.warn("Groq explanation unavailable or timed out for learning insights: {}", e.getMessage());
             return null;
         }
     }

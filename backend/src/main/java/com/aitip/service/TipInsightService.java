@@ -27,14 +27,14 @@ public class TipInsightService {
 
     private final TipRepository tipRepository;
     private final TipInsightPromptBuilder promptBuilder;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
 
-    public TipInsightService(TipRepository tipRepository, TipInsightPromptBuilder promptBuilder, GeminiService geminiService, ObjectMapper objectMapper, UserRepository userRepository) {
+    public TipInsightService(TipRepository tipRepository, TipInsightPromptBuilder promptBuilder, AiProvider AiProvider, ObjectMapper objectMapper, UserRepository userRepository) {
         this.tipRepository = tipRepository;
         this.promptBuilder = promptBuilder;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
         this.objectMapper = objectMapper;
         this.userRepository = userRepository;
     }
@@ -67,7 +67,7 @@ public class TipInsightService {
         try {
             String prompt = promptBuilder.buildPrompt(overallTrend, restaurantTrends, serviceQualityTrends);
             java.util.concurrent.CompletableFuture<String> future = java.util.concurrent.CompletableFuture.supplyAsync(
-                    () -> geminiService.getRecommendation(prompt));
+                    () -> AiProvider.getRecommendation(prompt));
             String rawAiResponse = future.get(3, java.util.concurrent.TimeUnit.SECONDS);
             generatedInsightMessage = parseAndValidateInsightJson(rawAiResponse);
         } catch (Exception e) {

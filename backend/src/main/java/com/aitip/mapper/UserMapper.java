@@ -14,8 +14,8 @@ import com.aitip.entity.User;
  *
  * <p><b>Why a utility class instead of MapStruct?</b>
  * <ul>
- *   <li>Only 4 DTOs — MapStruct's annotation processing overhead isn't justified</li>
- *   <li>Fully transparent — no "magic" code generation</li>
+ *   <li>Only 4 DTOs â€” MapStruct's annotation processing overhead isn't justified</li>
+ *   <li>Fully transparent â€” no "magic" code generation</li>
  *   <li>Easy to debug and test</li>
  *   <li>Interview-friendly: shows understanding of separation of concerns</li>
  * </ul></p>
@@ -26,9 +26,9 @@ import com.aitip.entity.User;
  */
 public final class UserMapper {
 
-    // Prevent instantiation — utility class
+    // Prevent instantiation â€” utility class
     private UserMapper() {
-        throw new UnsupportedOperationException("Utility class — do not instantiate");
+        throw new UnsupportedOperationException("Utility class â€” do not instantiate");
     }
 
     /**

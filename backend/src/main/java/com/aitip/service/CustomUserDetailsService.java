@@ -22,7 +22,7 @@ import java.util.Collections;
  * <p><b>Why implement UserDetailsService?</b>
  * <ul>
  *   <li>Spring Security requires a UserDetailsService to load users</li>
- *   <li>By default, Spring Security uses in-memory users — we need DB</li>
+ *   <li>By default, Spring Security uses in-memory users â€” we need DB</li>
  *   <li>This service converts our User entity to Spring's UserDetails</li>
  * </ul></p>
  *
@@ -40,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     /**
-     * Constructor injection — single dependency.
+     * Constructor injection â€” single dependency.
      */
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;

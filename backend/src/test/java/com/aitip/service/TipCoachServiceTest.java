@@ -48,7 +48,7 @@ class TipCoachServiceTest {
     @Mock
     private TipCoachPromptBuilder promptBuilder;
     @Mock
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     @InjectMocks
     private TipCoachService tipCoachService;
@@ -72,7 +72,7 @@ class TipCoachServiceTest {
         lenient().when(tipOptimizationService.optimize(anyString(), any())).thenReturn(null);
         lenient().when(tipRecommendationService.getRecommendations(anyString(), anyString())).thenReturn(null);
         lenient().when(promptBuilder.buildPrompt(any())).thenReturn("prompt");
-        lenient().when(geminiService.getRecommendation(anyString())).thenReturn("AI Explanation");
+        lenient().when(AiProvider.getRecommendation(anyString())).thenReturn("AI Explanation");
     }
 
     @Test
@@ -219,8 +219,8 @@ class TipCoachServiceTest {
     }
 
     @Test
-    void testGetCoaching_GeminiFailure_Graceful() {
-        when(geminiService.getRecommendation(anyString())).thenThrow(new RuntimeException("API Error"));
+    void testGetCoaching_GroqFailure_Graceful() {
+        when(AiProvider.getRecommendation(anyString())).thenThrow(new RuntimeException("API Error"));
 
         TipCoachResponse response = tipCoachService.getCoaching(email, currency);
         

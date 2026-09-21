@@ -12,13 +12,13 @@ import jakarta.validation.constraints.Size;
  *
  * <p><b>Why a Record?</b>
  * <ul>
- *   <li>Immutable — request data should never be mutated after deserialization</li>
- *   <li>Concise — auto-generates constructor, getters, equals, hashCode, toString</li>
- *   <li>No Lombok needed — Records are a Java 16+ language feature</li>
+ *   <li>Immutable â€” request data should never be mutated after deserialization</li>
+ *   <li>Concise â€” auto-generates constructor, getters, equals, hashCode, toString</li>
+ *   <li>No Lombok needed â€” Records are a Java 16+ language feature</li>
  * </ul></p>
  *
  * <p><b>Why Jakarta Validation annotations here?</b>
- * Validation belongs at the DTO boundary — fail fast before
+ * Validation belongs at the DTO boundary â€” fail fast before
  * reaching the service layer. The controller uses {@code @Valid}
  * to trigger validation automatically.</p>
  *

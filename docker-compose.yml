@@ -1,0 +1,77 @@
+
+services:
+  # ==============================================================
+  # Database Service (PostgreSQL)
+  # ==============================================================
+  db:
+    image: postgres:15-alpine
+    container_name: aitip-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aitip_db
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aitip-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d aitip_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ==============================================================
+  # Backend Service (Spring Boot)
+  # ==============================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aitip-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/aitip_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER:-postgres}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-postgres}
+      - JWT_SECRET=${JWT_SECRET}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    networks:
+      - aitip-network
+    # Note: We don't need to expose port 8080 to the host if we only access it through the frontend's Nginx proxy, 
+    # but exposing it can be useful for direct API access during debugging.
+    ports:
+      - "8080:8080"
+
+  # ==============================================================
+  # Frontend Service (React + Nginx)
+  # ==============================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aitip-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - aitip-network
+
+# ==============================================================
+# Persistent Volumes and Networks
+# ==============================================================
+volumes:
+  postgres_data:
+    name: aitip-postgres-data
+
+networks:
+  aitip-network:
+    name: aitip-network
+    driver: bridge

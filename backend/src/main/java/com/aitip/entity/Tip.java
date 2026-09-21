@@ -75,7 +75,7 @@ public class Tip {
      *
      * <p><b>Why nullable?</b>
      * Tips created before Day 6 have no service quality rating.
-     * NULL means "not rated" — we do NOT invent a rating from tip percentage
+     * NULL means "not rated" â€” we do NOT invent a rating from tip percentage
      * or any other heuristic. Only the user's explicit selection sets this.</p>
      *
      * <p><b>Why EnumType.STRING?</b>

@@ -11,7 +11,7 @@ package com.aitip.exception;
  * <p><b>Why a custom exception instead of a generic one?</b>
  * <ul>
  *   <li>The GlobalExceptionHandler can map it to the correct HTTP status</li>
- *   <li>Clear intent — anyone reading the code knows exactly what happened</li>
+ *   <li>Clear intent â€” anyone reading the code knows exactly what happened</li>
  *   <li>Easy to add additional context (e.g., the duplicate email) if needed</li>
  * </ul></p>
  */

@@ -27,7 +27,7 @@ import java.util.Objects;
  *   <li>Minimum evidence rule: Requires &gt;= 5 recommendation decisions before declaring direction or adapting.</li>
  *   <li>Adaptation threshold: Requires |averageDifference| &gt;= 2.00 percentage points.</li>
  *   <li>Bounded adjustment: Clamped strictly to [-3.00, +3.00] percentage points.</li>
- *   <li>Never replaces baseline recommendations — acts as a contextual overlay.</li>
+ *   <li>Never replaces baseline recommendations â€” acts as a contextual overlay.</li>
  * </ul>
  * </p>
  */

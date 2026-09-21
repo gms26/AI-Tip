@@ -13,7 +13,7 @@ package com.aitip.dto;
  * {@code /api/users/me} on every login.</p>
  *
  * <p><b>Why tokenType?</b>
- * REST API best practice — tells the client how to use the token
+ * REST API best practice â€” tells the client how to use the token
  * (i.e., {@code Authorization: Bearer <token>}).</p>
  *
  * @param token     JWT access token

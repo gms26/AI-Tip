@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Response DTO for tip forecasting.
  *
  * <p><b>Core principle:</b> All values are deterministically calculated by
- * {@code TipForecastCalculationService}. Gemini may only explain these facts.</p>
+ * {@code TipForecastCalculationService}. Groq may only explain these facts.</p>
  *
  * <p><b>Important distinction:</b>
  * <ul>

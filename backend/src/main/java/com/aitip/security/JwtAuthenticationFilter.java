@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * JWT Authentication Filter — intercepts every HTTP request.
+ * JWT Authentication Filter â€” intercepts every HTTP request.
  *
  * <p><b>Purpose:</b> Extracts the JWT token from the Authorization
  * header, validates it, and sets the authenticated user in the
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService userDetailsService;
 
     /**
-     * Constructor injection — both dependencies are final.
+     * Constructor injection â€” both dependencies are final.
      */
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider,
                                    CustomUserDetailsService userDetailsService) {
@@ -78,7 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
-                                null, // No credentials needed — already authenticated via JWT
+                                null, // No credentials needed â€” already authenticated via JWT
                                 userDetails.getAuthorities()
                         );
 
@@ -95,7 +95,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("Could not set user authentication in security context: {}", ex.getMessage());
         }
 
-        // Always continue the filter chain — even if auth fails.
+        // Always continue the filter chain â€” even if auth fails.
         // Spring Security will handle 401/403 for protected endpoints.
         filterChain.doFilter(request, response);
     }

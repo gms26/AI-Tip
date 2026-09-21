@@ -32,7 +32,7 @@ import java.util.Optional;
  * <ul>
  *   <li>Missing preference row = personalization enabled (backward compatible)</li>
  *   <li>Lazy preference creation (row created only when user explicitly toggles)</li>
- *   <li>Reset is user + currency scoped — never affects other users or currencies</li>
+ *   <li>Reset is user + currency scoped â€” never affects other users or currencies</li>
  *   <li>Reset does NOT delete tips, goals, budgets, achievements, or recommendation actions</li>
  * </ul></p>
  */

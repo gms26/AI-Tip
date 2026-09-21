@@ -4,9 +4,9 @@ package com.aitip.dto;
  * Deterministic learning-strength classification based on usable feedback count (Day 35).
  *
  * <ul>
- *   <li>{@link #INSUFFICIENT_DATA}: 0–4 usable decisions.</li>
- *   <li>{@link #EARLY_LEARNING}: 5–9 usable decisions.</li>
- *   <li>{@link #ESTABLISHED}: 10–19 usable decisions.</li>
+ *   <li>{@link #INSUFFICIENT_DATA}: 0â€“4 usable decisions.</li>
+ *   <li>{@link #EARLY_LEARNING}: 5â€“9 usable decisions.</li>
+ *   <li>{@link #ESTABLISHED}: 10â€“19 usable decisions.</li>
  *   <li>{@link #STRONG}: 20+ usable decisions.</li>
  * </ul>
  */

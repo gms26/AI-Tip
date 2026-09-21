@@ -27,7 +27,7 @@ public class TipCoachService {
     private final TipRecommendationService tipRecommendationService;
     private final UserService userService;
     private final TipCoachPromptBuilder promptBuilder;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
 
     @Transactional(readOnly = true)
     public TipCoachResponse getCoaching(String email, String currency) {
@@ -209,7 +209,7 @@ public class TipCoachService {
         try {
             String prompt = promptBuilder.buildPrompt(response);
             java.util.concurrent.CompletableFuture<String> future = java.util.concurrent.CompletableFuture.supplyAsync(
-                    () -> geminiService.getRecommendation(prompt));
+                    () -> AiProvider.getRecommendation(prompt));
             String aiExplanation = future.get(3, java.util.concurrent.TimeUnit.SECONDS);
             response.setAiExplanation(aiExplanation);
         } catch (Exception e) {

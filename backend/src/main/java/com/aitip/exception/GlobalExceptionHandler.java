@@ -33,8 +33,8 @@ import java.util.Map;
  *
  * <p><b>Why log at different levels?</b>
  * <ul>
- *   <li>WARN for client errors (4xx) — expected scenarios</li>
- *   <li>ERROR for server errors (5xx) — unexpected failures</li>
+ *   <li>WARN for client errors (4xx) â€” expected scenarios</li>
+ *   <li>ERROR for server errors (5xx) â€” unexpected failures</li>
  * </ul></p>
  */
 @RestControllerAdvice
@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles AI service failures (Gemini timeouts, rate limits, malformed JSON).
+     * Handles AI service failures (Groq timeouts, rate limits, malformed JSON).
      *
      * <p><b>HTTP 503 Service Unavailable</b></p>
      * <p>We do NOT expose the raw AI error message to the client. We log it

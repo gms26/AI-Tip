@@ -170,7 +170,7 @@ class TipScenarioCalculationServiceTest {
     @Test
     void testRounding_fractionalBill() {
         setupMock(Collections.emptyList());
-        // 33.33 × 15% = 4.9995 → 5.00 (HALF_UP)
+        // 33.33 Ãƒâ€” 15% = 4.9995 Ã¢â€ â€™ 5.00 (HALF_UP)
         TipScenarioRequest req = makeRequest("USD", "33.33",
                 List.of(new BigDecimal("15")), null);
 
@@ -184,7 +184,7 @@ class TipScenarioCalculationServiceTest {
     @Test
     void testRounding_halfUp() {
         setupMock(Collections.emptyList());
-        // 77.77 × 13% = 10.1101 → 10.11 (HALF_UP)
+        // 77.77 Ãƒâ€” 13% = 10.1101 Ã¢â€ â€™ 10.11 (HALF_UP)
         TipScenarioRequest req = makeRequest("USD", "77.77",
                 List.of(new BigDecimal("13")), null);
 
@@ -242,8 +242,8 @@ class TipScenarioCalculationServiceTest {
     @Test
     void testHistoricalComparison_monetaryDifference() {
         // Median = 15, bill = 1000
-        // Historical tip for bill = 1000 × 15/100 = 150
-        // Scenario 20% → 200, diff = 200 - 150 = +50
+        // Historical tip for bill = 1000 Ãƒâ€” 15/100 = 150
+        // Scenario 20% Ã¢â€ â€™ 200, diff = 200 - 150 = +50
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD"),
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD"),
@@ -332,9 +332,9 @@ class TipScenarioCalculationServiceTest {
     void testBudgetProjection_underBudget() {
         // 3 tips in 90 days, avg tip = 15, median = 15%
         // dailyRate = 3/90 = 0.033333
-        // Scenario 10% on bill 1000 → tip = 100
+        // Scenario 10% on bill 1000 Ã¢â€ â€™ tip = 100
         // scalingRatio = 100 / 15 = 6.666667
-        // monthlyProjected = 0.033333 × 30 × 6.666667 × 15 = 100.00
+        // monthlyProjected = 0.033333 Ãƒâ€” 30 Ãƒâ€” 6.666667 Ãƒâ€” 15 = 100.00
         List<Tip> tips = List.of(
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD"),
                 createTip(new BigDecimal("15.00"), new BigDecimal("15.00"), "USD"),
@@ -362,7 +362,7 @@ class TipScenarioCalculationServiceTest {
         );
         setupMock(tips);
 
-        // Scenario 80% on bill 1000 → large projected spending vs small budget
+        // Scenario 80% on bill 1000 Ã¢â€ â€™ large projected spending vs small budget
         TipScenarioRequest req = makeRequest("USD", "1000",
                 List.of(new BigDecimal("80")), new BigDecimal("10"));
 

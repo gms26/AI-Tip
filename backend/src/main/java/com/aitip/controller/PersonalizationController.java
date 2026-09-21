@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * REST controller for personalized tipping insights.
  *
  * <p>Secured by JWT filter. The user identity is extracted from the
- * {@link Authentication} object — never from a client-supplied userId.</p>
+ * {@link Authentication} object â€” never from a client-supplied userId.</p>
  */
 @RestController
 @RequestMapping("/api/personalization")

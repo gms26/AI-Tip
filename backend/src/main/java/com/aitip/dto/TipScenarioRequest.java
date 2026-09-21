@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @param currency             ISO 4217 currency code (required)
  * @param billAmount           the bill to calculate scenarios against (required, > 0)
- * @param scenarioPercentages  1–5 hypothetical tip percentages, each 0–100 (required)
+ * @param scenarioPercentages  1â€“5 hypothetical tip percentages, each 0â€“100 (required)
  * @param monthlyBudget        optional monthly budget for projection (must be > 0 if supplied)
  */
 public record TipScenarioRequest(

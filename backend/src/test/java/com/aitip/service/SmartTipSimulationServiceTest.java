@@ -29,7 +29,7 @@ class SmartTipSimulationServiceTest {
     private TipGoalService tipGoalService;
     
     @Mock
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     @InjectMocks
     private SmartTipSimulationService simulationService;
@@ -86,7 +86,7 @@ class SmartTipSimulationServiceTest {
         when(tipGoalService.getGoals(eq("test@example.com")))
                 .thenReturn(Collections.emptyList());
 
-        when(geminiService.generateSimulationExplanation(any(), any(), any(), any(), any(), any()))
+        when(AiProvider.generateSimulationExplanation(any(), any(), any(), any(), any(), any()))
                 .thenReturn("AI test explanation");
 
         SmartTipSimulationResponse response = simulationService.simulate("test@example.com", request);

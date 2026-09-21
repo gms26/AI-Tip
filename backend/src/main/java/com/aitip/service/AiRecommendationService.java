@@ -13,14 +13,14 @@ public class AiRecommendationService {
 
     private static final Logger log = LoggerFactory.getLogger(AiRecommendationService.class);
 
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
     private final TipRecommendationPromptBuilder promptBuilder;
     private final TipProfilePromptBuilder profilePromptBuilder;
 
-    public AiRecommendationService(GeminiService geminiService, 
+    public AiRecommendationService(AiProvider AiProvider, 
                                    TipRecommendationPromptBuilder promptBuilder,
                                    TipProfilePromptBuilder profilePromptBuilder) {
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
         this.promptBuilder = promptBuilder;
         this.profilePromptBuilder = profilePromptBuilder;
     }
@@ -30,10 +30,10 @@ public class AiRecommendationService {
         
         try {
             CompletableFuture<String> future = CompletableFuture.supplyAsync(
-                    () -> geminiService.getRecommendation(prompt));
+                    () -> AiProvider.getRecommendation(prompt));
             return future.get(3, TimeUnit.SECONDS); 
         } catch (Exception e) {
-            log.warn("Gemini timeout/failure during recommendation explanation: {}", e.getMessage());
+            log.warn("Groq timeout/failure during recommendation explanation: {}", e.getMessage());
             return null;
         }
     }
@@ -43,10 +43,10 @@ public class AiRecommendationService {
         
         try {
             CompletableFuture<String> future = CompletableFuture.supplyAsync(
-                    () -> geminiService.getRecommendation(prompt));
+                    () -> AiProvider.getRecommendation(prompt));
             return future.get(3, TimeUnit.SECONDS); 
         } catch (Exception e) {
-            log.warn("Gemini timeout/failure during profile explanation: {}", e.getMessage());
+            log.warn("Groq timeout/failure during profile explanation: {}", e.getMessage());
             return null;
         }
     }

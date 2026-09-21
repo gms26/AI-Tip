@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Authentication Controller — handles registration and login endpoints.
+ * Authentication Controller â€” handles registration and login endpoints.
  *
  * <p><b>Purpose:</b> Thin REST controller that validates input,
  * delegates to AuthService, and returns responses. Contains
- * ZERO business logic — only request/response handling.</p>
+ * ZERO business logic â€” only request/response handling.</p>
  *
  * <p><b>Why @Valid?</b>
  * Triggers Jakarta Bean Validation on the request DTOs.
@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>REST Standards:</b>
  * <ul>
- *   <li>POST /api/auth/register → 201 Created (new resource)</li>
- *   <li>POST /api/auth/login → 200 OK (existing resource action)</li>
+ *   <li>POST /api/auth/register â†’ 201 Created (new resource)</li>
+ *   <li>POST /api/auth/login â†’ 200 OK (existing resource action)</li>
  * </ul></p>
  */
 @RestController
@@ -42,7 +42,7 @@ public class AuthController {
     private final AuthService authService;
 
     /**
-     * Constructor injection — single dependency.
+     * Constructor injection â€” single dependency.
      */
     public AuthController(AuthService authService) {
         this.authService = authService;
@@ -52,7 +52,7 @@ public class AuthController {
      * Register a new user.
      *
      * <p><b>Flow:</b>
-     * Request → @Valid → AuthService.register() → 201 + AuthResponse</p>
+     * Request â†’ @Valid â†’ AuthService.register() â†’ 201 + AuthResponse</p>
      *
      * <p><b>Why 201 Created?</b>
      * REST convention: POST that creates a new resource returns 201,
@@ -73,10 +73,10 @@ public class AuthController {
      * Login an existing user.
      *
      * <p><b>Flow:</b>
-     * Request → @Valid → AuthService.login() → 200 + AuthResponse</p>
+     * Request â†’ @Valid â†’ AuthService.login() â†’ 200 + AuthResponse</p>
      *
      * <p><b>Why 200 OK?</b>
-     * Login doesn't create a resource — it authenticates
+     * Login doesn't create a resource â€” it authenticates
      * and returns a token. 200 is the correct status.</p>
      *
      * @param request validated login credentials

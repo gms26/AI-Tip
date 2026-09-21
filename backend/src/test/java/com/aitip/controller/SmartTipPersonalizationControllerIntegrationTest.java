@@ -9,7 +9,7 @@ import com.aitip.entity.User;
 import com.aitip.repository.TipPersonalizationPreferenceRepository;
 import com.aitip.repository.TipRecommendationFeedbackRepository;
 import com.aitip.repository.UserRepository;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private User testUser;
     private User otherUser;
@@ -106,7 +106,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("GET /api/smart-tip/personalization — default enabled state")
+    @DisplayName("GET /api/smart-tip/personalization â€” default enabled state")
     void getSettings_defaultEnabled() throws Exception {
         mockMvc.perform(get("/api/smart-tip/personalization")
                         .param("currency", "USD"))
@@ -120,7 +120,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("GET — returns disabled after update")
+    @DisplayName("GET â€” returns disabled after update")
     void getSettings_afterDisable() throws Exception {
         // Pre-create a disabled preference
         TipPersonalizationPreference pref = TipPersonalizationPreference.builder()
@@ -140,7 +140,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET — 401 without authentication")
+    @DisplayName("GET â€” 401 without authentication")
     void getSettings_unauthenticated() throws Exception {
         mockMvc.perform(get("/api/smart-tip/personalization")
                         .param("currency", "USD"))
@@ -149,7 +149,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("GET — 400 for invalid currency")
+    @DisplayName("GET â€” 400 for invalid currency")
     void getSettings_invalidCurrency() throws Exception {
         mockMvc.perform(get("/api/smart-tip/personalization")
                         .param("currency", "INVALID"))
@@ -160,7 +160,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("PUT — disable personalization")
+    @DisplayName("PUT â€” disable personalization")
     void updateSettings_disable() throws Exception {
         String body = objectMapper.writeValueAsString(new PersonalizationUpdateRequest("USD", false));
 
@@ -175,7 +175,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("PUT — enable personalization")
+    @DisplayName("PUT â€” enable personalization")
     void updateSettings_enable() throws Exception {
         // First disable
         TipPersonalizationPreference pref = TipPersonalizationPreference.builder()
@@ -199,7 +199,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("PUT — validation: missing currency")
+    @DisplayName("PUT â€” validation: missing currency")
     void updateSettings_missingCurrency() throws Exception {
         String body = "{\"enabled\": false}";
 
@@ -211,7 +211,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("PUT — validation: missing enabled flag")
+    @DisplayName("PUT â€” validation: missing enabled flag")
     void updateSettings_missingEnabled() throws Exception {
         String body = "{\"currency\": \"USD\"}";
 
@@ -222,7 +222,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT — 401 without authentication")
+    @DisplayName("PUT â€” 401 without authentication")
     void updateSettings_unauthenticated() throws Exception {
         String body = objectMapper.writeValueAsString(new PersonalizationUpdateRequest("USD", false));
 
@@ -236,7 +236,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("POST /api/smart-tip/personalization/reset — deletes feedback")
+    @DisplayName("POST /api/smart-tip/personalization/reset â€” deletes feedback")
     void resetLearning_deletesFeedback() throws Exception {
         // Create some feedback records
         for (int i = 0; i < 3; i++) {
@@ -268,7 +268,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("POST reset — returns zero when no feedback exists")
+    @DisplayName("POST reset â€” returns zero when no feedback exists")
     void resetLearning_emptyReset() throws Exception {
         String body = objectMapper.writeValueAsString(new PersonalizationResetRequest("USD"));
 
@@ -282,7 +282,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("POST reset — currency isolation (USD reset doesn't affect INR)")
+    @DisplayName("POST reset â€” currency isolation (USD reset doesn't affect INR)")
     void resetLearning_currencyIsolation() throws Exception {
         // Create USD feedback
         TipRecommendationFeedback usdFb = TipRecommendationFeedback.builder()
@@ -314,7 +314,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "personalization@example.com")
-    @DisplayName("POST reset — user isolation (user A's reset doesn't affect user B)")
+    @DisplayName("POST reset â€” user isolation (user A's reset doesn't affect user B)")
     void resetLearning_userIsolation() throws Exception {
         // Create feedback for testUser
         TipRecommendationFeedback testFb = TipRecommendationFeedback.builder()
@@ -345,7 +345,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST reset — 401 without authentication")
+    @DisplayName("POST reset â€” 401 without authentication")
     void resetLearning_unauthenticated() throws Exception {
         String body = objectMapper.writeValueAsString(new PersonalizationResetRequest("USD"));
 
@@ -406,7 +406,7 @@ public class SmartTipPersonalizationControllerIntegrationTest {
                 .build();
         preferenceRepository.save(pref);
 
-        // otherUser (other@example.com) should see default (enabled) — not testUser's disabled state
+        // otherUser (other@example.com) should see default (enabled) â€” not testUser's disabled state
         mockMvc.perform(get("/api/smart-tip/personalization").param("currency", "USD"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.enabled").value(true)); // default, not testUser's disabled

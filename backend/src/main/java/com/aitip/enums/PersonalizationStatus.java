@@ -5,8 +5,8 @@ package com.aitip.enums;
  *
  * <p>Two states only:
  * <ul>
- *   <li>{@link #ENABLED} — feedback-based adaptation is active</li>
- *   <li>{@link #DISABLED} — baseline deterministic recommendations only</li>
+ *   <li>{@link #ENABLED} â€” feedback-based adaptation is active</li>
+ *   <li>{@link #DISABLED} â€” baseline deterministic recommendations only</li>
  * </ul></p>
  */
 public enum PersonalizationStatus {

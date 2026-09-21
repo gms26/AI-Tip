@@ -341,7 +341,7 @@ const TipHistoryPage = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1440, mx: 'auto', p: { xs: 2, sm: 3, md: 5 } }}>
+    <Box sx={{ px: { xs: 2.5, sm: 3.5, md: 5 }, pt: { xs: 3, md: 4 }, pb: { xs: 4, md: 6 }, width: '100%', maxWidth: 1300, mx: 'auto' }}>
       
       {/* ═══════════════════════════════════════════════════
           PT LEDGER HEADER & ACTIONS
@@ -387,7 +387,7 @@ const TipHistoryPage = () => {
             >
               Historical Gratuity Ledger
             </Typography>
-            <Typography variant="body2" sx={{ color: '#cdd2d8', maxWidth: 720 }}>
+            <Typography variant="body1" sx={{ color: '#cdd2d8', maxWidth: 720, fontSize: '1.05rem', lineHeight: 1.6 }}>
               Permanent record of dining dispatches, hospitality service indexes, and IRS § 274 tax-deductible distributions across fine dining establishments.
             </Typography>
           </Box>
@@ -459,46 +459,46 @@ const TipHistoryPage = () => {
           }}
         >
           <Box sx={{ p: 2, borderRadius: '16px', background: 'rgba(14, 18, 32, 0.55)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
               01 / Recorded Dispatches
             </Typography>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#fff', fontFamily: '"JetBrains Mono", monospace', mt: 0.5 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#fff', fontFamily: '"JetBrains Mono", monospace', mt: 1 }}>
               {ledgerMetrics.totalDispatches}
             </Typography>
           </Box>
 
           <Box sx={{ p: 2, borderRadius: '16px', background: 'rgba(14, 18, 32, 0.55)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
               02 / Settled Volume
             </Typography>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#cdd2d8', fontFamily: '"JetBrains Mono", monospace', mt: 0.5 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#cdd2d8', fontFamily: '"JetBrains Mono", monospace', mt: 1 }}>
               ${ledgerMetrics.volumeTotal.toFixed(2)}
             </Typography>
           </Box>
 
           <Box sx={{ p: 2, borderRadius: '16px', background: 'rgba(253, 91, 56, 0.08)', border: '1px solid rgba(253, 91, 56, 0.28)' }}>
-            <Typography variant="caption" sx={{ color: '#fd5b38', display: 'block', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 800 }}>
+            <Typography variant="caption" sx={{ color: '#fd5b38', display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 800 }}>
               03 / Cumulative Tips
             </Typography>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#fd5b38', fontFamily: '"JetBrains Mono", monospace', mt: 0.5 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#fd5b38', fontFamily: '"JetBrains Mono", monospace', mt: 1 }}>
               ${ledgerMetrics.gratuitiesTotal.toFixed(2)}
             </Typography>
           </Box>
 
           <Box sx={{ p: 2, borderRadius: '16px', background: 'rgba(253, 91, 56, 0.08)', border: '1px solid rgba(253, 91, 56, 0.28)' }}>
-            <Typography variant="caption" sx={{ color: '#fd5b38', display: 'block', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 800 }}>
+            <Typography variant="caption" sx={{ color: '#fd5b38', display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 800 }}>
               04 / Effective Mean Rate
             </Typography>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#fd5b38', fontFamily: '"JetBrains Mono", monospace', mt: 0.5 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#fd5b38', fontFamily: '"JetBrains Mono", monospace', mt: 1 }}>
               {ledgerMetrics.meanRate}%
             </Typography>
           </Box>
 
           <Box sx={{ p: 2, borderRadius: '16px', background: 'rgba(14, 18, 32, 0.55)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+            <Typography variant="caption" sx={{ color: '#858b96', display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
               05 / Prime Venue
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#38bdf8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', mt: 0.5 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: '#fff', fontFamily: '"JetBrains Mono", monospace', mt: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {ledgerMetrics.topVenue}
             </Typography>
           </Box>
@@ -540,11 +540,14 @@ const TipHistoryPage = () => {
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: '14px',
                   color: '#fff',
-                  px: 1.5,
-                  py: 0.4,
-                  fontSize: '0.9rem',
+                  px: 2,
+                  py: 0.8,
+                  fontSize: '1.15rem',
                   '&:hover': { borderColor: 'rgba(253, 91, 56, 0.4)' },
-                  '&.Mui-focused': { borderColor: '#fd5b38', boxShadow: '0 0 16px rgba(253, 91, 56, 0.25)' }
+                  '&.Mui-focused': { borderColor: '#fd5b38', boxShadow: '0 0 16px rgba(253, 91, 56, 0.25)' },
+                  '& input::placeholder': {
+                    fontSize: '1.05rem'
+                  }
                 }
               }}
             />

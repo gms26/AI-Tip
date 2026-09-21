@@ -58,7 +58,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 1. No history — empty state
+    // 1. No history Ã¢â‚¬â€ empty state
     // =============================================
     @Test
     void noHistory_returnsEmptyState() {
@@ -82,7 +82,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 2. One tip — LOW confidence
+    // 2. One tip Ã¢â‚¬â€ LOW confidence
     // =============================================
     @Test
     void oneTip_returnsLowConfidence() {
@@ -100,7 +100,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 3. Two tips — even median, MEDIUM confidence
+    // 3. Two tips Ã¢â‚¬â€ even median, MEDIUM confidence
     // =============================================
     @Test
     void twoTips_evenMedian_mediumConfidence() {
@@ -121,7 +121,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 4. Three tips — odd median
+    // 4. Three tips Ã¢â‚¬â€ odd median
     // =============================================
     @Test
     void threeTips_oddMedian() {
@@ -135,12 +135,12 @@ class TipOptimizationServiceTest {
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
         assertEquals(3, response.sampleSize());
-        // Sorted: [15, 20, 25] → median = 20
+        // Sorted: [15, 20, 25] Ã¢â€ â€™ median = 20
         assertEquals(new BigDecimal("20.00"), response.historicalMedianPercentage());
     }
 
     // =============================================
-    // 5. Five tips — HIGH confidence, odd median
+    // 5. Five tips Ã¢â‚¬â€ HIGH confidence, odd median
     // =============================================
     @Test
     void fiveTips_highConfidence_oddMedian() {
@@ -157,14 +157,14 @@ class TipOptimizationServiceTest {
 
         assertEquals(5, response.sampleSize());
         assertEquals(BudgetConfidence.HIGH, response.confidence());
-        // Sorted: [15, 17, 18, 20, 22] → median = 18
+        // Sorted: [15, 17, 18, 20, 22] Ã¢â€ â€™ median = 18
         assertEquals(new BigDecimal("18.00"), response.historicalMedianPercentage());
         // Mean: (15+17+18+20+22)/5 = 18.40
         assertEquals(new BigDecimal("18.40"), response.historicalMeanPercentage());
     }
 
     // =============================================
-    // 6. Four tips — even median
+    // 6. Four tips Ã¢â‚¬â€ even median
     // =============================================
     @Test
     void fourTips_evenMedian() {
@@ -178,7 +178,7 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("20"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Sorted: [10, 15, 20, 25] → median = (15 + 20) / 2 = 17.50
+        // Sorted: [10, 15, 20, 25] Ã¢â€ â€™ median = (15 + 20) / 2 = 17.50
         assertEquals(new BigDecimal("17.50"), response.historicalMedianPercentage());
     }
 
@@ -201,7 +201,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 8. Outlier handling — median is robust
+    // 8. Outlier handling Ã¢â‚¬â€ median is robust
     // =============================================
     @Test
     void outlierDoesNotDistortMedian() {
@@ -215,14 +215,14 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("20"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Sorted: [18, 19, 20, 100] → median = (19 + 20) / 2 = 19.50
+        // Sorted: [18, 19, 20, 100] Ã¢â€ â€™ median = (19 + 20) / 2 = 19.50
         assertEquals(new BigDecimal("19.50"), response.historicalMedianPercentage());
-        // Mean: (18+19+20+100)/4 = 39.25 — much higher than median
+        // Mean: (18+19+20+100)/4 = 39.25 Ã¢â‚¬â€ much higher than median
         assertEquals(new BigDecimal("39.25"), response.historicalMeanPercentage());
     }
 
     // =============================================
-    // 9. Target range = median ± 2
+    // 9. Target range = median Ã‚Â± 2
     // =============================================
     @Test
     void targetRange_medianPlusMinusTwo() {
@@ -235,7 +235,7 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("25"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Median = 20.00 → range = [18.00, 22.00]
+        // Median = 20.00 Ã¢â€ â€™ range = [18.00, 22.00]
         assertEquals(new BigDecimal("18.00"), response.recommendedMinimumPercentage());
         assertEquals(new BigDecimal("22.00"), response.recommendedMaximumPercentage());
     }
@@ -254,7 +254,7 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("5"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Median = 1.00 → min = max(0, 1 - 2) = 0.00
+        // Median = 1.00 Ã¢â€ â€™ min = max(0, 1 - 2) = 0.00
         assertEquals(new BigDecimal("0.00").compareTo(response.recommendedMinimumPercentage()), 0);
         assertEquals(new BigDecimal("3.00"), response.recommendedMaximumPercentage());
     }
@@ -273,7 +273,7 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("99"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Median = 99.00 → max = min(100, 99 + 2) = 100
+        // Median = 99.00 Ã¢â€ â€™ max = min(100, 99 + 2) = 100
         assertEquals(new BigDecimal("97.00"), response.recommendedMinimumPercentage());
         assertEquals(new BigDecimal("100").compareTo(response.recommendedMaximumPercentage()), 0);
     }
@@ -318,7 +318,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 15. USD isolation — only USD tips counted
+    // 15. USD isolation Ã¢â‚¬â€ only USD tips counted
     // =============================================
     @Test
     void usdIsolation_onlyUsdTipsCounted() {
@@ -333,12 +333,12 @@ class TipOptimizationServiceTest {
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
         assertEquals(2, response.sampleSize());
-        // Only USD tips: [15, 20] → median = 17.50
+        // Only USD tips: [15, 20] Ã¢â€ â€™ median = 17.50
         assertEquals(new BigDecimal("17.50"), response.historicalMedianPercentage());
     }
 
     // =============================================
-    // 16. INR isolation — only INR tips counted
+    // 16. INR isolation Ã¢â‚¬â€ only INR tips counted
     // =============================================
     @Test
     void inrIsolation_onlyInrTipsCounted() {
@@ -354,7 +354,7 @@ class TipOptimizationServiceTest {
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
         assertEquals(3, response.sampleSize());
-        // Only INR tips: [10, 12, 14] → median = 12.00
+        // Only INR tips: [10, 12, 14] Ã¢â€ â€™ median = 12.00
         assertEquals(new BigDecimal("12.00"), response.historicalMedianPercentage());
     }
 
@@ -413,7 +413,7 @@ class TipOptimizationServiceTest {
         TipOptimizationRequest request = new TipOptimizationRequest("USD", new BigDecimal("20"), null, null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // Mean: (10+20+30+33.33)/4 = 93.33/4 = 23.3325 → 23.33 (HALF_UP)
+        // Mean: (10+20+30+33.33)/4 = 93.33/4 = 23.3325 Ã¢â€ â€™ 23.33 (HALF_UP)
         assertEquals(new BigDecimal("23.33"), response.historicalMeanPercentage());
     }
 
@@ -442,7 +442,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 21. Monthly estimation — no budget → null monthly fields
+    // 21. Monthly estimation Ã¢â‚¬â€ no budget Ã¢â€ â€™ null monthly fields
     // =============================================
     @Test
     void monthlyEstimation_noBudget_nullFields() {
@@ -459,7 +459,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 22. Monthly estimation — budget supplied but no history → null optimized/difference
+    // 22. Monthly estimation Ã¢â‚¬â€ budget supplied but no history Ã¢â€ â€™ null optimized/difference
     // =============================================
     @Test
     void monthlyEstimation_budgetButNoHistory_nullOptimized() {
@@ -469,14 +469,14 @@ class TipOptimizationServiceTest {
                 "USD", new BigDecimal("25"), new BigDecimal("5000.00"), null);
         TipOptimizationResponse response = service.optimize("alice@example.com", request);
 
-        // No history → empty state, all monthly fields null
+        // No history Ã¢â€ â€™ empty state, all monthly fields null
         assertNull(response.monthlyTipEstimate());
         assertNull(response.optimizedMonthlyTipEstimate());
         assertNull(response.potentialMonthlyDifference());
     }
 
     // =============================================
-    // 23. Historical median comparison — same as current
+    // 23. Historical median comparison Ã¢â‚¬â€ same as current
     // =============================================
     @Test
     void currentMatchesMedian_messageReflects() {
@@ -510,7 +510,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 25. Median internal method — empty list
+    // 25. Median internal method Ã¢â‚¬â€ empty list
     // =============================================
     @Test
     void calculateMedian_emptyList_returnsZero() {
@@ -518,7 +518,7 @@ class TipOptimizationServiceTest {
     }
 
     // =============================================
-    // 26. Mean internal method — empty list
+    // 26. Mean internal method Ã¢â‚¬â€ empty list
     // =============================================
     @Test
     void calculateMean_emptyList_returnsZero() {

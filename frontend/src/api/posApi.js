@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from './axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/pos' : 'http://localhost:8080/api/pos';
+const API_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/pos' : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/pos';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');

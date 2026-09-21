@@ -12,9 +12,9 @@ import java.math.BigDecimal;
  *
  * <p>Validation rules:
  * <ul>
- *   <li>{@code currency} — required, validated as ISO 4217 in the service layer</li>
- *   <li>{@code monthlyLimit} — required, must be > 0</li>
- *   <li>{@code warningThreshold} — required, must be > 0 and ≤ 100</li>
+ *   <li>{@code currency} â€” required, validated as ISO 4217 in the service layer</li>
+ *   <li>{@code monthlyLimit} â€” required, must be > 0</li>
+ *   <li>{@code warningThreshold} â€” required, must be > 0 and â‰¤ 100</li>
  * </ul></p>
  */
 public record TipBudgetRequest(

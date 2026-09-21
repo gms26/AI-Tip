@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children }) => {
       >
         <CircularProgress
           size={48}
-          sx={{ color: '#6C63FF' }}
+          sx={{ color: '#fd5b38' }}
         />
       </Box>
     );

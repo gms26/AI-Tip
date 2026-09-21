@@ -12,11 +12,11 @@ import java.math.BigDecimal;
  *
  * <p><b>Fields:</b></p>
  * <ul>
- *   <li>{@code currency} — required, validated as ISO 4217 in service layer</li>
- *   <li>{@code currentTipPercentage} — required, 0–100</li>
- *   <li>{@code monthlyBudget} — optional user-supplied assumption for monthly estimation.
+ *   <li>{@code currency} â€” required, validated as ISO 4217 in service layer</li>
+ *   <li>{@code currentTipPercentage} â€” required, 0â€“100</li>
+ *   <li>{@code monthlyBudget} â€” optional user-supplied assumption for monthly estimation.
  *       This is NOT the user's actual Day 17 budget; it is a hypothetical input.</li>
- *   <li>{@code billAmount} — optional, for bill-level tip comparison</li>
+ *   <li>{@code billAmount} â€” optional, for bill-level tip comparison</li>
  * </ul>
  */
 public record TipOptimizationRequest(

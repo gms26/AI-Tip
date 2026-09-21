@@ -230,7 +230,7 @@ class TipBudgetControllerIntegrationTest {
                         .content(body))
                 .andExpect(status().isOk());
 
-        // User B tries to access User A's budget status → 404 (not 403, to avoid revealing existence)
+        // User B tries to access User A's budget status â†’ 404 (not 403, to avoid revealing existence)
         mockMvc.perform(get("/api/tip-budgets/USD/status")
                         .header("Authorization", "Bearer " + tokenB))
                 .andExpect(status().isNotFound());

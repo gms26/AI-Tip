@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
  *
  * <p><b>Why a dedicated DTO instead of reusing CreateTipRequest?</b>
  * The PATCH endpoint updates a single field. A dedicated DTO keeps
- * the contract minimal and explicit — callers don't need to repeat
+ * the contract minimal and explicit â€” callers don't need to repeat
  * the full tip payload to update one attribute.</p>
  *
  * <p><b>Validation:</b>

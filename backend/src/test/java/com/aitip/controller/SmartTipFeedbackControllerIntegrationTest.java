@@ -6,7 +6,7 @@ import com.aitip.entity.TipRecommendationFeedback;
 import com.aitip.entity.User;
 import com.aitip.repository.TipRecommendationFeedbackRepository;
 import com.aitip.repository.UserRepository;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +52,7 @@ public class SmartTipFeedbackControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private User testUserA;
     private User testUserB;

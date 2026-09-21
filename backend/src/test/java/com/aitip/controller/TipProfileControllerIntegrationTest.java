@@ -5,7 +5,7 @@ import com.aitip.entity.Tip;
 import com.aitip.entity.User;
 import com.aitip.repository.TipRepository;
 import com.aitip.repository.UserRepository;
-import com.aitip.service.GeminiService;
+import com.aitip.service.AiProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +51,7 @@ public class TipProfileControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GeminiService geminiService;
+    private AiProvider AiProvider;
 
     private User testUser;
     private User otherUser;
@@ -104,7 +104,7 @@ public class TipProfileControllerIntegrationTest {
         createTip(testUser, "USD", "Cafe", 10.0, 20.0);
         createTip(testUser, "USD", "Diner", 5.0, 15.0);
         
-        when(geminiService.getRecommendation(anyString())).thenReturn("AI explanation.");
+        when(AiProvider.getRecommendation(anyString())).thenReturn("AI explanation.");
 
         mockMvc.perform(get("/api/tip-profile")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -117,10 +117,10 @@ public class TipProfileControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "profile@example.com")
-    void testGetProfile_GeminiFailure() throws Exception {
+    void testGetProfile_GroqFailure() throws Exception {
         createTip(testUser, "USD", "Cafe", 10.0, 20.0);
         
-        when(geminiService.getRecommendation(anyString())).thenThrow(new RuntimeException("API down"));
+        when(AiProvider.getRecommendation(anyString())).thenThrow(new RuntimeException("API down"));
 
         mockMvc.perform(get("/api/tip-profile")
                 .contentType(MediaType.APPLICATION_JSON))

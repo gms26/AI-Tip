@@ -29,7 +29,7 @@ import java.util.UUID;
  *   <li>All statistics are deterministic and backend-calculated</li>
  *   <li>Median is used for "typical" claims (robust to outliers)</li>
  *   <li>Mean is reported separately for transparency</li>
- *   <li>This service is completely independent of Gemini</li>
+ *   <li>This service is completely independent of Groq</li>
  * </ul>
  *
  * <p><b>Threshold constants:</b></p>
@@ -283,9 +283,9 @@ public class PersonalizationService {
         if (count == 1) {
             return "You have 1 recorded tip.";
         } else if (count < MIN_TIPS_FOR_STRONG_CLAIM) {
-            return String.format("Your recent median tip is %s%% (range: %s%%–%s%%).", personalized, min, max);
+            return String.format("Your recent median tip is %s%% (range: %s%%â€“%s%%).", personalized, min, max);
         } else {
-            return String.format("You typically tip around %s%% (range: %s%%–%s%%, based on %d tips).", personalized, min, max, count);
+            return String.format("You typically tip around %s%% (range: %s%%â€“%s%%, based on %d tips).", personalized, min, max, count);
         }
     }
 

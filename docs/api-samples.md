@@ -1,4 +1,4 @@
-# AI Tip Assistant — API Reference (Day 1)
+# AI Tip Assistant â€” API Reference (Day 1)
 
 ## Base URL
 
@@ -10,7 +10,7 @@ http://localhost:8080
 
 ## 1. Health Check
 
-**Public** — No authentication required.
+**Public** â€” No authentication required.
 
 ```bash
 curl http://localhost:8080/health
@@ -29,7 +29,7 @@ curl http://localhost:8080/health
 
 ## 2. Register User
 
-**Public** — Creates a new account and returns JWT.
+**Public** â€” Creates a new account and returns JWT.
 
 ```bash
 curl -X POST http://localhost:8080/api/auth/register \
@@ -90,7 +90,7 @@ curl -X POST http://localhost:8080/api/auth/register \
 
 ## 3. Login User
 
-**Public** — Authenticates and returns JWT.
+**Public** â€” Authenticates and returns JWT.
 
 ```bash
 curl -X POST http://localhost:8080/api/auth/login \
@@ -125,7 +125,7 @@ curl -X POST http://localhost:8080/api/auth/login \
 
 ## 4. Get Current User (Protected)
 
-**Requires JWT** — Returns authenticated user's profile.
+**Requires JWT** â€” Returns authenticated user's profile.
 
 ```bash
 curl http://localhost:8080/api/users/me \
@@ -151,7 +151,7 @@ HTTP 401 Unauthorized
 
 ## 5. Get AI Tip Suggestion (Protected)
 
-**Requires JWT** — Returns a smart tip recommendation based on context.
+**Requires JWT** â€” Returns a smart tip recommendation based on context.
 
 ```bash
 curl -X POST http://localhost:8080/api/ai/suggest \
@@ -195,7 +195,7 @@ curl -X POST http://localhost:8080/api/ai/suggest \
 }
 ```
 
-**AI Failure / Malformed Gemini Output** (503 Service Unavailable):
+**AI Failure / Malformed Groq Output** (503 Service Unavailable):
 ```json
 {
   "status": 503,
@@ -209,7 +209,7 @@ curl -X POST http://localhost:8080/api/ai/suggest \
 
 ## 6. Get Personalization Summary (Protected)
 
-**Requires JWT** — Returns the authenticated user's overall tipping patterns based on actual database history.
+**Requires JWT** â€” Returns the authenticated user's overall tipping patterns based on actual database history.
 
 ```bash
 curl http://localhost:8080/api/personalization/summary \
@@ -226,7 +226,7 @@ curl http://localhost:8080/api/personalization/summary \
   "maximumTipPercentage": 22.00,
   "averageTipAmount": 8.50,
   "personalizedPercentage": 18.5,
-  "message": "You typically tip around 18.5% (range: 15.00%–22.00%, based on 24 tips).",
+  "message": "You typically tip around 18.5% (range: 15.00%â€“22.00%, based on 24 tips).",
   "restaurantInsight": null
 }
 ```
@@ -243,7 +243,7 @@ curl http://localhost:8080/api/personalization/summary \
 
 ## 7. Get Restaurant Personalization (Protected)
 
-**Requires JWT** — Returns the user's overall tipping patterns plus specific insights for a named restaurant.
+**Requires JWT** â€” Returns the user's overall tipping patterns plus specific insights for a named restaurant.
 
 ```bash
 curl "http://localhost:8080/api/personalization/restaurant?name=Italian%20Place" \
@@ -260,7 +260,7 @@ curl "http://localhost:8080/api/personalization/restaurant?name=Italian%20Place"
   "maximumTipPercentage": 22.00,
   "averageTipAmount": 8.50,
   "personalizedPercentage": 18.5,
-  "message": "You typically tip around 18.5% (range: 15.00%–22.00%, based on 24 tips).",
+  "message": "You typically tip around 18.5% (range: 15.00%â€“22.00%, based on 24 tips).",
   "restaurantInsight": {
     "restaurantName": "Italian Place",
     "visitCount": 3,
@@ -279,7 +279,7 @@ curl "http://localhost:8080/api/personalization/restaurant?name=Italian%20Place"
 
 ## 8. Currency Conversion (Protected)
 
-**Requires JWT** — Fetches the exchange rate between two currencies. Based on current ECB reference rates via the Frankfurter API.
+**Requires JWT** â€” Fetches the exchange rate between two currencies. Based on current ECB reference rates via the Frankfurter API.
 
 ```bash
 curl "http://localhost:8080/api/currency/rate?from=USD&to=INR" \
@@ -303,7 +303,7 @@ curl "http://localhost:8080/api/currency/rate?from=USD&to=INR" \
 
 ## 9. Convert Amount (Protected)
 
-**Requires JWT** — Converts a specific monetary amount. Handles correct decimal rounding dynamically based on the target currency (e.g., JPY uses 0 decimals, USD uses 2).
+**Requires JWT** â€” Converts a specific monetary amount. Handles correct decimal rounding dynamically based on the target currency (e.g., JPY uses 0 decimals, USD uses 2).
 
 ```bash
 curl -X POST http://localhost:8080/api/currency/convert \
@@ -402,7 +402,7 @@ git commit -m "docs: add Postman collection and API documentation"
 
 ---
 
-## Day 6 — Service Quality Logging
+## Day 6 â€” Service Quality Logging
 
 ### Service Quality Enum
 
@@ -410,10 +410,10 @@ Valid values for `serviceQuality` are exactly:
 
 | Value | Display | Stars |
 |---|---|---|
-| `POOR` | Poor | ★ |
-| `AVERAGE` | Average | ★★ |
-| `GOOD` | Good | ★★★ |
-| `EXCELLENT` | Excellent | ★★★★ |
+| `POOR` | Poor | â˜… |
+| `AVERAGE` | Average | â˜…â˜… |
+| `GOOD` | Good | â˜…â˜…â˜… |
+| `EXCELLENT` | Excellent | â˜…â˜…â˜…â˜… |
 
 Any other string (e.g. `"SUPERB"`, `"OK"`) returns **400 Bad Request**.
 
@@ -421,7 +421,7 @@ Any other string (e.g. `"SUPERB"`, `"OK"`) returns **400 Bad Request**.
 
 ### Save a New Tip with Service Quality
 
-**POST** `/api/tips` — Requires JWT.
+**POST** `/api/tips` â€” Requires JWT.
 
 `serviceQuality` is **required** for all new tips created after Day 6.
 
@@ -453,13 +453,13 @@ curl -X POST http://localhost:8080/api/tips \
 }
 ```
 
-**Historical tips** (created before Day 6) return `"serviceQuality": null`. This is expected — not an error.
+**Historical tips** (created before Day 6) return `"serviceQuality": null`. This is expected â€” not an error.
 
 ---
 
 ### Update Service Quality
 
-**PATCH** `/api/tips/{id}/service-quality` — Requires JWT. User must own the tip.
+**PATCH** `/api/tips/{id}/service-quality` â€” Requires JWT. User must own the tip.
 
 ```bash
 curl -X PATCH http://localhost:8080/api/tips/3fa85f64-5717-4562-b3fc-2c963f66afa6/service-quality \
@@ -490,24 +490,24 @@ curl -X PATCH http://localhost:8080/api/tips/3fa85f64-5717-4562-b3fc-2c963f66afa
 -d '{ "serviceQuality": "SUPERB" }'
 ```
 
-**Access denied** (404 Not Found — no enumeration leak):
+**Access denied** (404 Not Found â€” no enumeration leak):
 ```bash
 # User B attempting to PATCH User A's tip:
-# → 404 Not Found (same as if tip doesn't exist)
+# â†’ 404 Not Found (same as if tip doesn't exist)
 ```
 
 ---
 
 ### Service Quality Summary Statistics
 
-**GET** `/api/service-quality/summary` — Requires JWT. Statistics are scoped exclusively to the authenticated user.
+**GET** `/api/service-quality/summary` â€” Requires JWT. Statistics are scoped exclusively to the authenticated user.
 
 ```bash
 curl http://localhost:8080/api/service-quality/summary \
   -H "Authorization: Bearer <token>"
 ```
 
-**Expected Response** (200 OK) — with rated tips:
+**Expected Response** (200 OK) â€” with rated tips:
 ```json
 {
   "totalRatedTips": 10,
@@ -525,7 +525,7 @@ curl http://localhost:8080/api/service-quality/summary \
 }
 ```
 
-**Empty state** (no rated tips — not an error):
+**Empty state** (no rated tips â€” not an error):
 ```json
 {
   "totalRatedTips": 0,
@@ -543,8 +543,8 @@ curl http://localhost:8080/api/service-quality/summary \
 - Historical NULL tips are excluded from all statistics (treated as NOT_RATED).
 - Qualities with no rated tips are absent from `averageTipPercentageByQuality`.
 
-**Statistics algorithm — deterministic rules:**
-- `mostCommon`: the quality with the highest count. On a tie, the higher quality wins (POOR < AVERAGE < GOOD < EXCELLENT). Example: GOOD=2, EXCELLENT=2 → `mostCommon = "EXCELLENT"`.
+**Statistics algorithm â€” deterministic rules:**
+- `mostCommon`: the quality with the highest count. On a tie, the higher quality wins (POOR < AVERAGE < GOOD < EXCELLENT). Example: GOOD=2, EXCELLENT=2 â†’ `mostCommon = "EXCELLENT"`.
 - All averages use `BigDecimal.divide(count, 2, RoundingMode.HALF_UP)`. No floating point.
 
 ---
@@ -568,18 +568,18 @@ git commit -m "docs: update api-samples.md and postman-collection for Day 6"
 
 ---
 
-## Day 8 — Generosity Score
+## Day 8 â€” Generosity Score
 
 ### Get Generosity Score
 
-**GET** `/api/generosity/score` — Requires JWT. Statistics are scoped exclusively to the authenticated user.
+**GET** `/api/generosity/score` â€” Requires JWT. Statistics are scoped exclusively to the authenticated user.
 
 ```bash
 curl http://localhost:8080/api/generosity/score \
   -H "Authorization: Bearer <token>"
 ```
 
-**Expected Response** (200 OK) — with history:
+**Expected Response** (200 OK) â€” with history:
 ```json
 {
   "score": 78,
@@ -593,7 +593,7 @@ curl http://localhost:8080/api/generosity/score \
 }
 ```
 
-**Empty state** (no tips — not an error):
+**Empty state** (no tips â€” not an error):
 ```json
 {
   "score": null,

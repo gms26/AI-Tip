@@ -139,7 +139,7 @@ const DashboardPage = () => {
           width: 500,
           height: 500,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(253, 91, 56, 0.08) 0%, transparent 70%)',
           top: -200,
           right: -100,
         }}
@@ -150,84 +150,22 @@ const DashboardPage = () => {
           width: 400,
           height: 400,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0, 217, 255, 0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 138, 101, 0.06) 0%, transparent 70%)',
           bottom: -150,
           left: -100,
         }}
       />
 
-      {/* Top Navigation Bar */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: { xs: 2, sm: 4 },
-          py: 2,
-          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-          backdropFilter: 'blur(12px)',
-          position: 'relative',
-          zIndex: 2,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 36,
-              height: 36,
-              borderRadius: 1.5,
-              background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
-            }}
-          >
-            <SparkleIcon sx={{ fontSize: 20, color: '#fff' }} />
-          </Box>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              background: 'linear-gradient(135deg, #6C63FF, #00D9FF)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            AI Tip Assistant
-          </Typography>
-        </Box>
-
-        <Button
-          id="logout-button"
-          onClick={handleLogout}
-          startIcon={<LogoutIcon />}
-          variant="outlined"
-          size="small"
-          sx={{
-            borderColor: 'rgba(255, 255, 255, 0.15)',
-            color: '#9AA0A6',
-            borderRadius: 2,
-            textTransform: 'none',
-            '&:hover': {
-              borderColor: '#FF5252',
-              color: '#FF5252',
-              backgroundColor: 'rgba(255, 82, 82, 0.08)',
-              transform: 'none',
-              boxShadow: 'none',
-            },
-          }}
-        >
-          Logout
-        </Button>
-      </Box>
 
       {/* Main Content */}
       <Box
         sx={{
-          maxWidth: 800,
+          width: '100%',
+          maxWidth: 1300,
           mx: 'auto',
-          px: { xs: 2, sm: 4 },
-          py: { xs: 4, sm: 6 },
+          px: { xs: 2.5, sm: 3.5, md: 5 },
+          pt: { xs: 3, md: 4 },
+          pb: { xs: 4, md: 6 },
           position: 'relative',
           zIndex: 1,
         }}
@@ -247,7 +185,7 @@ const DashboardPage = () => {
             <Box
               component="span"
               sx={{
-                background: 'linear-gradient(135deg, #6C63FF, #00D9FF)',
+                background: 'linear-gradient(135deg, #fd5b38, #ff8a65)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
@@ -287,10 +225,10 @@ const DashboardPage = () => {
                 sx={{
                   width: 72,
                   height: 72,
-                  background: 'linear-gradient(135deg, #6C63FF 0%, #00D9FF 100%)',
+                  background: 'linear-gradient(135deg, #fd5b38 0%, #ff8a65 100%)',
                   fontSize: '1.5rem',
                   fontWeight: 700,
-                  boxShadow: '0 4px 20px rgba(108, 99, 255, 0.3)',
+                  boxShadow: '0 4px 20px rgba(253, 91, 56, 0.3)',
                 }}
               >
                 {getInitials(user?.name)}
@@ -326,10 +264,10 @@ const DashboardPage = () => {
                     width: 40,
                     height: 40,
                     borderRadius: 1.5,
-                    backgroundColor: 'rgba(108, 99, 255, 0.12)',
+                    backgroundColor: 'rgba(253, 91, 56, 0.12)',
                   }}
                 >
-                  <PersonIcon sx={{ color: '#6C63FF', fontSize: 20 }} />
+                  <PersonIcon sx={{ color: '#fd5b38', fontSize: 20 }} />
                 </Box>
                 <Box>
                   <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block' }}>
@@ -350,10 +288,10 @@ const DashboardPage = () => {
                     width: 40,
                     height: 40,
                     borderRadius: 1.5,
-                    backgroundColor: 'rgba(0, 217, 255, 0.12)',
+                    backgroundColor: 'rgba(255, 138, 101, 0.12)',
                   }}
                 >
-                  <EmailIcon sx={{ color: '#00D9FF', fontSize: 20 }} />
+                  <EmailIcon sx={{ color: '#ff8a65', fontSize: 20 }} />
                 </Box>
                 <Box>
                   <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block' }}>
@@ -415,7 +353,7 @@ const DashboardPage = () => {
                   variant="h6"
                   sx={{
                     fontWeight: 600,
-                    color: '#00D9FF',
+                    color: '#ff8a65',
                     textTransform: 'uppercase',
                     letterSpacing: 1,
                     mb: 3,
@@ -487,7 +425,7 @@ const DashboardPage = () => {
           <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <TaxIcon sx={{ color: '#00D9FF', fontSize: 28 }} />
+                <TaxIcon sx={{ color: '#ff8a65', fontSize: 28 }} />
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#E8EAED' }}>
                   Tax Impact & Tracking
                 </Typography>
@@ -545,12 +483,12 @@ const DashboardPage = () => {
                                     {taxData.currencyBreakdown[0].currency} {taxData.totalTips.toFixed(2)}
                                 </Typography>
                             </Box>
-                            <Box sx={{ p: 2, background: 'rgba(108, 99, 255, 0.1)', border: '1px solid rgba(108, 99, 255, 0.3)', borderRadius: 2, minWidth: 150 }}>
+                            <Box sx={{ p: 2, background: 'rgba(253, 91, 56, 0.1)', border: '1px solid rgba(253, 91, 56, 0.3)', borderRadius: 2, minWidth: 150 }}>
                                 <Typography variant="caption" sx={{ color: '#9AA0A6' }}>Estimated Taxable</Typography>
-                                <Typography variant="h5" sx={{ color: '#6C63FF', fontWeight: 700 }}>
+                                <Typography variant="h5" sx={{ color: '#fd5b38', fontWeight: 700 }}>
                                     {taxData.currencyBreakdown[0].currency} {taxData.estimatedTaxableTips.toFixed(2)}
                                 </Typography>
-                                <Typography variant="caption" sx={{ color: '#6C63FF' }}>({taxData.taxablePercentage}% assumption)</Typography>
+                                <Typography variant="caption" sx={{ color: '#fd5b38' }}>({taxData.taxablePercentage}% assumption)</Typography>
                             </Box>
                             <Box sx={{ p: 2, background: 'rgba(0,0,0,0.2)', borderRadius: 2 }}>
                                 <Typography variant="caption" sx={{ color: '#9AA0A6', display: 'block' }}>Tips Recorded</Typography>
@@ -580,8 +518,8 @@ const DashboardPage = () => {
                                             <Typography variant="h6" sx={{ color: '#fff' }}>{c.totalTips.toFixed(2)}</Typography>
                                         </Box>
                                         <Box>
-                                            <Typography variant="caption" sx={{ color: '#6C63FF' }}>Taxable Est ({taxData.taxablePercentage}%)</Typography>
-                                            <Typography variant="h6" sx={{ color: '#6C63FF' }}>{c.estimatedTaxableTips.toFixed(2)}</Typography>
+                                            <Typography variant="caption" sx={{ color: '#fd5b38' }}>Taxable Est ({taxData.taxablePercentage}%)</Typography>
+                                            <Typography variant="h6" sx={{ color: '#fd5b38' }}>{c.estimatedTaxableTips.toFixed(2)}</Typography>
                                         </Box>
                                     </Box>
                                 ))}
@@ -603,15 +541,15 @@ const DashboardPage = () => {
         {/* Tip Calculator Card */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, rgba(108, 99, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%)',
+            background: 'linear-gradient(135deg, rgba(253, 91, 56, 0.15) 0%, rgba(255, 138, 101, 0.05) 100%)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(108, 99, 255, 0.3)',
+            border: '1px solid rgba(253, 91, 56, 0.3)',
             borderRadius: 3,
             transition: 'transform 0.2s, box-shadow 0.2s',
             cursor: 'pointer',
             '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 12px 24px rgba(108, 99, 255, 0.2)',
+                boxShadow: '0 12px 24px rgba(253, 91, 56, 0.2)',
             }
           }}
           onClick={() => navigate('/tips')}
@@ -620,7 +558,7 @@ const DashboardPage = () => {
             <SparkleIcon
               sx={{
                 fontSize: 48,
-                color: '#6C63FF',
+                color: '#fd5b38',
                 mb: 2,
               }}
             />
@@ -635,7 +573,7 @@ const DashboardPage = () => {
                 size="large"
                 onClick={(e) => { e.stopPropagation(); navigate('/tips'); }}
                 sx={{ 
-                    background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
+                    background: 'linear-gradient(135deg, #fd5b38 0%, #e04826 100%)',
                     borderRadius: 2,
                     px: 4
                 }}

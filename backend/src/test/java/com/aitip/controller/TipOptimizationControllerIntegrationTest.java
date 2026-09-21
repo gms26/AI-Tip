@@ -185,7 +185,7 @@ class TipOptimizationControllerIntegrationTest {
         addTip(userB, "USD", "25.00");
         addTip(userB, "USD", "30.00");
 
-        // User A requests USD optimization → should see empty state
+        // User A requests USD optimization â†’ should see empty state
         String body = """
                 {"currency":"USD","currentTipPercentage":20}
                 """;

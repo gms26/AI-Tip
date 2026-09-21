@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * User Service — handles user profile operations.
+ * User Service â€” handles user profile operations.
  *
  * <p><b>Purpose:</b> Provides user profile data to authorized clients.
- * Separated from AuthService following SRP — this service handles
+ * Separated from AuthService following SRP â€” this service handles
  * "who am I?" questions, not "can I log in?" questions.</p>
  *
  * <p><b>Why a separate service?</b>
@@ -28,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Constructor injection — single dependency.
+     * Constructor injection â€” single dependency.
      */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -40,7 +40,7 @@ public class UserService {
      * <p><b>Why email parameter?</b>
      * The controller extracts the authenticated email from
      * SecurityContext and passes it here. The service doesn't
-     * depend on SecurityContext directly — easier to test.</p>
+     * depend on SecurityContext directly â€” easier to test.</p>
      *
      * @param email the authenticated user's email
      * @return the user's profile (without password)

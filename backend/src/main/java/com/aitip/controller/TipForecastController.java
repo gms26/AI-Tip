@@ -41,7 +41,7 @@ public class TipForecastController {
      * @param currency       ISO 4217 currency code (required)
      * @param period         forecast period (required)
      * @param monthlyBudget  optional monthly budget for projection
-     * @param lookbackDays   optional lookback window (default 90, range 7–365)
+     * @param lookbackDays   optional lookback window (default 90, range 7â€“365)
      * @return deterministic forecast response
      */
     @GetMapping

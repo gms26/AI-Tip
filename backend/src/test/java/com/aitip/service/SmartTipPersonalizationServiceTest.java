@@ -147,7 +147,7 @@ class SmartTipPersonalizationServiceTest {
     class UpdateTests {
 
         @Test
-        @DisplayName("4. Update enabled → disabled")
+        @DisplayName("4. Update enabled Ã¢â€ â€™ disabled")
         void updateEnabledToDisabled() {
             TipPersonalizationPreference pref = TipPersonalizationPreference.builder()
                     .user(testUser).currency("USD").personalizationEnabled(true).build();
@@ -162,7 +162,7 @@ class SmartTipPersonalizationServiceTest {
         }
 
         @Test
-        @DisplayName("5. Update disabled → enabled")
+        @DisplayName("5. Update disabled Ã¢â€ â€™ enabled")
         void updateDisabledToEnabled() {
             TipPersonalizationPreference pref = TipPersonalizationPreference.builder()
                     .user(testUser).currency("USD").personalizationEnabled(false).build();
@@ -177,7 +177,7 @@ class SmartTipPersonalizationServiceTest {
         }
 
         @Test
-        @DisplayName("6. Currency isolation — USD setting doesn't affect INR")
+        @DisplayName("6. Currency isolation Ã¢â‚¬â€ USD setting doesn't affect INR")
         void currencyIsolation() {
             TipPersonalizationPreference usdPref = TipPersonalizationPreference.builder()
                     .user(testUser).currency("USD").personalizationEnabled(true).build();
@@ -260,7 +260,7 @@ class SmartTipPersonalizationServiceTest {
 
             service.resetLearning("test@example.com", "USD");
 
-            // Only feedbackRepository is called — no tip/goal/budget/achievement repo interactions
+            // Only feedbackRepository is called Ã¢â‚¬â€ no tip/goal/budget/achievement repo interactions
             verify(feedbackRepository).deleteAllByUserAndCurrency(testUser, "USD");
             verifyNoMoreInteractions(feedbackRepository);
         }

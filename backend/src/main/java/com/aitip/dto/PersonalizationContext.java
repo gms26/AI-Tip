@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * Verified personalization context passed to the AI layer.
  *
  * <p><b>Architecture note:</b> This record carries backend-calculated
- * statistics into the prompt. Gemini must treat these as factual data,
+ * statistics into the prompt. Groq must treat these as factual data,
  * NOT as something it should recalculate or invent.</p>
  */
 public record PersonalizationContext(

@@ -35,7 +35,7 @@ public class TipRecommendationController {
             try {
                 aiExplanation = aiRecommendationService.generateExplanation(baseResponse);
             } catch (Exception e) {
-                // Graceful fallback if Gemini fails
+                // Graceful fallback if Groq fails
             }
         }
         

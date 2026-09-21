@@ -36,7 +36,7 @@ const NotFoundPage = () => {
       <SadIcon
         sx={{
           fontSize: 80,
-          color: '#6C63FF',
+          color: '#fd5b38',
           mb: 3,
           opacity: 0.7,
         }}
@@ -47,7 +47,7 @@ const NotFoundPage = () => {
         sx={{
           fontWeight: 800,
           fontSize: { xs: '4rem', sm: '6rem' },
-          background: 'linear-gradient(135deg, #6C63FF, #00D9FF)',
+          background: 'linear-gradient(135deg, #fd5b38, #ff8a65)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           lineHeight: 1,

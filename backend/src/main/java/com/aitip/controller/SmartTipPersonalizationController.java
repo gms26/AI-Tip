@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
  *
  * <p>Exposes:
  * <ul>
- *   <li>{@code GET /api/smart-tip/personalization} — View personalization settings</li>
- *   <li>{@code PUT /api/smart-tip/personalization} — Enable or disable personalization</li>
- *   <li>{@code POST /api/smart-tip/personalization/reset} — Reset learned feedback</li>
+ *   <li>{@code GET /api/smart-tip/personalization} â€” View personalization settings</li>
+ *   <li>{@code PUT /api/smart-tip/personalization} â€” Enable or disable personalization</li>
+ *   <li>{@code POST /api/smart-tip/personalization/reset} â€” Reset learned feedback</li>
  * </ul></p>
  *
  * <p>Strict Boundaries:

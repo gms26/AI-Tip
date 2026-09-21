@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from './axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tax' : 'http://localhost:8080/api/tax';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tax' : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/tax';
 
 const taxApi = {
     /**

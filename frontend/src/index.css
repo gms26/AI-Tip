@@ -13,8 +13,7 @@
  * - Variable font support for optimal file size
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 /* ============================================
    GLOBAL RESETS
    ============================================ */
@@ -55,20 +54,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(108, 99, 255, 0.3);
+  background: rgba(253, 91, 56, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(108, 99, 255, 0.5);
+  background: rgba(253, 91, 56, 0.6);
 }
 
 /* ============================================
    SELECTION STYLING
    ============================================ */
 ::selection {
-  background-color: rgba(108, 99, 255, 0.3);
-  color: #E8EAED;
+  background-color: rgba(253, 91, 56, 0.35);
+  color: #FFFFFF;
 }
 
 /* ============================================
@@ -76,7 +75,7 @@ body {
    WHY? Accessible focus indicators that match the theme.
    ============================================ */
 :focus-visible {
-  outline: 2px solid #6C63FF;
+  outline: 2px solid #fd5b38;
   outline-offset: 2px;
 }
 
@@ -84,11 +83,11 @@ body {
    LINK DEFAULTS
    ============================================ */
 a {
-  color: #6C63FF;
+  color: #fd5b38;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #8B83FF;
+  color: #ff8a65;
 }

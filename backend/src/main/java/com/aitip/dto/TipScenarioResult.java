@@ -6,22 +6,22 @@ import java.math.BigDecimal;
  * One hypothetical scenario result within a what-if analysis.
  *
  * <p><b>All values are deterministically calculated by
- * {@code TipScenarioCalculationService}.</b> Gemini must never
+ * {@code TipScenarioCalculationService}.</b> Groq must never
  * recalculate, override, or invent any of these values.</p>
  *
  * <p><b>Important distinction:</b></p>
  * <ul>
- *   <li>{@code tipPercentage}, {@code tipAmount}, {@code totalAmount} — direct
+ *   <li>{@code tipPercentage}, {@code tipAmount}, {@code totalAmount} â€” direct
  *       arithmetic from user input (always available).</li>
- *   <li>{@code differenceFromHistorical}, {@code monetaryDifference} — require
+ *   <li>{@code differenceFromHistorical}, {@code monetaryDifference} â€” require
  *       historical data; null when no history exists.</li>
  *   <li>{@code monthlyProjectedTipAmount}, {@code monthlyBudgetUsagePercentage},
- *       {@code budgetStatus} — require both historical data AND a supplied
+ *       {@code budgetStatus} â€” require both historical data AND a supplied
  *       monthly budget; null otherwise.</li>
  * </ul>
  *
  * @param tipPercentage                 the hypothetical tip percentage
- * @param tipAmount                     billAmount × tipPercentage / 100
+ * @param tipAmount                     billAmount Ã— tipPercentage / 100
  * @param totalAmount                   billAmount + tipAmount
  * @param differenceFromHistorical      percentage-point difference from historical median (nullable)
  * @param monetaryDifference            tip amount difference vs historical tip for same bill (nullable)

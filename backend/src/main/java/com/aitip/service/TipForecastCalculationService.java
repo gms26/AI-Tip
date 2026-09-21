@@ -22,7 +22,7 @@ import java.util.List;
  * Stateless, deterministic tip forecasting engine.
  *
  * <p><b>Core principle:</b> This service is the sole mathematical authority
- * for all forecast values. Gemini must never calculate, override, or invent
+ * for all forecast values. Groq must never calculate, override, or invent
  * any of these values.</p>
  *
  * <p><b>Currency isolation:</b> Only tips matching the requested currency
@@ -62,7 +62,7 @@ public class TipForecastCalculationService {
      * @param currency       ISO 4217 currency code (required)
      * @param period         forecast period (required)
      * @param monthlyBudget  optional user-supplied monthly budget
-     * @param lookbackDays   optional lookback window (default 90, range 7–365)
+     * @param lookbackDays   optional lookback window (default 90, range 7â€“365)
      * @return deterministic forecast response
      */
     @Transactional(readOnly = true)
@@ -123,11 +123,11 @@ public class TipForecastCalculationService {
         BigDecimal dailyRate = new BigDecimal(historicalTipCount)
                 .divide(new BigDecimal(effectiveLookback), 4, RoundingMode.HALF_UP);
 
-        // Estimated tip count: dailyRate × forecastDays, rounded to nearest int
+        // Estimated tip count: dailyRate Ã— forecastDays, rounded to nearest int
         BigDecimal rawEstimatedCount = dailyRate.multiply(new BigDecimal(forecastDays));
         int estimatedTipCount = rawEstimatedCount.setScale(0, RoundingMode.HALF_UP).intValue();
 
-        // Estimated spending: estimatedTipCount × historicalAverageTipAmount
+        // Estimated spending: estimatedTipCount Ã— historicalAverageTipAmount
         BigDecimal estimatedMonthlyTipAmount = new BigDecimal(estimatedTipCount)
                 .multiply(historicalAverageTipAmount)
                 .setScale(2, RoundingMode.HALF_UP);
@@ -148,7 +148,7 @@ public class TipForecastCalculationService {
             // For multi-month periods, normalize to monthly rate
             BigDecimal monthlyProjectedAmount;
             if (forecastDays > 31) {
-                // Normalize: (estimatedAmount / forecastDays) × 30
+                // Normalize: (estimatedAmount / forecastDays) Ã— 30
                 monthlyProjectedAmount = estimatedMonthlyTipAmount
                         .divide(new BigDecimal(forecastDays), 4, RoundingMode.HALF_UP)
                         .multiply(THIRTY)
@@ -231,7 +231,7 @@ public class TipForecastCalculationService {
     /**
      * Determines confidence based on historical tip count.
      * Uses the existing project convention from BudgetConfidence:
-     * 0–1 → LOW, 2–4 → MEDIUM, 5+ → HIGH
+     * 0â€“1 â†’ LOW, 2â€“4 â†’ MEDIUM, 5+ â†’ HIGH
      */
     BudgetConfidence determineConfidence(int tipCount) {
         if (tipCount >= 5) return BudgetConfidence.HIGH;
@@ -335,11 +335,11 @@ public class TipForecastCalculationService {
                 currency, estimatedAmount.toPlainString()));
 
         if (confidence == BudgetConfidence.LOW) {
-            sb.append(" Note: limited history — this forecast may change as you record more tips.");
+            sb.append(" Note: limited history â€” this forecast may change as you record more tips.");
         }
 
         if (budgetStatus != null && budgetStatus == TipBudgetStatus.OVER_BUDGET) {
-            sb.append(" ⚠️ Your projected spending exceeds your monthly budget.");
+            sb.append(" âš ï¸ Your projected spending exceeds your monthly budget.");
         } else if (budgetStatus != null && budgetStatus == TipBudgetStatus.APPROACHING_LIMIT) {
             sb.append(" Your projected spending is approaching your monthly budget limit.");
         }

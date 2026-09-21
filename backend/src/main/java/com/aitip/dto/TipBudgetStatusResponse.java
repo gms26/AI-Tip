@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Response DTO for the deterministic budget status calculation.
  *
  * <p>All financial fields are backend-calculated using BigDecimal.
- * Gemini must never override these values.</p>
+ * Groq must never override these values.</p>
  */
 public record TipBudgetStatusResponse(
         String currency,

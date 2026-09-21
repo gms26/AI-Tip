@@ -23,15 +23,15 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#6C63FF',      // Vibrant indigo — modern and premium
-      light: '#8B83FF',
-      dark: '#4A42D4',
+      main: '#fd5b38',      // Vibrant orange — matching internal UI
+      light: '#ff8a65',
+      dark: '#e04826',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#00D9FF',       // Cyan accent — eye-catching CTAs
-      light: '#33E1FF',
-      dark: '#00A8CC',
+      main: '#ffffff',       // White secondary for neutral look
+      light: '#f5f5f5',
+      dark: '#e0e0e0',
       contrastText: '#000000',
     },
     background: {
@@ -59,23 +59,29 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 800,
       letterSpacing: '-0.02em',
     },
     h2: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 700,
       letterSpacing: '-0.01em',
     },
     h3: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 700,
     },
     h4: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
     },
     h5: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
     },
     h6: {
+      fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
     },
     button: {
@@ -99,13 +105,13 @@ const theme = createTheme({
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             transform: 'translateY(-1px)',
-            boxShadow: '0 4px 20px rgba(108, 99, 255, 0.3)',
+            boxShadow: '0 4px 20px rgba(253, 91, 56, 0.3)',
           },
         },
         contained: {
-          background: 'linear-gradient(135deg, #6C63FF 0%, #4A42D4 100%)',
+          background: 'linear-gradient(135deg, #fd5b38 0%, #e04826 100%)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #8B83FF 0%, #6C63FF 100%)',
+            background: 'linear-gradient(135deg, #ff8a65 0%, #fd5b38 100%)',
           },
         },
       },
@@ -118,13 +124,13 @@ const theme = createTheme({
             transition: 'all 0.3s ease',
             '&:hover': {
               '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#6C63FF',
+                borderColor: '#fd5b38',
               },
             },
             '&.Mui-focused': {
               '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#6C63FF',
-                boxShadow: '0 0 0 3px rgba(108, 99, 255, 0.15)',
+                borderColor: '#fd5b38',
+                boxShadow: '0 0 0 3px rgba(253, 91, 56, 0.15)',
               },
             },
           },

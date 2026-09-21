@@ -25,23 +25,23 @@ public class AiSuggestionService {
     private static final Logger log = LoggerFactory.getLogger(AiSuggestionService.class);
     
     private final PromptBuilder promptBuilder;
-    private final GeminiService geminiService;
+    private final AiProvider AiProvider;
     private final TipCalculationService tipCalculationService;
     private final ObjectMapper objectMapper;
 
     public AiSuggestionService(
             PromptBuilder promptBuilder, 
-            GeminiService geminiService, 
+            AiProvider AiProvider, 
             TipCalculationService tipCalculationService,
             ObjectMapper objectMapper) {
         this.promptBuilder = promptBuilder;
-        this.geminiService = geminiService;
+        this.AiProvider = AiProvider;
         this.tipCalculationService = tipCalculationService;
         this.objectMapper = objectMapper;
     }
 
     /**
-     * Day 3 method — gets a recommendation WITHOUT personalization context.
+     * Day 3 method â€” gets a recommendation WITHOUT personalization context.
      * Preserved for backward compatibility.
      */
     public AiSuggestionResponse getRecommendation(AiSuggestionRequest request) {
@@ -49,7 +49,7 @@ public class AiSuggestionService {
     }
 
     /**
-     * Day 4 method — gets a recommendation WITH optional personalization context.
+     * Day 4 method â€” gets a recommendation WITH optional personalization context.
      * 
      * @param request Validated contextual details
      * @param context Backend-calculated personalization (nullable for graceful fallback)
@@ -60,8 +60,8 @@ public class AiSuggestionService {
         // 1. Build prompt (with or without personalization)
         String prompt = promptBuilder.buildTipRecommendationPrompt(request, context);
         
-        // 2. Call Gemini
-        String rawResponse = geminiService.getRecommendation(prompt);
+        // 2. Call Groq
+        String rawResponse = AiProvider.getRecommendation(prompt);
         
         // 3. Parse & Validate
         ParsedAiResult parsed = parseAndValidateJson(rawResponse);
@@ -97,7 +97,7 @@ public class AiSuggestionService {
      */
     private ParsedAiResult parseAndValidateJson(String rawResponse) {
         try {
-            // Clean markdown if Gemini mistakenly includes it despite instructions
+            // Clean markdown if Groq mistakenly includes it despite instructions
             String cleanJson = rawResponse.replaceAll("```json\\s*", "").replaceAll("```\\s*", "").trim();
             
             JsonNode root = objectMapper.readTree(cleanJson);
@@ -129,10 +129,10 @@ public class AiSuggestionService {
             return new ParsedAiResult(rec, min, max, reason);
             
         } catch (JsonProcessingException e) {
-            log.error("Failed to parse Gemini JSON output: {}", rawResponse);
+            log.error("Failed to parse Groq JSON output: {}", rawResponse);
             throw new AiServiceException("AI returned malformed JSON", e);
         } catch (NumberFormatException e) {
-            log.error("Failed to parse percentage numbers from Gemini output: {}", rawResponse);
+            log.error("Failed to parse percentage numbers from Groq output: {}", rawResponse);
             throw new AiServiceException("AI returned invalid numeric format", e);
         }
     }

@@ -153,7 +153,7 @@ class SmartTipLearningInsightsControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "userA@example.com")
-    @DisplayName("User A queries learning insights — service called with User A's email")
+    @DisplayName("User A queries learning insights â€” service called with User A's email")
     void userIsolation_shouldCallServiceWithCorrectEmail() throws Exception {
         when(insightsService.getInsights(eq("userA@example.com"), eq("USD")))
                 .thenReturn(buildEmptyResponse());
@@ -168,7 +168,7 @@ class SmartTipLearningInsightsControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "userB@example.com")
-    @DisplayName("User B queries learning insights — service called with User B's email, never User A's")
+    @DisplayName("User B queries learning insights â€” service called with User B's email, never User A's")
     void userIsolation_userB_shouldNotSeeUserA() throws Exception {
         when(insightsService.getInsights(eq("userB@example.com"), eq("USD")))
                 .thenReturn(buildEmptyResponse());

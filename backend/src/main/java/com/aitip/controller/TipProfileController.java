@@ -38,7 +38,7 @@ public class TipProfileController {
         // Deterministic profile calculation
         TipProfileResponse profile = tipProfileService.getProfile(email, currency);
 
-        // Optional Gemini Explanation (fails gracefully)
+        // Optional Groq Explanation (fails gracefully)
         if (profile.totalTipCount() > 0) {
             try {
                 String aiExplanation = aiRecommendationService.getProfileExplanation(profile);
@@ -63,7 +63,7 @@ public class TipProfileController {
                     );
                 }
             } catch (Exception e) {
-                log.warn("Gemini explanation failed for tip profile, returning deterministic facts only: {}", e.getMessage());
+                log.warn("Groq explanation failed for tip profile, returning deterministic facts only: {}", e.getMessage());
             }
         }
 

@@ -5,7 +5,7 @@ import com.aitip.dto.PersonalizationContext;
 import org.springframework.stereotype.Component;
 
 /**
- * Constructs the prompt for the Gemini LLM.
+ * Constructs the prompt for the Groq LLM.
  * 
  * <p>Separating this logic from the AI orchestrator keeps the service layer
  * free of string manipulation and prompt engineering, following SRP.</p>
@@ -15,7 +15,7 @@ public class PromptBuilder {
 
     /**
      * Builds a strict prompt asking for a JSON response containing specific keys.
-     * Day 3 method — unchanged.
+     * Day 3 method â€” unchanged.
      */
     public String buildTipRecommendationPrompt(AiSuggestionRequest request) {
         return buildTipRecommendationPrompt(request, null);
@@ -25,7 +25,7 @@ public class PromptBuilder {
      * Builds a prompt with optional personalization context (Day 4).
      *
      * <p>When personalization data is available, it is appended as a
-     * separate "PERSONALIZED USER CONTEXT" section. Gemini is instructed
+     * separate "PERSONALIZED USER CONTEXT" section. Groq is instructed
      * to treat these as backend-verified facts, not to invent history.</p>
      */
     public String buildTipRecommendationPrompt(AiSuggestionRequest request, PersonalizationContext context) {

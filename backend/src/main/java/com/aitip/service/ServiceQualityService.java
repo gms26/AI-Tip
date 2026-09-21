@@ -24,7 +24,7 @@ import java.util.UUID;
  *
  * <p><b>Design principles:</b></p>
  * <ul>
- *   <li>All statistics are deterministic and backend-calculated — no AI involved</li>
+ *   <li>All statistics are deterministic and backend-calculated â€” no AI involved</li>
  *   <li>Only explicit user ratings are considered (NULL = not rated, excluded)</li>
  *   <li>Historical tips (serviceQuality = NULL) are silently excluded</li>
  *   <li>User isolation: statistics are always scoped to one user</li>
@@ -83,7 +83,7 @@ public class ServiceQualityService {
 
     /**
      * Returns an empty-state response when the user has no rated tips.
-     * Distinct from an error — "No service ratings yet" is a valid state.
+     * Distinct from an error â€” "No service ratings yet" is a valid state.
      */
     private ServiceQualityStatsResponse emptyResponse() {
         return new ServiceQualityStatsResponse(
@@ -124,7 +124,7 @@ public class ServiceQualityService {
             }
         }
 
-        // Build averageTipPercentageByQuality map — only include qualities with data
+        // Build averageTipPercentageByQuality map â€” only include qualities with data
         Map<ServiceQuality, BigDecimal> avgByQuality = new EnumMap<>(ServiceQuality.class);
         for (ServiceQuality q : ServiceQuality.values()) {
             List<Tip> tips = byQuality.get(q);
@@ -132,7 +132,7 @@ public class ServiceQualityService {
                 BigDecimal sum = tips.stream()
                         .map(Tip::getTipPercentage)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
-                // Rule 2: BigDecimal divide, scale=2, HALF_UP — never use double
+                // Rule 2: BigDecimal divide, scale=2, HALF_UP â€” never use double
                 BigDecimal avg = sum.divide(BigDecimal.valueOf(tips.size()), 2, RoundingMode.HALF_UP);
                 avgByQuality.put(q, avg);
             }

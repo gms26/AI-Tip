@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * User Controller — handles user profile endpoints.
+ * User Controller â€” handles user profile endpoints.
  *
  * <p><b>Purpose:</b> Provides authenticated user profile data.
  * All endpoints in this controller require a valid JWT token.</p>
@@ -41,11 +41,11 @@ public class UserController {
     /**
      * Get the currently authenticated user's profile.
      *
-     * <p><b>Security:</b> This endpoint is protected — requires
+     * <p><b>Security:</b> This endpoint is protected â€” requires
      * a valid JWT token in the Authorization header.</p>
      *
      * <p><b>Flow:</b>
-     * JWT Filter → SecurityContext → Authentication → email → UserService → UserResponse</p>
+     * JWT Filter â†’ SecurityContext â†’ Authentication â†’ email â†’ UserService â†’ UserResponse</p>
      *
      * @param authentication injected by Spring Security from SecurityContext
      * @return the user's profile (without password)

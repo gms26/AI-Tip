@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from './axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tip-goals' : 'http://localhost:8080/api/tip-goals',
+  baseURL: import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL + '/api/tip-goals' : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/tip-goals',
 });
 
 // Request interceptor to attach JWT token

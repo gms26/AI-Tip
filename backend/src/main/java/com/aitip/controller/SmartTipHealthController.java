@@ -15,14 +15,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/smart-tip")
 public class SmartTipHealthController {
+    private final String groqApiKey;
+
+    public SmartTipHealthController(@org.springframework.beans.factory.annotation.Value("${app.groq.api-key}") String groqApiKey) {
+        this.groqApiKey = groqApiKey;
+    }
 
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> getHealth() {
+        boolean isAiAvailable = groqApiKey != null && !groqApiKey.isBlank() && !groqApiKey.equals("dummy_key");
         return ResponseEntity.ok(Map.of(
                 "status", "UP",
                 "deterministicRecommendations", true,
                 "personalizationAvailable", true,
-                "aiExplanationAvailable", true
+                "aiExplanationAvailable", isAiAvailable
         ));
     }
 }

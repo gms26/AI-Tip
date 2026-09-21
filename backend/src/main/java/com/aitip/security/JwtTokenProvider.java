@@ -12,7 +12,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 
 /**
- * JWT Token Provider — generates and validates JSON Web Tokens.
+ * JWT Token Provider â€” generates and validates JSON Web Tokens.
  *
  * <p><b>Purpose:</b> Encapsulates all JWT operations: generation,
  * validation, and claim extraction. No other class should directly
@@ -20,7 +20,7 @@ import java.util.Date;
  *
  * <p><b>Why HMAC-SHA256 (HS256)?</b>
  * <ul>
- *   <li>Symmetric key — simpler than RSA key pairs</li>
+ *   <li>Symmetric key â€” simpler than RSA key pairs</li>
  *   <li>Sufficient for single-service architectures</li>
  *   <li>If we add microservices later, switch to RS256</li>
  * </ul></p>
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
     private final long expirationMs;
 
     /**
-     * Constructor injection — the only injection pattern we use.
+     * Constructor injection â€” the only injection pattern we use.
      *
      * <p><b>Why constructor injection?</b>
      * <ul>

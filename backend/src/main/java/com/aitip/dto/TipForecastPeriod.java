@@ -4,9 +4,9 @@ package com.aitip.dto;
  * Forecast period options for tip spending projection.
  *
  * <ul>
- *   <li>{@code CURRENT_MONTH} — remaining days in the current calendar month</li>
- *   <li>{@code NEXT_30_DAYS} — 30 days from now</li>
- *   <li>{@code NEXT_3_MONTHS} — 90 days from now</li>
+ *   <li>{@code CURRENT_MONTH} â€” remaining days in the current calendar month</li>
+ *   <li>{@code NEXT_30_DAYS} â€” 30 days from now</li>
+ *   <li>{@code NEXT_3_MONTHS} â€” 90 days from now</li>
  * </ul>
  */
 public enum TipForecastPeriod {

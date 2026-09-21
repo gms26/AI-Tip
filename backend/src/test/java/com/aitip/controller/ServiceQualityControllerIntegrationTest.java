@@ -119,7 +119,7 @@ class ServiceQualityControllerIntegrationTest {
                 .tipAmount(new BigDecimal("6.00"))
                 .totalAmount(new BigDecimal("46.00"))
                 .currency("USD")
-                .serviceQuality(null)  // historical — no rating
+                .serviceQuality(null)  // historical â€” no rating
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -152,7 +152,7 @@ class ServiceQualityControllerIntegrationTest {
 
     @Test
     void testHistoricalNullTipsExcludedFromSummary() throws Exception {
-        // User A has 3 tips total but only 2 are rated — historical null is excluded
+        // User A has 3 tips total but only 2 are rated â€” historical null is excluded
         mockMvc.perform(get("/api/service-quality/summary")
                 .header("Authorization", tokenA))
                 .andExpect(status().isOk())
@@ -161,7 +161,7 @@ class ServiceQualityControllerIntegrationTest {
 
     @Test
     void testUserACannotSeeUserBStatistics() throws Exception {
-        // User B has no tips → should get empty state, NOT User A's data
+        // User B has no tips â†’ should get empty state, NOT User A's data
         mockMvc.perform(get("/api/service-quality/summary")
                 .header("Authorization", tokenB))
                 .andExpect(status().isOk())
@@ -202,7 +202,7 @@ class ServiceQualityControllerIntegrationTest {
 
     @Test
     void testUserBCannotUpdateUserATip() throws Exception {
-        // User B attempting to PATCH User A's tip → 404 (no enumeration leak)
+        // User B attempting to PATCH User A's tip â†’ 404 (no enumeration leak)
         mockMvc.perform(patch("/api/tips/" + userATip.getId() + "/service-quality")
                 .header("Authorization", tokenB)
                 .contentType(MediaType.APPLICATION_JSON)

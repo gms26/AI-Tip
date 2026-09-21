@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Authentication Service — handles registration and login business logic.
+ * Authentication Service â€” handles registration and login business logic.
  *
  * <p><b>Purpose:</b> Orchestrates the authentication workflow.
- * Controllers delegate to this service — they never contain
+ * Controllers delegate to this service â€” they never contain
  * business logic themselves (SRP).</p>
  *
  * <p><b>Responsibilities:</b>
@@ -49,7 +49,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     /**
-     * Constructor injection — all 4 dependencies are explicit and final.
+     * Constructor injection â€” all 4 dependencies are explicit and final.
      *
      * <p><b>Why 4 dependencies?</b>
      * Each serves a distinct purpose:
@@ -104,7 +104,7 @@ public class AuthService {
         // 2. Map DTO to entity
         User user = UserMapper.toEntity(request);
 
-        // 3. Encode password — NEVER store plaintext
+        // 3. Encode password â€” NEVER store plaintext
         user.setPassword(passwordEncoder.encode(request.password()));
 
         // 4. Save to database
@@ -133,7 +133,7 @@ public class AuthService {
      * <p><b>Why use AuthenticationManager?</b>
      * It delegates to the configured UserDetailsService and
      * PasswordEncoder. If credentials are invalid, it throws
-     * BadCredentialsException — caught by GlobalExceptionHandler.</p>
+     * BadCredentialsException â€” caught by GlobalExceptionHandler.</p>
      *
      * @param request the login request
      * @return authentication response with JWT token
