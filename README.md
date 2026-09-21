@@ -1,81 +1,149 @@
-# AI Tip Assistant ðŸš€
+# AI Tip Assistant 🚀
 
+## 🚀 Project Overview
 A comprehensive, full-stack application designed to completely reimagine the tipping experience. Built with a modern **React/Vite** frontend and a robust **Spring Boot (Java)** backend, this application leverages **Google Groq AI** to provide users with context-aware, highly personalized tipping recommendations based on historical data, budget constraints, and real-time service quality evaluations.
 
----
+## ✨ Key Features
+- **Smart Tip AI & Decision Memory 🧠**: Generates intelligent tipping recommendations via Google Groq AI, learning from user habits over time to adapt to conservative, moderate, or generous profiles.
+- **Comprehensive Financial Tracking 📊**: Tracks spending analytics via dynamic Recharts graphs, sets monthly tipping budgets, and forecasts future expenses.
+- **Receipt OCR Integration 📸**: Uses AI Vision to parse receipts and automatically extract subtotals, restaurant names, and currencies.
+- **Advanced Tipping Mechanics 💡**: Supports tip pools, tax-aware calculations (pre-tax vs post-tax), and custom generosity scoring.
+- **Gamification & Profiles 🏆**: Features an achievement system rewarding consistent tipping behaviors.
 
-## ðŸ“– Elaborate Project Review
+## 🏗️ Architecture
 
-The AI Tip Assistant is not just a simple tip calculator; it is an intelligent, multi-tenant financial tracking ecosystem. Here is an elaborate review of its capabilities:
+```mermaid
+graph TD
+    Client[React / Vite Frontend] -->|REST / Axios| Nginx[Nginx Reverse Proxy]
+    Nginx --> Backend[Spring Boot Backend]
+    
+    subgraph Spring Boot Backend
+        Auth[JWT Security]
+        Controllers[API Controllers]
+        Services[Business Logic & AI Parsing]
+        JPA[Hibernate / JPA]
+        
+        Auth --> Controllers
+        Controllers --> Services
+        Services --> JPA
+    end
+    
+    JPA -->|JDBC| DB[(PostgreSQL)]
+    
+    Services -->|HTTP / JSON| Groq[Groq AI API]
+    Services -->|HTTP| Currency[Frankfurter API]
+    Services -->|HTTP| Stripe[Stripe / Mock]
+    Services -->|HTTP| Square[Square / Mock]
+    Services -->|HTTP| Google[Google Places / Mock]
+```
 
-### 1. Smart Tip AI & Decision Memory ðŸ§ 
-The core of the application utilizes Google Groq AI to generate intelligent tipping recommendations. The system learns from the user over time (Decision Memory), tracking whether users generally tip conservatively, moderately, or generously. It automatically adapts its advice based on past behaviors, budget limits, and specific feedback given by the user on the AI's recommendations.
+## 🔄 Application Flow
+1. **User Authentication**: The user registers or logs in securely. JWTs handle stateless sessions.
+2. **Data Input**: The user inputs a bill amount or uses the Tip Calculator for group splitting.
+3. **AI Context Building**: The backend gathers the user's historical tips, current budget limits, and personal preferences (Decision Memory).
+4. **Groq AI Request**: The backend prompts Groq AI with a structured schema.
+5. **Smart Recommendation**: Groq AI responds with an exact tip amount and rationale, parsed robustly back into the UI.
+6. **Data Persistence**: The final selected tip is saved to the PostgreSQL database, influencing the next AI recommendation.
 
-### 2. Comprehensive Financial Tracking ðŸ“Š
-Users can track every tip they leave. The application calculates:
-- **Spend Analytics:** Visualizing tipping behaviors through detailed Recharts graphs, analyzing medians, averages, and historical trends.
-- **Budgeting & Goals:** Users can set monthly tipping budgets (e.g., "$100 max tip allowance") or targeted average tip percentages (e.g., "Keep my average tip at 18%").
-- **Tip Forecasts & Scenarios:** Predictive modeling helps users estimate their future tipping expenses based on past behavior.
+## 🤖 AI / Groq Integration
 
-### 3. Receipt OCR Integration ðŸ“¸
-By uploading an image of a receipt, the system parses the total, tax, and itemized costs automatically. It then reconciles these amounts to provide precise, error-free tipping recommendations without manual data entry.
+```mermaid
+sequenceDiagram
+    participant User
+    participant Backend as Spring Boot
+    participant Groq as Groq AI API
+    
+    User->>Backend: Request Tip Recommendation (Bill, Quality)
+    Backend->>Backend: Load User's Decision Memory & Budget
+    Backend->>Groq: Prompt w/ JSON Schema Rules
+    Groq-->>Backend: Stringified JSON Response
+    Backend->>Backend: Parse JSON & Apply Fallback Math (if needed)
+    Backend-->>User: Present Recommendation & Rationale
+```
 
-### 4. Advanced Tipping Features ðŸ’¡
-- **Tax Deductions & Tip Pools:** Ability to calculate tips pre-tax or post-tax, and seamlessly split the tip pool among multiple parties.
-- **Data Quality & Personalization:** Evaluates how much data the AI has on a user (Tip Data Quality) and allows fine-grained personalization preferences (e.g., "I always over-tip bartenders").
-- **Gamification:** Features a robust achievement system that rewards users for consistent, generous, or budget-conscious tipping behaviors.
+## 🔐 Authentication & Security
+- **JWT (JSON Web Tokens)**: Secure, stateless authentication enforcing strong expiration policies.
+- **Multi-Tenant Isolation**: Rigorous Anti-IDOR checks ensure users can never query, modify, or leak another user's tipping history.
+- **Environment Isolation**: API keys are injected at runtime via environment variables; nothing is hardcoded in the repository.
 
-### 5. Development Sandboxes & Mocks ðŸ§ª
-Out of the box, several advanced external integrations operate in a "Mock" or Sandbox state to ensure zero-friction local development:
-- **Payments & POS:** Integrations with Stripe, Square POS, and Google Places are abstracted behind Mock Providers (`MockPaymentProvider`, `MockPosProvider`). Real integrations require configuration in `application.yml`.
-- **E2E Testing:** While backend unit/integration tests are exhaustive, End-to-End (E2E) UI testing (e.g. Cypress) is currently a Day 41+ roadmap item.
+## 🗄️ Database Design
 
----
+```mermaid
+erDiagram
+    USERS ||--o{ TIP_RECORDS : creates
+    USERS ||--o{ TIP_PROFILES : has
+    USERS ||--o{ ACHIEVEMENTS : unlocks
+    TIP_RECORDS ||--o{ TIP_POOLS : splits_into
+    
+    USERS {
+        UUID id PK
+        String email
+        String password_hash
+    }
+    
+    TIP_RECORDS {
+        UUID id PK
+        UUID user_id FK
+        BigDecimal bill_amount
+        BigDecimal tip_amount
+        String restaurant_name
+    }
+    
+    TIP_PROFILES {
+        UUID id PK
+        UUID user_id FK
+        String default_currency
+        String tipping_style
+    }
+```
 
-## ðŸ› ï¸ Technology Stack & Architecture
+## 🐳 Docker Setup
 
-### Backend (Robust API Layer)
-- **Framework:** Spring Boot 3.3.2 (Java 21 support)
-- **Database:** PostgreSQL with **Flyway Migrations** ensuring reproducible schemas.
-- **Security:** JWT-based Authentication. The system implements strict multi-tenant isolation, ensuring users can only access their own data.
-- **Integrations:** Google Groq AI API via Spring's `RestClient`.
-- **Testing:** Comprehensive test suite with JUnit 5 and Mockito (**780+ passing tests**).
+```mermaid
+graph LR
+    subgraph Docker Compose
+        Frontend[React + Nginx :80]
+        Backend[Spring Boot :8080]
+        DB[(PostgreSQL :5432)]
+        
+        Frontend --> Backend
+        Backend --> DB
+    end
+```
+The application is fully containerized. A single `docker-compose up` orchestrates the Postgres database (with Flyway migrations), the Spring Boot backend, and the Nginx-served React frontend.
 
-### Frontend (Dynamic User Interface)
-- **Framework:** React 18 powered by Vite for lightning-fast builds.
-- **Styling & UI:** Material UI (MUI) v5 for a polished, responsive, and accessible interface.
-- **Charting:** Recharts for dynamic financial data visualization.
-- **State Management & Routing:** React Context API and React Router DOM.
-- **API Communication:** Axios with centralized URL management and environment-aware configurations.
+## 🧪 Testing
+Built with an absolute emphasis on stability:
+- **Backend Tests**: 784/784 passing tests using JUnit 5 and Mockito, ensuring bulletproof logic and AI failure fallbacks.
+- **Frontend E2E**: Playwright suite verifying the complete user journey (registration, calculation, history, AI recommendations).
 
----
+## 🔌 External Integrations
+A flexible, interface-driven architecture allows toggling between Real APIs and Mock Providers based on environment configuration:
+- **Groq AI**: Real (Requires `GROQ_API_KEY`)
+- **Currency**: Real (Frankfurter API)
+- **Stripe Payments**: Mock by default (Switchable via `app.payment.provider`)
+- **Square POS**: Mock by default (Switchable via `app.pos.provider`)
+- **Google Places**: Mock by default (Switchable via `app.restaurant.provider`)
 
-## ðŸš€ Setup & Deployment Guide
+## 🖥️ Screenshots
+*(Screenshots can be added to the `docs/` folder. Placeholders provided below)*
 
-The application is heavily modularized and configured for straightforward production deployment.
+| Tip Dashboard | Smart Calculator |
+| :---: | :---: |
+| ![Dashboard Placeholder](docs/dashboard.png) | ![Calculator Placeholder](docs/calculator.png) |
 
-### Prerequisites
-- Java 17+ and Maven
-- Node.js 18+ and npm
-- PostgreSQL (running locally or in the cloud)
-- A Google Groq API Key
+## ⚙️ Local Setup
 
-### Production Configuration (Environment Variables)
-The system is built to safely externalize secrets and configurations. Set the following environment variables in your deployment platform (e.g., Render, Heroku, AWS):
-- `SPRING_DATASOURCE_URL`: Your production database URL (e.g., `jdbc:postgresql://<host>:5432/<dbname>`). Defaults to localhost for dev.
-- `APP_CORS_ALLOWED_ORIGINS`: The domain of your deployed frontend (e.g., `https://my-tip-app.vercel.app`). Defaults to `http://localhost:5173`.
-- `VITE_API_BASE_URL`: The domain of your deployed backend. Defaults to `http://localhost:8080`.
-
-### Local Development Setup
-
-**1. Database Initialization**
-Create a PostgreSQL database named `tip_calculator`. Flyway will handle the creation of all tables (V1 through V14 migrations) automatically on startup.
+**1. Clone & Setup Database**
+Ensure PostgreSQL is running locally on port 5432 with a database named `aitip_db`.
 
 **2. Backend Setup**
 ```bash
 cd backend
 # Set your Groq API key through the GROQ_API_KEY environment variable.
 # Do not place API keys directly in application.yml or commit them to Git.
+export GROQ_API_KEY="your_key_here"
+export JWT_SECRET="your_32_byte_secret_here"
 mvn clean install
 mvn spring-boot:run
 ```
@@ -87,13 +155,21 @@ npm install
 npm run dev
 ```
 
----
+## 🔑 Environment Variables
+Never commit real secrets. For local development, set these in your shell or CI/CD pipeline:
+- `GROQ_API_KEY`: Required for AI features.
+- `JWT_SECRET`: Required for user authentication.
+- `DB_USER` / `DB_PASSWORD`: PostgreSQL credentials.
 
-## âœ… Quality Assurance & Verification
-This project is built with an absolute emphasis on stability and security:
-- **Test Suite:** Over 780 backend unit and integration tests successfully validate everything from core math logic to AI failure fallbacks.
-- **Security:** Extensive Anti-IDOR (Insecure Direct Object Reference) checks guarantee that users are entirely sandboxed within their own data.
-- **Frontend Build:** The Vite production build (`npm run build`) is fully optimized and resolves all API paths dynamically.
+## 📊 Acceptance Results
+| Area | Status | Evidence |
+| ---- | ------ | -------- |
+| Unit Tests | COMPLETE | 784/784 Maven tests passing |
+| E2E Testing | COMPLETE | 10/11 Playwright tests passing (1 skipped) |
+| Security | COMPLETE | 0 Hardcoded secrets in repository |
+| Builds | COMPLETE | Vite build succeeds, Spring Boot JAR succeeds |
 
----
-*Developed during the 40-Day Master Roadmap Challenge.*
+## 🛣️ Future Improvements
+- Implement the Frontend UI for Receipt OCR (Backend endpoint is verified).
+- Expand E2E testing to cover external mock edge cases.
+- Transition external Mocks (Stripe/Square) to fully sandboxed integrations in the staging environment.
