@@ -65,6 +65,8 @@ spring:
 #   - Clearly namespaced as application-specific config
 # ==============================================================
 app:
+  cors:
+    frontend-url: ${FRONTEND_URL:}
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: 86400000  # 24 hours in milliseconds
