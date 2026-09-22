@@ -66,7 +66,7 @@ spring:
 # ==============================================================
 app:
   cors:
-    frontend-url: ${FRONTEND_URL:}
+    frontend-url: ${FRONTEND_URL:https://ai-possibletip.vercel.app}
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: 86400000  # 24 hours in milliseconds
