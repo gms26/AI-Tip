@@ -26,6 +26,7 @@ public class SmartTipHealthController {
         boolean isAiAvailable = groqApiKey != null && !groqApiKey.isBlank() && !groqApiKey.equals("dummy_key");
         return ResponseEntity.ok(Map.of(
                 "status", "UP",
+                "version", "v2-cors-fix",
                 "deterministicRecommendations", true,
                 "personalizationAvailable", true,
                 "aiExplanationAvailable", isAiAvailable

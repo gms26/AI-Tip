@@ -28,24 +28,17 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
-    @org.springframework.beans.factory.annotation.Value("${app.cors.frontend-url:}")
-    private String frontendUrl;
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allowed origins — Vite dev server and Docker Nginx
+        // Allowed origins — Vite dev server, Docker Nginx, and Vercel Production
         java.util.List<String> allowedOrigins = new java.util.ArrayList<>(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000",
                 "http://localhost",
                 "https://ai-possibletip.vercel.app"
         ));
-
-        if (frontendUrl != null && !frontendUrl.trim().isEmpty()) {
-            allowedOrigins.add(frontendUrl.trim());
-        }
 
         config.setAllowedOrigins(allowedOrigins);
 
