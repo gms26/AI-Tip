@@ -58,6 +58,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // Enable CORS explicitly in Spring Security so it respects the CorsConfigurationSource bean
+                .cors(org.springframework.security.config.Customizer.withDefaults())
                 // Disable CSRF â€” stateless API, no cookies
                 .csrf(AbstractHttpConfigurer::disable)
                 // Return 401 Unauthorized for unauthenticated requests instead of 403 Forbidden
