@@ -32,10 +32,11 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allowed origins â€” Vite dev server
+        // Allowed origins — Vite dev server and Docker Nginx
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "http://localhost"
         ));
 
         // Allowed HTTP methods
