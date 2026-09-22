@@ -28,7 +28,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 second timeout
+  timeout: 60000, // 60 second timeout to accommodate Render free tier cold starts
 });
 
 /**
