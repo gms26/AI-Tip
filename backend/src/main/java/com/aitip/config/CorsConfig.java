@@ -39,7 +39,8 @@ public class CorsConfig {
         java.util.List<String> allowedOrigins = new java.util.ArrayList<>(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                "http://localhost"
+                "http://localhost",
+                "https://ai-possibletip.vercel.app"
         ));
 
         if (frontendUrl != null && !frontendUrl.trim().isEmpty()) {
