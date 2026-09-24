@@ -32,15 +32,14 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allowed origins — Vite dev server, Docker Nginx, and Vercel Production
-        java.util.List<String> allowedOrigins = new java.util.ArrayList<>(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "http://localhost",
+        // Allowed origin patterns to support any local port (e.g., if 5173 is busy)
+        java.util.List<String> allowedOriginPatterns = new java.util.ArrayList<>(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*",
                 "https://ai-possibletip.vercel.app"
         ));
 
-        config.setAllowedOrigins(allowedOrigins);
+        config.setAllowedOriginPatterns(allowedOriginPatterns);
 
         // Allowed HTTP methods
         config.setAllowedMethods(List.of(

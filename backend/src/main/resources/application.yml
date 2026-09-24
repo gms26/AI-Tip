@@ -19,9 +19,9 @@ server:
 # ==============================================================
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/aitip_db}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
 
   # ==============================================================
@@ -68,7 +68,7 @@ app:
   cors:
     frontend-url: ${FRONTEND_URL:https://ai-possibletip.vercel.app}
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWE=}
     expiration-ms: 86400000  # 24 hours in milliseconds
   groq:
     api-key: ${GROQ_API_KEY:}
