@@ -32,11 +32,9 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allowed origin patterns to support any local port (e.g., if 5173 is busy)
+        // Allow any origin during development to avoid CORS issues
         java.util.List<String> allowedOriginPatterns = new java.util.ArrayList<>(List.of(
-                "http://localhost:*",
-                "http://127.0.0.1:*",
-                "https://ai-possibletip.vercel.app"
+                "*"
         ));
 
         config.setAllowedOriginPatterns(allowedOriginPatterns);
