@@ -31,16 +31,18 @@ const axiosInstance = axios.create({
   timeout: 60000, // 60 second timeout to accommodate Render free tier cold starts
 });
 
-/**
- * REQUEST INTERCEPTOR
- * Attaches the JWT token from localStorage to every outgoing request.
- *
- * WHY check for token existence?
- * Public endpoints (register, login, health) don't need a token.
- * If no token exists, the request goes out without Authorization header.
- */
+let activeRequests = 0;
+let sleepTimer = null;
+
 axiosInstance.interceptors.request.use(
   (config) => {
+    activeRequests++;
+    if (activeRequests === 1) {
+      sleepTimer = setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('api-slow-request'));
+      }, 3000); // 3 seconds means Render is probably waking up
+    }
+
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -48,6 +50,11 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    activeRequests--;
+    if (activeRequests === 0 && sleepTimer) {
+      clearTimeout(sleepTimer);
+      window.dispatchEvent(new CustomEvent('api-request-completed'));
+    }
     return Promise.reject(error);
   }
 );
@@ -55,19 +62,23 @@ axiosInstance.interceptors.request.use(
 /**
  * RESPONSE INTERCEPTOR
  * Handles 401 errors globally.
- *
- * WHY redirect on 401?
- * A 401 means the token is expired, invalid, or missing.
- * The user needs to re-authenticate. Clearing localStorage
- * and redirecting prevents infinite retry loops.
- *
- * WHY check for login path?
- * Don't redirect if the 401 came from the login endpoint itself.
- * That's a "bad credentials" error, not an expired token.
  */
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    activeRequests--;
+    if (activeRequests === 0 && sleepTimer) {
+      clearTimeout(sleepTimer);
+      window.dispatchEvent(new CustomEvent('api-request-completed'));
+    }
+    return response;
+  },
   (error) => {
+    activeRequests--;
+    if (activeRequests === 0 && sleepTimer) {
+      clearTimeout(sleepTimer);
+      window.dispatchEvent(new CustomEvent('api-request-completed'));
+    }
+
     if (error.response?.status === 401) {
       const isLoginRequest = error.config?.url?.includes('/auth/login');
       if (!isLoginRequest) {

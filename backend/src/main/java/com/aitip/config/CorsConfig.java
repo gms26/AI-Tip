@@ -48,13 +48,7 @@ public class CorsConfig {
         ));
 
         // Allowed request headers
-        config.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type",
-                "Accept",
-                "Origin",
-                "X-Requested-With"
-        ));
+        config.setAllowedHeaders(List.of("*"));
 
         // Expose the Authorization header in responses
         config.setExposedHeaders(List.of("Authorization"));

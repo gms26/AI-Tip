@@ -23,9 +23,10 @@ public class CorsConfigTest {
 
     @Test
     public void testCorsAllowsConfiguredFrontendUrl() throws Exception {
-        mockMvc.perform(options("/api/auth/login")
+        mockMvc.perform(options("/api/auth/register")
                         .header("Origin", "https://ai-possibletip.vercel.app")
-                        .header("Access-Control-Request-Method", "POST"))
+                        .header("Access-Control-Request-Method", "POST")
+                        .header("Access-Control-Request-Headers", "content-type, baggage, sentry-trace"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Access-Control-Allow-Origin", "https://ai-possibletip.vercel.app"));
     }
