@@ -138,18 +138,18 @@ const navButtonSx = (isActive) => ({
   fontFamily: '"Plus Jakarta Sans", sans-serif',
   color: isActive ? '#fd5b38' : '#ffffff',
   backgroundColor: 'transparent',
-  px: 1.8,
-  py: 0.8,
-  fontSize: '0.95rem',
+  px: 1.5,
+  py: 0.65,
+  fontSize: '0.9rem',
   fontWeight: 700,
   textTransform: 'uppercase',
-  letterSpacing: '1px',
+  letterSpacing: '0.8px',
   position: 'relative',
   transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
   '&::after': {
     content: '""',
     position: 'absolute',
-    bottom: 2,
+    bottom: 0,
     left: '15%',
     right: '15%',
     height: '2px',
@@ -330,7 +330,7 @@ const AppShell = ({ children }) => {
             ? '0 10px 40px -10px rgba(0, 0, 0, 0.85)'
             : 'none',
           px: { xs: 2, sm: 4, md: 6, lg: 8 },
-          py: 2.5,
+          py: 0.8,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -353,7 +353,7 @@ const AppShell = ({ children }) => {
           </IconButton>
 
           {/* PT Brand Identity: PtLogo with Monogram & Subtitle */}
-          <PtLogo size={80} onClick={() => navigate('/dashboard')} />
+          <PtLogo size={40} onClick={() => navigate('/dashboard')} />
 
           {/* Desktop Navigation Links */}
           <Box sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', gap: 2, ml: 3 }}>
@@ -411,20 +411,20 @@ const AppShell = ({ children }) => {
           <Tooltip title="Command Center (Ctrl+K)" arrow>
             <Button
               onClick={() => setCommandPaletteOpen(true)}
-              startIcon={<SearchIcon sx={{ fontSize: 24, color: '#c6c8c9' }} />}
+              startIcon={<SearchIcon sx={{ fontSize: 20, color: '#c6c8c9' }} />}
               sx={{
                 display: { xs: 'none', sm: 'flex' },
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '30px',
-                px: 4,
-                py: 1.5,
+                px: 2,
+                py: 0.5,
                 color: '#c6c8c9',
-                fontSize: '1.3rem',
+                fontSize: '0.9rem',
                 textTransform: 'none',
                 fontWeight: 600,
-                gap: 2,
-                minWidth: 320,
+                gap: 1.5,
+                minWidth: 260,
                 justifyContent: 'flex-start',
                 transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 '&:hover': {
@@ -439,8 +439,8 @@ const AppShell = ({ children }) => {
                 label="⌘K"
                 size="small"
                 sx={{
-                  height: 22,
-                  fontSize: '0.75rem',
+                  height: 20,
+                  fontSize: '0.7rem',
                   fontWeight: 800,
                   backgroundColor: 'rgba(253, 91, 56, 0.15)',
                   color: '#fd5b38',
@@ -454,15 +454,15 @@ const AppShell = ({ children }) => {
           <Button
             onClick={() => navigate('/tips')}
             className="butn butn-sm butn-bg"
-            endIcon={<ArrowUpRightIcon sx={{ fontSize: '16px !important' }} />}
+            endIcon={<ArrowUpRightIcon sx={{ fontSize: '15px !important' }} />}
             component={motion.button}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             sx={{
               display: { xs: 'none', sm: 'inline-flex' },
-              px: 3.2,
-              py: 1,
-              fontSize: '0.95rem',
+              px: 2.5,
+              py: 0.8,
+              fontSize: '0.88rem',
               fontWeight: 800,
               textTransform: 'uppercase',
               letterSpacing: '0.5px',
@@ -483,7 +483,7 @@ const AppShell = ({ children }) => {
           <IconButton
             onClick={(e) => setUserMenuAnchor(e.currentTarget)}
             sx={{
-              p: 0.4,
+              p: 0.35,
               border: '1.5px solid rgba(253, 91, 56, 0.4)',
               borderRadius: '50%',
               backgroundColor: 'rgba(253, 91, 56, 0.08)',
@@ -496,11 +496,11 @@ const AppShell = ({ children }) => {
           >
             <Avatar
               sx={{
-                width: 36,
-                height: 36,
+                width: 34,
+                height: 34,
                 backgroundColor: '#1b1c24',
                 color: '#fd5b38',
-                fontSize: '0.88rem',
+                fontSize: '0.85rem',
                 fontWeight: 800,
                 border: '1px solid rgba(255, 255, 255, 0.1)',
               }}
