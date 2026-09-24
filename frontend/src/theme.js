@@ -62,33 +62,33 @@ const theme = createTheme({
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 800,
       letterSpacing: '-0.02em',
-      fontSize: '2rem',
+      fontSize: '2.25rem',
     },
     h2: {
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 700,
       letterSpacing: '-0.01em',
-      fontSize: '1.75rem',
+      fontSize: '2rem',
     },
     h3: {
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 700,
-      fontSize: '1.5rem',
+      fontSize: '1.75rem',
     },
     h4: {
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
-      fontSize: '1.25rem',
+      fontSize: '1.5rem',
     },
     h5: {
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
-      fontSize: '1.1rem',
+      fontSize: '1.25rem',
     },
     h6: {
       fontFamily: '"Outfit", sans-serif',
       fontWeight: 600,
-      fontSize: '1rem',
+      fontSize: '1.125rem',
     },
     button: {
       fontWeight: 600,
@@ -106,8 +106,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          padding: '6px 16px',
-          fontSize: '0.85rem',
+          padding: '8px 20px',
+          fontSize: '0.9rem',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             transform: 'translateY(-1px)',

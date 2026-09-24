@@ -330,7 +330,7 @@ const AppShell = ({ children }) => {
             ? '0 10px 40px -10px rgba(0, 0, 0, 0.85)'
             : 'none',
           px: { xs: 2, sm: 4, md: 6, lg: 8 },
-          py: 0.8,
+          py: 1.2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -353,7 +353,7 @@ const AppShell = ({ children }) => {
           </IconButton>
 
           {/* PT Brand Identity: PtLogo with Monogram & Subtitle */}
-          <PtLogo size={40} onClick={() => navigate('/dashboard')} />
+          <PtLogo size={45} onClick={() => navigate('/dashboard')} />
 
           {/* Desktop Navigation Links */}
           <Box sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', gap: 2, ml: 3 }}>
@@ -417,10 +417,10 @@ const AppShell = ({ children }) => {
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '30px',
-                px: 2,
-                py: 0.5,
+                px: 2.5,
+                py: 0.75,
                 color: '#c6c8c9',
-                fontSize: '0.9rem',
+                fontSize: '0.95rem',
                 textTransform: 'none',
                 fontWeight: 600,
                 gap: 1.5,
