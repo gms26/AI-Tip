@@ -33,7 +33,7 @@ app:
     expiration-ms: 86400000  # 24 hours in milliseconds
   groq:
     api-key: ${GROQ_API_KEY:dummy_key}
-    model: ${GROQ_MODEL:llama-3.3-70b-versatile}
+    model: ${GROQ_MODEL:openai/gpt-oss-20b}
     base-url: ${GROQ_BASE_URL:https://api.groq.com/openai/v1/chat/completions}
   currency:
     base-url: ${CURRENCY_API_BASE_URL:https://api.frankfurter.dev}
