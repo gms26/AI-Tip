@@ -40,7 +40,7 @@ axiosInstance.interceptors.request.use(
     if (activeRequests === 1) {
       sleepTimer = setTimeout(() => {
         window.dispatchEvent(new CustomEvent('api-slow-request'));
-      }, 3000); // 3 seconds means Render is probably waking up
+      }, 8000); // 8 seconds means Render is probably waking up, avoids AI request overlap
     }
 
     const token = localStorage.getItem('token');

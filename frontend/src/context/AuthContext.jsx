@@ -67,12 +67,23 @@ export const AuthProvider = ({ children }) => {
         try {
           const userData = await getCurrentUser();
           setUser({ name: userData.name, email: userData.email });
-        } catch {
-          // Token is invalid or expired — clear everything
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setToken(null);
-          setUser(null);
+        } catch (error) {
+          if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            // Token is invalid or expired — clear everything
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setToken(null);
+            setUser(null);
+          } else {
+            // Server might be sleeping (Render) or network error. Fallback to cached user.
+            const cachedUser = localStorage.getItem('user');
+            if (cachedUser) {
+              const parsed = JSON.parse(cachedUser);
+              setUser({ name: parsed.name, email: parsed.email });
+            } else {
+              setToken(null);
+            }
+          }
         }
       }
       setLoading(false);
