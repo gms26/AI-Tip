@@ -1,10 +1,10 @@
 # AI Tip Assistant 🚀
 
 ## 🚀 Project Overview
-A comprehensive, full-stack application designed to completely reimagine the tipping experience. Built with a modern **React/Vite** frontend and a robust **Spring Boot (Java)** backend, this application leverages **Google Groq AI** to provide users with context-aware, highly personalized tipping recommendations based on historical data, budget constraints, and real-time service quality evaluations.
+A comprehensive, full-stack application designed to completely reimagine the tipping experience. Built with a modern **React/Vite** frontend and a robust **Spring Boot (Java)** backend, this application leverages **Groq API** to provide users with context-aware, highly personalized tipping recommendations based on historical data, budget constraints, and real-time service quality evaluations.
 
 ## ✨ Key Features
-- **Smart Tip AI & Decision Memory 🧠**: Generates intelligent tipping recommendations via Google Groq AI, learning from user habits over time to adapt to conservative, moderate, or generous profiles.
+- **Smart Tip AI & Decision Memory 🧠**: Generates intelligent tipping recommendations via the Groq API, learning from user habits over time to adapt to conservative, moderate, or generous profiles.
 - **Comprehensive Financial Tracking 📊**: Tracks spending analytics via dynamic Recharts graphs, sets monthly tipping budgets, and forecasts future expenses.
 - **Receipt OCR Integration 📸**: Uses AI Vision to parse receipts and automatically extract subtotals, restaurant names, and currencies (Backend implemented).
 - **Advanced Tipping Mechanics 💡**: Supports tip pools, tax-aware calculations (pre-tax vs post-tax), and custom generosity scoring.
@@ -41,8 +41,8 @@ graph TD
 1. **User Authentication**: The user registers or logs in securely. JWTs handle stateless sessions.
 2. **Data Input**: The user inputs a bill amount or uses the Tip Calculator for group splitting.
 3. **AI Context Building**: The backend gathers the user's historical tips, current budget limits, and personal preferences (Decision Memory).
-4. **Groq AI Request**: The backend prompts Groq AI with a structured schema.
-5. **Smart Recommendation**: Groq AI responds with an exact tip amount and rationale, parsed robustly back into the UI.
+4. **Groq API Request**: The backend prompts the Groq API with a structured schema.
+5. **Smart Recommendation**: The Groq API responds with an exact tip amount and rationale, parsed robustly back into the UI.
 6. **Data Persistence**: The final selected tip is saved to the PostgreSQL database, influencing the next AI recommendation.
 
 ## 🤖 AI / Groq Integration
@@ -113,7 +113,7 @@ graph LR
         Backend --> DB
     end
 ```
-The application is fully containerized. A single `docker-compose up` orchestrates the Postgres database (with Flyway migrations), the Spring Boot backend, and the Nginx-served React frontend. *(Note: Docker setup is configured but currently blocked from local verification by the host Docker Desktop environment).*
+The application is fully containerized. A single `docker-compose up` orchestrates the Postgres database (with Flyway migrations), the Spring Boot backend, and the Nginx-served React frontend. *(Note: Docker setup has been verified successfully, with all services reporting up and healthy).*
 
 ## 🔌 External Integrations
 A flexible, interface-driven architecture allows toggling between Real APIs and Mock Providers based on environment configuration:
