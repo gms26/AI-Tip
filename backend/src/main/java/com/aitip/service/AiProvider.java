@@ -87,7 +87,7 @@ public class AiProvider {
     }
 
     public String analyzeImage(String mimeType, String base64Data, String prompt) {
-        String visionModel = "llama-3.2-11b-vision-preview";
+        String visionModel = "qwen/qwen3.8-27b";
         return sendRequest(AiRequest.forImagePrompt(visionModel, prompt, mimeType, base64Data));
     }
 
