@@ -28,13 +28,16 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
+    @org.springframework.beans.factory.annotation.Value("${app.cors.frontend-url:https://ai-possibletip.vercel.app}")
+    private String frontendUrl;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow any origin during development to avoid CORS issues
         java.util.List<String> allowedOriginPatterns = new java.util.ArrayList<>(List.of(
-                "*"
+                frontendUrl,
+                "http://localhost:5173"
         ));
 
         config.setAllowedOriginPatterns(allowedOriginPatterns);
