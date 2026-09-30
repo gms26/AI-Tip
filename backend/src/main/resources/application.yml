@@ -23,6 +23,12 @@ spring:
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      max-lifetime: 540000        # 9 minutes — shorter than Postgres idle timeout (10 min)
+      keepalive-time: 60000       # Ping DB every 60s to keep connections alive
+      connection-timeout: 20000   # Fail fast if no connection available within 20s
 
   # ==============================================================
   # JPA / HIBERNATE
