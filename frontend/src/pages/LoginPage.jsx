@@ -79,9 +79,12 @@ const LoginPage = () => {
       });
       setTimeout(() => navigate('/dashboard'), 800);
     } catch (error) {
-      const message =
-        error.response?.data?.message ||
-        'Login failed. Please check your credentials.';
+      let message = 'Login failed. Please check your credentials.';
+      if (!error.response) {
+        message = 'Server is waking up from sleep or network is down. Please wait a moment and try again.';
+      } else if (error.response.data && error.response.data.message) {
+        message = error.response.data.message;
+      }
       setSnackbar({ open: true, message, severity: 'error' });
     } finally {
       setLoading(false);

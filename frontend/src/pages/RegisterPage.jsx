@@ -97,9 +97,12 @@ const RegisterPage = () => {
         setErrors(error.response.data.errors);
         setSnackbar({ open: true, message: 'Please fix the errors below.', severity: 'error' });
       } else {
-        const message =
-          error.response?.data?.message ||
-          'Registration failed. Please try again.';
+        let message = 'Registration failed. Please try again.';
+        if (!error.response) {
+          message = 'Server is waking up from sleep or network is down. Please wait a moment and try again.';
+        } else if (error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        }
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } finally {
