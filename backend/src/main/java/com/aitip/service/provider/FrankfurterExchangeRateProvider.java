@@ -33,9 +33,9 @@ public class FrankfurterExchangeRateProvider implements ExchangeRateProvider {
         try {
             JsonNode response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/latest")
-                            .queryParam("from", sourceCurrency)
-                            .queryParam("to", targetCurrency)
+                            .path("/v1/latest")
+                            .queryParam("base", sourceCurrency)
+                            .queryParam("symbols", targetCurrency)
                             .build())
                     .retrieve()
                     .body(JsonNode.class);

@@ -45,7 +45,7 @@ class FrankfurterExchangeRateProviderTest {
                 }
                 """;
 
-        mockServer.expect(requestTo("https://api.frankfurter.dev/latest?from=USD&to=INR"))
+        mockServer.expect(requestTo("https://api.frankfurter.dev/v1/latest?base=USD&symbols=INR"))
                 .andRespond(withSuccess(mockResponse, MediaType.APPLICATION_JSON));
 
         BigDecimal rate = provider.getExchangeRate("USD", "INR");
@@ -64,7 +64,7 @@ class FrankfurterExchangeRateProviderTest {
                 }
                 """;
 
-        mockServer.expect(requestTo("https://api.frankfurter.dev/latest?from=USD&to=INR"))
+        mockServer.expect(requestTo("https://api.frankfurter.dev/v1/latest?base=USD&symbols=INR"))
                 .andRespond(withSuccess(malformedResponse, MediaType.APPLICATION_JSON));
 
         assertThatThrownBy(() -> provider.getExchangeRate("USD", "INR"))
